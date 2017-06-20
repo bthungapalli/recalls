@@ -1,4 +1,4 @@
-System.register(["@angular/platform-browser-dynamic", "./components/main/app.module"], function (exports_1, context_1) {
+System.register(["@angular/platform-browser-dynamic", "./components/app/app.module"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var platform_browser_dynamic_1, app_module_1;

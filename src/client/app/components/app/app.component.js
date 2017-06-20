@@ -23,7 +23,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             AppComponent = __decorate([
                 core_1.Component({
                     selector: 'app',
-                    templateUrl: "./app/components/main/app.html"
+                    templateUrl: "./app/components/app/app.html"
                 })
             ], AppComponent);
             exports_1("AppComponent", AppComponent);

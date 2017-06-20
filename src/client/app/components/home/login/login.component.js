@@ -23,7 +23,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             LoginComponent = __decorate([
                 core_1.Component({
                     selector: 'login',
-                    templateUrl: "./app/components/login/login.html"
+                    templateUrl: "./app/components/home/login/login.html"
                 })
             ], LoginComponent);
             exports_1("LoginComponent", LoginComponent);
