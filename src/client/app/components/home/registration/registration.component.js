@@ -32,7 +32,11 @@ System.register(["@angular/core", "./registration.model", "./registration.servic
                 }
                 RegistrationComponent.prototype.submitSignUp = function () {
                     if (this.registrationModel.password === this.registrationModel.confirmPassword) {
-                        this.registrationService.submitSignUp(this.registrationModel);
+                        this.registrationService.submitSignUp(this.registrationModel).subscribe(function (response) {
+                            console.log(response);
+                        }, function (err) {
+                            console.log(err);
+                        });
                     }
                     else {
                         this.errorMessage = "Password and ConfirmPassword dint match";

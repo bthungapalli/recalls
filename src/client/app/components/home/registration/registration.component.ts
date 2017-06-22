@@ -20,7 +20,11 @@ export class RegistrationComponent {
       submitSignUp(){
 
         if(this.registrationModel.password===this.registrationModel.confirmPassword){
-            this.registrationService.submitSignUp(this.registrationModel);
+            this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
+                console.log(response);
+            },err => {
+                                    console.log(err);
+            });
         }else{
             this.errorMessage="Password and ConfirmPassword dint match";
         }

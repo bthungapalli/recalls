@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http"], function (exports_1, context
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, RegistrationService;
+    var core_1, http_1, Rx_1, RegistrationService;
     return {
         setters: [
             function (core_1_1) {
@@ -18,15 +18,21 @@ System.register(["@angular/core", "@angular/http"], function (exports_1, context
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (Rx_1_1) {
+                Rx_1 = Rx_1_1;
             }
         ],
         execute: function () {
             RegistrationService = (function () {
                 function RegistrationService(http) {
                     this.http = http;
+                    this.REGISTRATION_POST_URL = "/registration";
                 }
                 RegistrationService.prototype.submitSignUp = function (registrationModel) {
-                    console.log("this.contants.REGISTRATION_URL");
+                    return this.http.post(this.REGISTRATION_POST_URL, registrationModel)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };
                 return RegistrationService;
             }());
