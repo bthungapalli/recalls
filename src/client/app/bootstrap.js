@@ -12,7 +12,9 @@ System.register(["@angular/platform-browser-dynamic", "./components/app/app.modu
             }
         ],
         execute: function () {
-            platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+            platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule).then(function (success) { return console.log("Bootstrap success"); })
+                .catch(function (err) { return console.error(err); });
+            ;
         }
     };
 });
