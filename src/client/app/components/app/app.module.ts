@@ -5,7 +5,9 @@ import { FormsModule }   from '@angular/forms';
 import { RouteComponent } from "./route.component";
 import { AppComponent }  from './app.component';
 import { HomeModule }  from '../home/home.module';
+import { DashboardModule }  from '../dashboard/dashboard.module';
 import { LoginModule }  from '../home/login/login.module';
+import { ProfileModule }  from '../dashboard/profile/profile.module';
 import { RegistrationModule }  from '../home/registration/registration.module';
 
 @NgModule({
@@ -14,8 +16,10 @@ import { RegistrationModule }  from '../home/registration/registration.module';
     FormsModule,
     RouteComponent,
     HomeModule,
+    DashboardModule,
     LoginModule,
-    RegistrationModule
+    RegistrationModule,
+    ProfileModule
   ],
   declarations: [
     AppComponent
