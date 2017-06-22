@@ -27,10 +27,16 @@ System.register(["@angular/core", "./registration.model", "./registration.servic
             RegistrationComponent = (function () {
                 function RegistrationComponent(registrationService) {
                     this.registrationService = registrationService;
+                    this.errorMessage = "";
                     this.registrationModel = new registration_model_1.Registration();
                 }
                 RegistrationComponent.prototype.submitSignUp = function () {
-                    this.registrationService.submitSignUp(this.registrationModel);
+                    if (this.registrationModel.password === this.registrationModel.confirmPassword) {
+                        this.registrationService.submitSignUp(this.registrationModel);
+                    }
+                    else {
+                        this.errorMessage = "Password and ConfirmPassword dint match";
+                    }
                 };
                 return RegistrationComponent;
             }());

@@ -10,14 +10,21 @@ import {RegistrationService} from './registration.service';
 })
 export class RegistrationComponent {
 
+      public errorMessage:String="";
       public registrationModel: Registration;
-      
+
       constructor(private registrationService:RegistrationService) {
           this.registrationModel = new Registration();
       }
 
       submitSignUp(){
-        this.registrationService.submitSignUp(this.registrationModel);
+
+        if(this.registrationModel.password===this.registrationModel.confirmPassword){
+            this.registrationService.submitSignUp(this.registrationModel);
+        }else{
+            this.errorMessage="Password and ConfirmPassword dint match";
+        }
+
       }
 
  }
