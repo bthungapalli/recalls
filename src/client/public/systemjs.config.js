@@ -5,7 +5,6 @@ System.config({
       defaultExtension: 'js'
     },
     rxjs: {
-      main: '/bundles/Rx.js',
       defaultExtension: 'js'
     }
   },

@@ -1,18 +1,18 @@
 import { Component,Injectable } from '@angular/core';
 import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular/http';
-import {Registration} from './registration.model';
+import {Registration} from '../registration/registration.model';
 import {Observable} from 'rxjs/Rx';
 
 @Injectable()
-export class RegistrationService {
+export class LoginService {
 
-      private  REGISTRATION_POST_URL="/registration";
+      private  LOGIN_POST_URL="/login";
 
       constructor(private http: Http) {
       }
 
-      submitSignUp(registrationModel:Registration): Observable<Registration> {
-       return this.http.post(this.REGISTRATION_POST_URL,registrationModel)
+      submitLogin(loginModel:Registration): Observable<Registration> {
+       return this.http.post(this.LOGIN_POST_URL,loginModel)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }

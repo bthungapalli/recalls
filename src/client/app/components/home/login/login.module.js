@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms", "./login.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/forms", "@angular/http", "./login.component", "./login.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/forms", "./login.component"], functi
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, forms_1, login_component_1, LoginModule;
+    var core_1, forms_1, http_1, login_component_1, login_service_1, LoginModule;
     return {
         setters: [
             function (core_1_1) {
@@ -16,8 +16,14 @@ System.register(["@angular/core", "@angular/forms", "./login.component"], functi
             function (forms_1_1) {
                 forms_1 = forms_1_1;
             },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
             function (login_component_1_1) {
                 login_component_1 = login_component_1_1;
+            },
+            function (login_service_1_1) {
+                login_service_1 = login_service_1_1;
             }
         ],
         execute: function () {
@@ -29,10 +35,14 @@ System.register(["@angular/core", "@angular/forms", "./login.component"], functi
             LoginModule = __decorate([
                 core_1.NgModule({
                     imports: [
-                        forms_1.FormsModule
+                        forms_1.FormsModule,
+                        http_1.HttpModule
                     ],
                     declarations: [
                         login_component_1.LoginComponent
+                    ],
+                    providers: [
+                        login_service_1.LoginService
                     ]
                 })
             ], LoginModule);

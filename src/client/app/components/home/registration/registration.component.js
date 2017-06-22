@@ -31,6 +31,7 @@ System.register(["@angular/core", "./registration.model", "./registration.servic
                     this.registrationModel = new registration_model_1.Registration();
                 }
                 RegistrationComponent.prototype.submitSignUp = function () {
+                    this.errorMessage = "";
                     if (this.registrationModel.password === this.registrationModel.confirmPassword) {
                         this.registrationService.submitSignUp(this.registrationModel).subscribe(function (response) {
                             console.log(response);

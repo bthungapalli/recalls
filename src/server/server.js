@@ -3,12 +3,15 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var mainRoute = require('./routes/mainRoute');
+var registrationRoute = require('./routes/registrationRoute');
+var loginRoute = require('./routes/loginRoute');
 
 
 var app = express();
-
+mongoose.connect('mongodb://localhost/recalls');
 // view engine setup
 app.set('views',path.resolve(__dirname, '../client/views'));
 app.set('view engine', 'ejs');
@@ -25,6 +28,8 @@ app.use("/node_modules",express.static(path.resolve(__dirname, '../../node_modul
 app.use("/app",express.static(path.resolve(__dirname, '../client/app')));
 app.use("/public",express.static(path.resolve(__dirname, '../client/public')));
 app.use('/', mainRoute);
+app.use('/registration', registrationRoute);
+app.use('/login', loginRoute);
 
 
 // catch 404 and forward to error handler

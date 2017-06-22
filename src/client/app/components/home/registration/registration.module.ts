@@ -16,7 +16,6 @@ import { RegistrationService }  from './registration.service';
   ],
   providers:[
     RegistrationService
-
   ]
 })
 export class RegistrationModule { }

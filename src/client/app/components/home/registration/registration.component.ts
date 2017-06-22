@@ -18,7 +18,7 @@ export class RegistrationComponent {
       }
 
       submitSignUp(){
-
+        this.errorMessage="";
         if(this.registrationModel.password===this.registrationModel.confirmPassword){
             this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
                 console.log(response);
