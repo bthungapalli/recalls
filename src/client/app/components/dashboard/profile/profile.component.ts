@@ -27,7 +27,7 @@ export class ProfileComponent {
         this.successMessage="";
             this.profileService.submitProfile(this.profileModel).subscribe(response => {
                 this.successMessage="Profile updated";
-                dashboardService.userDetails=this.profileModel;
+                this.dashboardService.userDetails=this.profileModel;
             },err => {
                 this.errorMessage="Something went wrong.Please contact administrator";
             });

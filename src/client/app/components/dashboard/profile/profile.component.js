@@ -44,6 +44,7 @@ System.register(["@angular/core", "./profile.model", "./profile.service", "../da
                     this.successMessage = "";
                     this.profileService.submitProfile(this.profileModel).subscribe(function (response) {
                         _this.successMessage = "Profile updated";
+                        _this.dashboardService.userDetails = _this.profileModel;
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });

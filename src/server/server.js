@@ -8,6 +8,8 @@ var mongoose = require('mongoose');
 var mainRoute = require('./routes/mainRoute');
 var registrationRoute = require('./routes/registrationRoute');
 var loginRoute = require('./routes/loginRoute');
+var profileRoute = require('./routes/profileRoute');
+
 
 
 var app = express();
@@ -30,6 +32,8 @@ app.use("/public",express.static(path.resolve(__dirname, '../client/public')));
 app.use('/', mainRoute);
 app.use('/registration', registrationRoute);
 app.use('/login', loginRoute);
+app.use('/profile', profileRoute);
+
 
 
 // catch 404 and forward to error handler

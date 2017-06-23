@@ -8,7 +8,7 @@ return{
 
 			 if(user._id !==undefined){
 					var conditions = { "_id":user._id };
-					var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn}};
+					var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"updated_at":new Date()}};
 					userModel.update(conditions, update, callback);
 
 				 function callback (err, numAffected) {
