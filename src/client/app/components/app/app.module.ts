@@ -9,6 +9,7 @@ import { DashboardModule }  from '../dashboard/dashboard.module';
 import { LoginModule }  from '../home/login/login.module';
 import { ProfileModule }  from '../dashboard/profile/profile.module';
 import { RegistrationModule }  from '../home/registration/registration.module';
+import { ForgotPasswordModule }  from '../home/forgotPassword/forgotPassword.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { RegistrationModule }  from '../home/registration/registration.module';
     DashboardModule,
     LoginModule,
     RegistrationModule,
-    ProfileModule
+    ProfileModule,
+    ForgotPasswordModule
   ],
   declarations: [
     AppComponent
