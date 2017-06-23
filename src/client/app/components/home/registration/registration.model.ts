@@ -1,4 +1,5 @@
 export class Registration {
+    public _id?:number;
     public firstName?: string;
     public lastName?: string;
     public email?: string;

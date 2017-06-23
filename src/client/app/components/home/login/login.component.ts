@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import {Registration} from '../registration/registration.model';
 import {LoginService} from './login.service';
+import {DashboardService} from '../../dashboard/dashboard.service';
+
 
 @Component({
   selector: 'login',
@@ -14,7 +16,7 @@ export class LoginComponent{
 public errorMessage:String="";
 public loginModel: Registration;
 
-constructor(private loginService:LoginService,private router:Router) {
+constructor(private loginService:LoginService,private router:Router,private dashboardService:DashboardService) {
     this.loginModel = new Registration();
 }
 
@@ -25,7 +27,8 @@ submitLogin(){
                   if(response==null){
                   this.errorMessage="Email or Password is incorrect";
                   }else{
-                    this.router.navigate(['home/registration']);
+                    this.dashboardService.setUserToProfile(response);
+                    this.router.navigate(['dashboard/profile']);
                   }
                   },err => {
                   this.errorMessage="Something went wrong.Please contact administrator";

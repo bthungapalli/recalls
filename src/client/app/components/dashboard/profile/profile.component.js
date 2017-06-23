@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./profile.model", "./profile.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "./profile.model", "./profile.service", "../dashboard.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./profile.model", "./profile.service"], funct
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, profile_model_1, profile_service_1, ProfileComponent;
+    var core_1, profile_model_1, profile_service_1, dashboard_service_1, ProfileComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -21,21 +21,31 @@ System.register(["@angular/core", "./profile.model", "./profile.service"], funct
             },
             function (profile_service_1_1) {
                 profile_service_1 = profile_service_1_1;
+            },
+            function (dashboard_service_1_1) {
+                dashboard_service_1 = dashboard_service_1_1;
             }
         ],
         execute: function () {
             ProfileComponent = (function () {
-                function ProfileComponent(profileService) {
+                function ProfileComponent(profileService, dashboardService) {
                     this.profileService = profileService;
+                    this.dashboardService = dashboardService;
+                    this.disableFields = true;
                     this.errorMessage = "";
+                    this.successMessage = "";
                     this.profileModel = new profile_model_1.Profile();
+                    this.profileModel = Object.assign({}, dashboardService.userDetails);
                 }
                 ProfileComponent.prototype.submitProfile = function () {
+                    var _this = this;
+                    this.disableFields = true;
                     this.errorMessage = "";
+                    this.successMessage = "";
                     this.profileService.submitProfile(this.profileModel).subscribe(function (response) {
-                        console.log(response);
+                        _this.successMessage = "Profile updated";
                     }, function (err) {
-                        console.log(err);
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
                 };
                 return ProfileComponent;
@@ -45,7 +55,7 @@ System.register(["@angular/core", "./profile.model", "./profile.service"], funct
                     selector: 'profile',
                     templateUrl: "./app/components/dashboard/profile/profile.html"
                 }),
-                __metadata("design:paramtypes", [profile_service_1.ProfileService])
+                __metadata("design:paramtypes", [profile_service_1.ProfileService, dashboard_service_1.DashboardService])
             ], ProfileComponent);
             exports_1("ProfileComponent", ProfileComponent);
         }

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "../registration/registration.model", "./login.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "../registration/registration.model", "./login.service", "../../dashboard/dashboard.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, registration_model_1, login_service_1, LoginComponent;
+    var core_1, router_1, registration_model_1, login_service_1, dashboard_service_1, LoginComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -24,13 +24,17 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
             },
             function (login_service_1_1) {
                 login_service_1 = login_service_1_1;
+            },
+            function (dashboard_service_1_1) {
+                dashboard_service_1 = dashboard_service_1_1;
             }
         ],
         execute: function () {
             LoginComponent = (function () {
-                function LoginComponent(loginService, router) {
+                function LoginComponent(loginService, router, dashboardService) {
                     this.loginService = loginService;
                     this.router = router;
+                    this.dashboardService = dashboardService;
                     this.errorMessage = "";
                     this.loginModel = new registration_model_1.Registration();
                 }
@@ -43,7 +47,8 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                             _this.errorMessage = "Email or Password is incorrect";
                         }
                         else {
-                            _this.router.navigate(['home/registration']);
+                            _this.dashboardService.setUserToProfile(response);
+                            _this.router.navigate(['dashboard/profile']);
                         }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
@@ -56,7 +61,7 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                     selector: 'login',
                     templateUrl: "./app/components/home/login/login.html"
                 }),
-                __metadata("design:paramtypes", [login_service_1.LoginService, router_1.Router])
+                __metadata("design:paramtypes", [login_service_1.LoginService, router_1.Router, dashboard_service_1.DashboardService])
             ], LoginComponent);
             exports_1("LoginComponent", LoginComponent);
         }

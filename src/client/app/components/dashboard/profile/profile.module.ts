@@ -1,4 +1,5 @@
 import { NgModule,Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
@@ -8,6 +9,7 @@ import { ProfileService }  from './profile.service';
 
 @NgModule({
   imports: [
+  CommonModule,
     FormsModule,
       HttpModule
   ],
