@@ -27,8 +27,10 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
             UserManagementComponent = (function () {
                 function UserManagementComponent(userManagementService) {
                     this.userManagementService = userManagementService;
+                    this.users = [];
                     this.errorMessage = "";
                     this.successMessage = "";
+                    this.sortBy = "lastName";
                 }
                 UserManagementComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -39,6 +41,9 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
                     });
                 };
                 ;
+                UserManagementComponent.prototype.toInt = function (num) {
+                    return +num;
+                };
                 UserManagementComponent.prototype.activateOrInactivateUser = function (user, value) {
                     var _this = this;
                     var tempUser = new profile_model_1.Profile();

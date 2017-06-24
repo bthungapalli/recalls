@@ -11,9 +11,10 @@ import {UserManagementService} from './userManagement.service';
 })
 export class UserManagementComponent implements OnInit{
 
-      public users:Profile[];
+      public users:Profile[]=[];
       public errorMessage:String="";
       public successMessage:String="";
+       public sortBy = "lastName";
 
 
       constructor(private userManagementService:UserManagementService) {
@@ -28,6 +29,9 @@ export class UserManagementComponent implements OnInit{
       });
       };
 
+     toInt(num: string) {
+              return +num;
+          }
 
       activateOrInactivateUser(user:Profile,value:boolean){
       var tempUser = new Profile();

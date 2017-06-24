@@ -36,7 +36,7 @@ System.config({
       '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
 
       'angular2-datatable': 'npm:angular2-datatable',
-      'lodash': 'npm:lodash/dist/lodash.js',
+      'lodash': 'npm:lodash/lodash.js',
 
       // other libraries
       'rxjs':                      'npm:rxjs',
