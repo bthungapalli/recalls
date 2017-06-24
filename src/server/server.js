@@ -9,6 +9,7 @@ var mainRoute = require('./routes/mainRoute');
 var registrationRoute = require('./routes/registrationRoute');
 var loginRoute = require('./routes/loginRoute');
 var profileRoute = require('./routes/profileRoute');
+var userManagementRoute = require('./routes/userManagementRoute');
 
 
 
@@ -33,6 +34,8 @@ app.use('/', mainRoute);
 app.use('/registration', registrationRoute);
 app.use('/login', loginRoute);
 app.use('/profile', profileRoute);
+app.use('/userManagementRoute', userManagementRoute);
+
 
 
 

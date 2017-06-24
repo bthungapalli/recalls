@@ -11,4 +11,6 @@ export class Profile {
     public state?: string;
     public zipcode?:string;
     public alertsOn?:string;
+    public role?:string;
+    public isActive?:boolean;
 }

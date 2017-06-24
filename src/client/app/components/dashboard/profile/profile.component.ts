@@ -18,7 +18,7 @@ export class ProfileComponent {
 
       constructor(private profileService:ProfileService,private dashboardService:DashboardService) {
           this.profileModel = new Profile();
-          this.profileModel= (<any>Object).assign({}, dashboardService.userDetails)
+          this.profileModel= (<any>Object).assign({}, dashboardService.userDetails);
       }
 
       submitProfile(){

@@ -6,7 +6,14 @@ System.config({
     },
     rxjs: {
       defaultExtension: 'js'
-    }
+    },
+    lodash: {
+        defaultExtension: 'js'
+    },
+    'angular2-datatable': {
+       main: './index.js',
+      defaultExtension: 'js'
+   }
   },
     paths: {
       // paths serve as alias
@@ -27,6 +34,9 @@ System.config({
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
       '@angular/material': 'npm:@angular/material/bundles/material.umd.js',
+
+      'angular2-datatable': 'npm:angular2-datatable',
+      'lodash': 'npm:lodash/dist/lodash.js',
 
       // other libraries
       'rxjs':                      'npm:rxjs',

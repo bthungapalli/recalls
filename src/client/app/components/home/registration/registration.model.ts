@@ -11,4 +11,5 @@ export class Registration {
     public state?: string;
     public zipcode?:string;
     public alertsOn?:string;
+    public role?:string;
 }

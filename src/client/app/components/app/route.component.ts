@@ -6,6 +6,7 @@ import {RegistrationComponent} from '../home/registration/registration.component
 import {ForgotPasswordComponent} from '../home/forgotPassword/forgotPassword.component';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {ProfileComponent} from '../dashboard/profile/profile.component';
+import {UserManagementComponent} from '../dashboard/userManagement/userManagement.component';
 
 
 const appRoutes: Routes = [
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
    { path: 'dashboard', component: DashboardComponent,
    children: [
      { path: '', redirectTo: 'profile', pathMatch: 'full' },
-     { path: 'profile', component: ProfileComponent }
+     { path: 'profile', component: ProfileComponent },
+     { path: 'userManagement', component: UserManagementComponent }
     ]}
 ];
 

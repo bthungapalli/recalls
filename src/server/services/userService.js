@@ -4,50 +4,63 @@ var userService =function(){
 
 return{
 
+	update:function(object,conditions,update,callbackForUpdate){
+		 userModel.update(conditions, update, callback);
+		 function callback (err, numAffected) {
+			 if(err){
+				 console.log("error:"+err);
+				 callbackForUpdate(err);
+			 }
+			 console.log(numAffected + "rows updates");
+			 callbackForUpdate(null,object);
+		 };
+	},
+	execute:function(query,callbackForExecute){
+		query.exec(function(err, user){
+				if(err)
+					callbackForExecute(err);
+					callbackForExecute(null,user);
+		});
+	},
+	save:function(user,callbackForSave){
+		user.save(function(err){
+			 if(err){
+				 console.log(err)
+				 callbackForSave(err);
+			 }
+			 callbackForSave(null,user);
+	 });
+	},
 		createOrUpdateUser : function(user,callbackForCreateOrUpdateUser){
-
-			 if(user._id !==undefined){
-					var conditions = { "_id":user._id };
-					var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"updated_at":new Date()}};
-					userModel.update(conditions, update, callback);
-
-				 function callback (err, numAffected) {
-					 if(err){
-						 console.log("error:"+err);
-						 callbackForCreateOrUpdateUser(err);
-					 }
-					 console.log(numAffected + "rows updates");
-					 callbackForCreateOrUpdateUser(null,user);
-				 };
-
-			 }else{
-
+			 if(user._id ==undefined){
+				 var serviceObj=this;
 				 counterModel.findByIdAndUpdate({_id : "userId"}, {$inc: {seq: 1} }, function(error, counter)   {
-						if(error){
-							console.log("error:"+error);
-					    callbackForCreateOrUpdateUser(error);
-						}
-				    var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn});
-				    userCreated.save(function(err){
-							 if(err){
-								 console.log(err)
-								 callbackForCreateOrUpdateUser(err);
-							 }
-							 callbackForCreateOrUpdateUser(null,userCreated);
-					 });
+				 	 if(error){
+				 		 console.log("error:"+error);
+				 		 callbackForCreateOrUpdateUser(error);
+				 	 }
+				 	 var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"role":user.role});
+				 	 serviceObj.save(userCreated,callbackForCreateOrUpdateUser);
 				 });
-
+			 }else{
+				 var conditions = { "_id":user._id };
+				 var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"updated_at":new Date()}};
+				 this.update(user,conditions,update,callbackForCreateOrUpdateUser);
 			 }
    },
 	 checkUser:function(user,callbackForCheckUser){
 		 var query = userModel.findOne({"email":user.email,"password":user.password});
-				 query.exec(function(err, user){
-						 if(err)
-							 callbackForCheckUser(err);
-						   callbackForCheckUser(null,user);
-				 });
+		 this.execute(query,callbackForCheckUser);
+	 },
+	 getAllUsers:function(callbackForGetAllUsers){
+		 var query = userModel.find({});
+		 this.execute(query,callbackForGetAllUsers);
+	 },
+	 activeOrInActivateUser:function(user,callbackForActiveOrInActivateUser){
+		 var conditions = { "_id":user._id };
+		 var update = { $set: {"isActive": user.isActive}};
+		 this.update(user,conditions,update,callbackForActiveOrInActivateUser);
 	 }
-
 
 }
 }

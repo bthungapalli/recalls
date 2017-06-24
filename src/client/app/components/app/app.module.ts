@@ -10,6 +10,7 @@ import { LoginModule }  from '../home/login/login.module';
 import { ProfileModule }  from '../dashboard/profile/profile.module';
 import { RegistrationModule }  from '../home/registration/registration.module';
 import { ForgotPasswordModule }  from '../home/forgotPassword/forgotPassword.module';
+import { UserManagementModule }  from '../dashboard/userManagement/userManagement.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ForgotPasswordModule }  from '../home/forgotPassword/forgotPassword.mod
     LoginModule,
     RegistrationModule,
     ProfileModule,
-    ForgotPasswordModule
+    ForgotPasswordModule,
+    UserManagementModule
   ],
   declarations: [
     AppComponent

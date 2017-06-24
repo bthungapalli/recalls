@@ -22,6 +22,8 @@ var UserSchema = new Schema({
     state: {type: String, required: true},
     zipcode:{type: String, required: true},
     alertsOn:{type: String, required: true},
+    role:{type:String,required:true},
+    isActive:{type: Boolean, required: true,default:true},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

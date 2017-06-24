@@ -1,0 +1,42 @@
+<div class="col-xs-12">
+  <h2>User Management</h2>
+  <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
+  <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
+
+  <div class="panel panel-default">
+          <div class="table-responsive">
+              <table class="table table-striped ">
+                <thead>
+                                <tr>
+
+                                    <th> Name</th>
+                                    <th> Email </th>
+                                    <th> Role </th>
+                                    <th> Mobile </th>
+                                    <th> Action </th>
+
+                                </tr>
+
+                                </thead>
+                  <tbody>
+                  <tr *ngFor="let user of users">
+
+                      <td>{{user.lastName}} {{user.firstName}}  </td>
+                      <td>{{user.email}} </td>
+                      <td>{{user.role}} </td>
+                      <td>{{user.mobileNumber}} </td>
+                      <td>
+                        <button type="button" (click)="activateOrInactivateUser(user,true)" *ngIf="!user.isActive" class="btn btn-xs btn-success">Activate</button>
+                        <button type="button" (click)="activateOrInactivateUser(user,false)" *ngIf="user.isActive" class="btn btn-xs btn-danger">Deactivate</button>
+
+                      </td>
+
+                  </tr>
+                  </tbody>
+
+              </table>
+               </div>
+   </div>
+
+
+</div>

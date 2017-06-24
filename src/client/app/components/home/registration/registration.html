@@ -64,6 +64,18 @@
     </div>
     <div class="col-xs-12">
       <div class="form-group">
+        <label for="alerts">Login As</label>
+        <br>
+        <label class="radio-inline">
+          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio1" value="Vendor"> Vendor
+        </label>
+        <label class="radio-inline">
+          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio2" value="User"> User
+        </label>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
         <label for="alerts">Alerts On</label>
         <br>
         <label class="radio-inline">
