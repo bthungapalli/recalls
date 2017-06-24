@@ -6,8 +6,8 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class UserManagementService {
 
-      private  GET_ALL_USERS_URL="/userManagementRoute/allUsers";
-      private  ACTIVATE_OR_INACTIVATE_URL="/userManagementRoute/activeOrInActivateUser";
+      private  GET_ALL_USERS_URL="/userManagement/allUsers";
+      private  ACTIVATE_OR_INACTIVATE_URL="/userManagement/activeOrInActivateUser";
 
       constructor(private http: Http) {
       }

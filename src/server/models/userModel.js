@@ -4,7 +4,7 @@ var counterModel     = require("./counterModel");
 
 
 
-var counter = new counterModel({"_id":"userId","seq": 0});
+var counter = new counterModel({"_id":"userId","seq": 1});
 counter.save(function(err){
     if(err)
     	return err;

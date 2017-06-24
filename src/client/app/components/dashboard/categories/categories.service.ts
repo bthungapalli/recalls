@@ -8,6 +8,7 @@ export class CategoriesService {
 
       private  GET_ALL_CATEGORIES_URL="/categories/allCategories";
       private  GET_CREATE_CATEGORY_URL="/categories/createCategory";
+      private  GET_DELETE_CATEGORY_URL="/categories/deleteCategory";
 
 
       constructor(private http: Http) {
@@ -19,8 +20,14 @@ export class CategoriesService {
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      submitCategory():Observable<Category>{
-      return this.http.post(this.GET_CREATE_CATEGORY_URL)
+      createCategory(categoryModel:Category):Observable<Category>{
+      return this.http.post(this.GET_CREATE_CATEGORY_URL,categoryModel)
+      .map((res: Response) => {return res.json();})
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+
+      deleteCategory(categoryModel:Category):Observable<Category>{
+      return this.http.delete(this.GET_DELETE_CATEGORY_URL,categoryModel)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }

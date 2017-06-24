@@ -27,8 +27,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
             UserManagementService = (function () {
                 function UserManagementService(http) {
                     this.http = http;
-                    this.GET_ALL_USERS_URL = "/userManagementRoute/allUsers";
-                    this.ACTIVATE_OR_INACTIVATE_URL = "/userManagementRoute/activeOrInActivateUser";
+                    this.GET_ALL_USERS_URL = "/userManagement/allUsers";
+                    this.ACTIVATE_OR_INACTIVATE_URL = "/userManagement/activeOrInActivateUser";
                 }
                 UserManagementService.prototype.getAllUsers = function () {
                     return this.http.get(this.GET_ALL_USERS_URL)

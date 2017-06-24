@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "angular2-datatable", "@angular/http", "./categories.component", "./categories.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "angular2-datatable", "@angular/forms", "@angular/http", "./categories.component", "./categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, common_1, angular2_datatable_1, http_1, categories_component_1, categories_service_1, CategoriesModule;
+    var core_1, common_1, angular2_datatable_1, forms_1, http_1, categories_component_1, categories_service_1, CategoriesModule;
     return {
         setters: [
             function (core_1_1) {
@@ -18,6 +18,9 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
             },
             function (angular2_datatable_1_1) {
                 angular2_datatable_1 = angular2_datatable_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             },
             function (http_1_1) {
                 http_1 = http_1_1;
@@ -40,6 +43,7 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
                     imports: [
                         common_1.CommonModule,
                         angular2_datatable_1.DataTableModule,
+                        forms_1.FormsModule,
                         http_1.HttpModule
                     ],
                     declarations: [

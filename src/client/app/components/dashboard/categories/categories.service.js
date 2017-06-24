@@ -28,9 +28,21 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 function CategoriesService(http) {
                     this.http = http;
                     this.GET_ALL_CATEGORIES_URL = "/categories/allCategories";
+                    this.GET_CREATE_CATEGORY_URL = "/categories/createCategory";
+                    this.GET_DELETE_CATEGORY_URL = "/categories/deleteCategory";
                 }
                 CategoriesService.prototype.getAllCategories = function () {
                     return this.http.get(this.GET_ALL_CATEGORIES_URL)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                CategoriesService.prototype.createCategory = function (categoryModel) {
+                    return this.http.post(this.GET_CREATE_CATEGORY_URL, categoryModel)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                CategoriesService.prototype.deleteCategory = function (categoryModel) {
+                    return this.http.delete(this.GET_DELETE_CATEGORY_URL, categoryModel)
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };

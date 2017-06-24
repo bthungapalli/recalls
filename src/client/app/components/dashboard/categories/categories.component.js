@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./categories.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "./categories.model", "./categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,14 @@ System.register(["@angular/core", "./categories.service"], function (exports_1, 
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, categories_service_1, CategoriesComponent;
+    var core_1, categories_model_1, categories_service_1, CategoriesComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (categories_model_1_1) {
+                categories_model_1 = categories_model_1_1;
             },
             function (categories_service_1_1) {
                 categories_service_1 = categories_service_1_1;
@@ -27,11 +30,44 @@ System.register(["@angular/core", "./categories.service"], function (exports_1, 
                     this.categories = [];
                     this.errorMessage = "";
                     this.successMessage = "";
+                    this.categoryModel = new categories_model_1.Category();
                 }
                 CategoriesComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.categoriesService.getAllCategories().subscribe(function (response) {
                         _this.categories = response;
+                    }, function (err) {
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
+                    });
+                };
+                ;
+                CategoriesComponent.prototype.submitCategory = function () {
+                    var _this = this;
+                    this.errorMessage = "";
+                    var isCategoryAlreadyExist = false;
+                    var categoryModel = this.categoryModel;
+                    this.categories.forEach(function (category) {
+                        if (category.categoryName.toUpperCase() === categoryModel.categoryName.toUpperCase()) {
+                            isCategoryAlreadyExist = true;
+                        }
+                    });
+                    if (isCategoryAlreadyExist) {
+                        this.errorMessage = "Category already exist";
+                    }
+                    else {
+                        this.categoriesService.createCategory(this.categoryModel).subscribe(function (response) {
+                            _this.categories.push(response);
+                            _this.categoryModel = new categories_model_1.Category();
+                        }, function (err) {
+                            _this.errorMessage = "Something went wrong.Please contact administrator";
+                        });
+                    }
+                };
+                ;
+                CategoriesComponent.prototype.deleteCategory = function (category, index) {
+                    var _this = this;
+                    this.categoriesService.deleteCategory(category).subscribe(function (response) {
+                        _this.categories.splice(index, 1);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
