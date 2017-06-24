@@ -47,8 +47,13 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                             _this.errorMessage = "Email or Password is incorrect";
                         }
                         else {
-                            _this.dashboardService.setUserToProfile(response);
-                            _this.router.navigate(['dashboard/profile']);
+                            if (!response.isActive) {
+                                _this.errorMessage = "Your account is inactive.Please contact administrator";
+                            }
+                            else {
+                                _this.dashboardService.setUserToProfile(response);
+                                _this.router.navigate(['dashboard/profile']);
+                            }
                         }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";

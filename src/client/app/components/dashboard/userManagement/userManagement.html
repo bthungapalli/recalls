@@ -3,7 +3,7 @@
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
   <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
 
-  <div class="panel panel-default">
+  <div class=" col-xs-12 panel panel-default">
           <div class="table-responsive">
               <table class="table table-striped " [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="10"  [(mfSortBy)]="sortBy" >
                 <thead>

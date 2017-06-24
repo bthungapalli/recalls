@@ -27,8 +27,12 @@ submitLogin(){
                   if(response==null){
                   this.errorMessage="Email or Password is incorrect";
                   }else{
-                    this.dashboardService.setUserToProfile(response);
-                    this.router.navigate(['dashboard/profile']);
+                     if(!response.isActive){
+                          this.errorMessage="Your account is inactive.Please contact administrator";
+                     }else{
+                          this.dashboardService.setUserToProfile(response);
+                          this.router.navigate(['dashboard/profile']);
+                     }
                   }
                   },err => {
                   this.errorMessage="Something went wrong.Please contact administrator";

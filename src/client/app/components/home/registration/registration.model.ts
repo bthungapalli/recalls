@@ -12,4 +12,5 @@ export class Registration {
     public zipcode?:string;
     public alertsOn?:string;
     public role?:string;
+    public isActive?:boolean;
 }

@@ -11,6 +11,8 @@ import { ProfileModule }  from '../dashboard/profile/profile.module';
 import { RegistrationModule }  from '../home/registration/registration.module';
 import { ForgotPasswordModule }  from '../home/forgotPassword/forgotPassword.module';
 import { UserManagementModule }  from '../dashboard/userManagement/userManagement.module';
+import { CategoriesModule }  from '../dashboard/categories/categories.module';
+
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { UserManagementModule }  from '../dashboard/userManagement/userManagemen
     RegistrationModule,
     ProfileModule,
     ForgotPasswordModule,
-    UserManagementModule
+    UserManagementModule,
+    CategoriesModule
   ],
   declarations: [
     AppComponent
