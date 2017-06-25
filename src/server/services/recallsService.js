@@ -60,6 +60,21 @@ return{
 	 getAllRecalls:function(callbackForGetAllRecalls){
 		 var query =recallModel.find({});
 		 this.execute(query,callbackForGetAllRecalls);
+	 },
+	 getRecallsByFilter:function(recallFilter,callbackForGetAllRecallsByFilter){
+			var condition;
+			var startDate = new Date(recallFilter.fromDate);
+			startDate.setDate(startDate.getDate());
+			var endDate = new Date(recallFilter.toDate);
+			endDate.setDate(endDate.getDate());
+
+		 if(recallFilter.category=="All"){
+			 condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}}]};
+		 }else{
+			 condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
+		 }
+		 var query =recallModel.find(condition);
+		 this.execute(query,callbackForGetAllRecallsByFilter);
 	 }
 
 }

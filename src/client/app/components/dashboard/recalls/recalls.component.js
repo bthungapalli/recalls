@@ -34,6 +34,7 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                     this.categories = [];
                     this.sortBy = "created_at";
                     this.sortOrder = "desc";
+                    this.category = "All";
                 }
                 RecallsComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -49,6 +50,20 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                     });
                 };
                 ;
+                RecallsComponent.prototype.getRecallsForFilter = function () {
+                    var _this = this;
+                    this.errorMessage = "";
+                    if (this.fromDate.epoc < this.toDate.epoc) {
+                        this.recallsService.getRecallsForFilter(this.category, this.toDate.formatted, this.fromDate.formatted).subscribe(function (response) {
+                            _this.recalls = response;
+                        }, function (err) {
+                            _this.errorMessage = "Something went wrong.Please contact administrator";
+                        });
+                    }
+                    else {
+                        this.errorMessage = "To date should be after From date";
+                    }
+                };
                 return RecallsComponent;
             }());
             RecallsComponent = __decorate([

@@ -20,6 +20,10 @@ export class RecallsComponent implements OnInit{
       public sortBy:String = "created_at";
       public sortOrder:String = "desc";
 
+      public category:String="All";
+      public toDate:any;
+      public fromDate:any;
+
 
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService) {
 
@@ -39,7 +43,20 @@ export class RecallsComponent implements OnInit{
           this.errorMessage="Something went wrong.Please contact administrator";
       });
 
-
       };
+
+
+      getRecallsForFilter(){
+        this.errorMessage="";
+        if(this.fromDate.epoc<this.toDate.epoc){
+        this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
+             this.recalls=response;
+        },err => {
+            this.errorMessage="Something went wrong.Please contact administrator";
+        });
+        }else{
+        this.errorMessage="To Date should be after From Date";
+        }
+      }
 
  }

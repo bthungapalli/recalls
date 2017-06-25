@@ -37,6 +37,7 @@ System.config({
 
       'angular2-datatable': 'npm:angular2-datatable',
       'lodash': 'npm:lodash/lodash.js',
+      'mydatepicker': 'npm:mydatepicker/bundles/mydatepicker.umd.min.js',
 
       // other libraries
       'rxjs':                      'npm:rxjs',

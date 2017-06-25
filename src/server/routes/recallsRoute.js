@@ -21,6 +21,15 @@ router.post('/createRecall',function (req,res,next){
 		});
 });
 
+router.post('/filterRecalls',function (req,res,next){
+		var recallFilter = req.body;
+		recallsService.getRecallsByFilter(recallFilter,function(err,recall){
+			if(err)
+        		res.send("error");
+			res.json(recall);
+		});
+});
+
 
 
 module.exports = router;

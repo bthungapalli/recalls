@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {DataTableModule} from "angular2-datatable";
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 import { RecallsComponent }  from './recalls.component';
@@ -16,8 +17,8 @@ import { DataFilterPipe }   from './data.filter';
   CommonModule,
     DataTableModule,
     FormsModule,
-      HttpModule
-
+      HttpModule,
+      MyDatePickerModule
   ],
   declarations: [
     RecallsComponent,

@@ -8,6 +8,7 @@ export class RecallsService {
 
       private  GET_ALL_RECALLS_URL="/recalls/allRecalls";
       private  GET_CREATE_RECALL_URL="/recalls/createRecall";
+      private  GET_RECALLS_BY_FILTER_URL="/recalls/filterRecalls";
 
 
       constructor(private http: Http) {
@@ -21,6 +22,14 @@ export class RecallsService {
 
       submitRecall(recallModel:Recall):Observable<Recall>{
       return this.http.post(this.GET_CREATE_RECALL_URL,recallModel)
+      .map((res: Response) => {return res.json();})
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+
+
+      getRecallsForFilter(category:String,toDate:String,fromDate:String):Observable<Recall[]>{
+      var body={"category":category,"toDate":toDate,"fromDate":fromDate}
+      return this.http.post(this.GET_RECALLS_BY_FILTER_URL,body)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
