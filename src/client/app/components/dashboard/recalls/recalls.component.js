@@ -40,6 +40,9 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                     var _this = this;
                     this.recallsService.getAllRecalls().subscribe(function (response) {
                         _this.recalls = response;
+                        if (response.length === 0) {
+                            _this.successMessage = "No Recalls available for given dates.";
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -53,15 +56,19 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                 RecallsComponent.prototype.getRecallsForFilter = function () {
                     var _this = this;
                     this.errorMessage = "";
+                    this.successMessage = "";
                     if (this.fromDate.epoc < this.toDate.epoc) {
                         this.recallsService.getRecallsForFilter(this.category, this.toDate.formatted, this.fromDate.formatted).subscribe(function (response) {
                             _this.recalls = response;
+                            if (response.length === 0) {
+                                _this.successMessage = "No Recalls available for given dates.";
+                            }
                         }, function (err) {
                             _this.errorMessage = "Something went wrong.Please contact administrator";
                         });
                     }
                     else {
-                        this.errorMessage = "To date should be after From date";
+                        this.errorMessage = "To Date should be after From Date";
                     }
                 };
                 return RecallsComponent;

@@ -1,7 +1,6 @@
 <div class="col-xs-12">
   <h2>Recalls</h2>
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
-  <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
 
 
   <div class="col-sm-3 col-xs-12">
@@ -39,7 +38,7 @@
   <div class="col-sm-6 col-xs-12">
     <div class="form-group">
       Filter by title:
-      <input type="text" class="form-control" [(ngModel)]="filterQuery"/>
+      <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="Type text to filter"/>
     </div>
   </div>
 
@@ -49,7 +48,6 @@
       <select class="form-control" [(ngModel)]="sortBy">
         <option value="asc">Oldest to Newest</option>
         <option value="desc">Newest to Oldest</option>
-
       </select>
     </div>
   </div>
@@ -124,6 +122,8 @@
     </tfoot>
 
    </table>
+   <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
+
 </div>
 
 </div>

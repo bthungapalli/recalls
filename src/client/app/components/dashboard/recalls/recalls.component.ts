@@ -33,6 +33,9 @@ export class RecallsComponent implements OnInit{
 
       this.recallsService.getAllRecalls().subscribe(response => {
            this.recalls=response;
+           if(response.length===0){
+           this.successMessage="No Recalls available for given dates."
+           }
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
       });
@@ -48,9 +51,13 @@ export class RecallsComponent implements OnInit{
 
       getRecallsForFilter(){
         this.errorMessage="";
+        this.successMessage="";
         if(this.fromDate.epoc<this.toDate.epoc){
         this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
              this.recalls=response;
+             if(response.length===0){
+             this.successMessage="No Recalls available for given dates."
+             }
         },err => {
             this.errorMessage="Something went wrong.Please contact administrator";
         });
