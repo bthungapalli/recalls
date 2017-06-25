@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./recalls.service", "../categories/categories.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./recalls.service", "../categories/categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,14 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, recalls_service_1, categories_service_1, RecallsComponent;
+    var core_1, router_1, recalls_service_1, categories_service_1, RecallsComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (recalls_service_1_1) {
                 recalls_service_1 = recalls_service_1_1;
@@ -25,9 +28,10 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
         ],
         execute: function () {
             RecallsComponent = (function () {
-                function RecallsComponent(recallsService, categoriesService) {
+                function RecallsComponent(recallsService, categoriesService, router) {
                     this.recallsService = recallsService;
                     this.categoriesService = categoriesService;
+                    this.router = router;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.recalls = [];
@@ -39,15 +43,25 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                 RecallsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.recallsService.getAllRecalls().subscribe(function (response) {
-                        _this.recalls = response;
-                        if (response.length === 0) {
-                            _this.successMessage = "No Recalls available for given dates.";
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.recalls = response;
+                            if (response.length === 0) {
+                                _this.successMessage = "No Recalls available for given dates";
+                            }
                         }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
                     this.categoriesService.getAllCategories().subscribe(function (response) {
-                        _this.categories = response;
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.categories = response;
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -59,9 +73,14 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                     this.successMessage = "";
                     if (this.fromDate.epoc < this.toDate.epoc) {
                         this.recallsService.getRecallsForFilter(this.category, this.toDate.formatted, this.fromDate.formatted).subscribe(function (response) {
-                            _this.recalls = response;
-                            if (response.length === 0) {
-                                _this.successMessage = "No Recalls available for given dates.";
+                            if (response.sessionExpired) {
+                                _this.router.navigate(['home']);
+                            }
+                            else {
+                                _this.recalls = response;
+                                if (response.length === 0) {
+                                    _this.successMessage = "No Recalls available for given dates.";
+                                }
                             }
                         }, function (err) {
                             _this.errorMessage = "Something went wrong.Please contact administrator";
@@ -78,7 +97,7 @@ System.register(["@angular/core", "./recalls.service", "../categories/categories
                     selector: 'recalls',
                     templateUrl: "./app/components/dashboard/recalls/recalls.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router])
             ], RecallsComponent);
             exports_1("RecallsComponent", RecallsComponent);
         }

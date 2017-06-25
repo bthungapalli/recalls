@@ -65,7 +65,8 @@ System.register(["@angular/core", "@angular/router", "../home/home.component", "
                         { path: 'categories', component: categories_component_1.CategoriesComponent },
                         { path: 'recall', component: recall_component_1.RecallComponent },
                         { path: 'recalls', component: recalls_component_1.RecallsComponent }
-                    ] }
+                    ]
+                }
             ];
             RouteComponent = (function () {
                 function RouteComponent() {

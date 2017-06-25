@@ -11,7 +11,7 @@ export class ProfileService {
       constructor(private http: Http) {
       }
 
-      submitProfile(profileModel:Profile): Observable<Profile> {
+      submitProfile(profileModel:Profile): Observable<any> {
        return this.http.put(this.PROFILE_UPDATE_URL,profileModel)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

@@ -1,5 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
+
 import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
@@ -25,23 +27,33 @@ export class RecallsComponent implements OnInit{
       public fromDate:any;
 
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router) {
 
       }
 
       ngOnInit(): void {
 
       this.recallsService.getAllRecalls().subscribe(response => {
-           this.recalls=response;
-           if(response.length===0){
-           this.successMessage="No Recalls available for given dates."
-           }
+
+      if(response.sessionExpired){
+        this.router.navigate(['home']);
+      }else{
+        this.recalls=response;
+        if(response.length===0){
+        this.successMessage="No Recalls available for given dates";
+      }
+      }
+
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
       });
 
       this.categoriesService.getAllCategories().subscribe(response => {
-          this.categories=response;
+          if(response.sessionExpired){
+            this.router.navigate(['home']);
+          }else{
+              this.categories=response;
+          }
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
       });
@@ -54,10 +66,16 @@ export class RecallsComponent implements OnInit{
         this.successMessage="";
         if(this.fromDate.epoc<this.toDate.epoc){
         this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
-             this.recalls=response;
-             if(response.length===0){
-             this.successMessage="No Recalls available for given dates."
+
+             if(response.sessionExpired){
+               this.router.navigate(['home']);
+             }else{
+               this.recalls=response;
+               if(response.length===0){
+               this.successMessage="No Recalls available for given dates."
+               }
              }
+
         },err => {
             this.errorMessage="Something went wrong.Please contact administrator";
         });

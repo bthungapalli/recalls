@@ -26,7 +26,12 @@ export class RecallComponent implements OnInit{
 
       ngOnInit(): void {
           this.categoriesService.getAllCategories().subscribe(response => {
-              this.categories=response;
+              if(response.sessionExpired){
+                this.router.navigate(['home']);
+              }else{
+                this.categories=response;
+              }
+
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
           });
@@ -34,7 +39,12 @@ export class RecallComponent implements OnInit{
 
       submitRecall(){
           this.recallsService.submitRecall(this.recallModel).subscribe(response => {
-               this.router.navigate(['dashboard/recalls']);
+
+               if(response.sessionExpired){
+                 this.router.navigate(['home']);
+               }else{
+                 this.router.navigate(['dashboard/recalls']);
+               }
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
           });

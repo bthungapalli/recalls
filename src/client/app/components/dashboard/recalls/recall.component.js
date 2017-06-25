@@ -44,7 +44,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                 RecallComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.categoriesService.getAllCategories().subscribe(function (response) {
-                        _this.categories = response;
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.categories = response;
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -53,7 +58,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                 RecallComponent.prototype.submitRecall = function () {
                     var _this = this;
                     this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
-                        _this.router.navigate(['dashboard/recalls']);
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.router.navigate(['dashboard/recalls']);
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });

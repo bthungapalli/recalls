@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var userService=require("../services/userService");
+var checkSession=require("../services/checkSessionService");
 
-
-router.get('/allUsers',function (req,res,next){
+router.get('/allUsers',checkSession.requireLogin,function (req,res,next){
 		userService.getAllUsers(function(err,users){
 			if(err)
         		res.send("error");
@@ -12,7 +12,7 @@ router.get('/allUsers',function (req,res,next){
 });
 
 
-router.put('/activeOrInActivateUser',function (req,res,next){
+router.put('/activeOrInActivateUser',checkSession.requireLogin,function (req,res,next){
 		var userDetails = req.body;
 		userService.activeOrInActivateUser(userDetails,function(err,user){
 			if(err)

@@ -26,6 +26,7 @@
     "angular-in-memory-web-api": "~0.2.4",
     "angular2-datatable": "^0.5.2",
     "bootstrap": "^3.3.7",
+    "client-sessions": "^0.8.0",
     "core-js": "^2.4.1",
     "mongoose": "^4.10.8",
     "mydatepicker": "^2.0.21",

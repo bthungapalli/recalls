@@ -14,19 +14,19 @@ export class CategoriesService {
       constructor(private http: Http) {
       }
 
-      getAllCategories(): Observable<Category[]> {
+      getAllCategories(): Observable<any> {
        return this.http.get(this.GET_ALL_CATEGORIES_URL)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      createCategory(categoryModel:Category):Observable<Category>{
+      createCategory(categoryModel:Category):Observable<any>{
       return this.http.post(this.GET_CREATE_CATEGORY_URL,categoryModel)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      deleteCategory(categoryModel:Category):Observable<Category>{
+      deleteCategory(categoryModel:Category):Observable<any>{
       return this.http.delete(this.GET_DELETE_CATEGORY_URL,categoryModel)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

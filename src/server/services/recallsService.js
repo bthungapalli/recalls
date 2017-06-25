@@ -31,7 +31,7 @@ return{
 			 callbackForSave(null,recall);
 	 });
 	},
-	delete:function(recall,condition,callbackForDelete){
+	delete:function(user,recall,condition,callbackForDelete){
 		recallModel.remove(condition,function(err){
 			 if(err){
 				 console.log(err)
@@ -40,7 +40,7 @@ return{
 			 callbackForDelete(null,recall);
 	 });
 	},
-		createOrUpdateRecall : function(recall,callbackForCreateOrUpdateRecall){
+		createOrUpdateRecall : function(user,recall,callbackForCreateOrUpdateRecall){
 			 if(recall._id ==undefined){
 				 var serviceObj=this;
 				 counterModel.findByIdAndUpdate({_id : "recallId"}, {$inc: {seq: 1} }, function(error, counter)   {
@@ -48,7 +48,7 @@ return{
 				 		 console.log("error:"+error);
 				 		 callbackForCreateOrUpdateRecall(error);
 				 	 }
-				 	 var recallCreated = new recallModel({"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard});
+				 	 var recallCreated = new recallModel({"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard,"created_by":user.email});
 				 	 serviceObj.save(recallCreated,callbackForCreateOrUpdateRecall);
 				 });
 			 }else{
@@ -57,22 +57,37 @@ return{
 				 this.update(recall,conditions,update,callbackForCreateOrUpdateRecall);
 			 }
    },
-	 getAllRecalls:function(callbackForGetAllRecalls){
-		 var query =recallModel.find({});
+	 getAllRecalls:function(user,callbackForGetAllRecalls){
+		 var condition;
+		 if(user.role==="Vendor"){
+			 condition={"created_by":user.email};
+		 }else{
+			 condition={};
+		 }
+		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecalls);
 	 },
-	 getRecallsByFilter:function(recallFilter,callbackForGetAllRecallsByFilter){
+	 getRecallsByFilter:function(user,recallFilter,callbackForGetAllRecallsByFilter){
 			var condition;
 			var startDate = new Date(recallFilter.fromDate);
 			startDate.setDate(startDate.getDate());
 			var endDate = new Date(recallFilter.toDate);
 			endDate.setDate(endDate.getDate());
 
-		 if(recallFilter.category=="All"){
-			 condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}}]};
-		 }else{
-			 condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
-		 }
+			if(user.role==="Vendor"){
+				if(recallFilter.category=="All"){
+					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"created_by":user.email}]};
+				}else{
+					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category},{"created_by":user.email}]};
+				}
+			}else{
+				if(recallFilter.category=="All"){
+					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}}]};
+				}else{
+					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
+				}
+			}
+
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecallsByFilter);
 	 }

@@ -14,20 +14,20 @@ export class RecallsService {
       constructor(private http: Http) {
       }
 
-      getAllRecalls(): Observable<Recall[]> {
+      getAllRecalls(): Observable<any> {
        return this.http.get(this.GET_ALL_RECALLS_URL)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      submitRecall(recallModel:Recall):Observable<Recall>{
+      submitRecall(recallModel:Recall):Observable<any>{
       return this.http.post(this.GET_CREATE_RECALL_URL,recallModel)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
 
-      getRecallsForFilter(category:String,toDate:String,fromDate:String):Observable<Recall[]>{
+      getRecallsForFilter(category:String,toDate:String,fromDate:String):Observable<any>{
       var body={"category":category,"toDate":toDate,"fromDate":fromDate}
       return this.http.post(this.GET_RECALLS_BY_FILTER_URL,body)
       .map((res: Response) => {return res.json();})

@@ -19,6 +19,7 @@ var RecallSchema = new Schema({
     summary:{type: String, required: true},
     description: {type: String, required: true},
     hazard:{type: String, required: false},
+    created_by:{type: String, required: true},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

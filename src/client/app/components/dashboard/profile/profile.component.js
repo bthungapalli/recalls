@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./profile.model", "./profile.service", "../dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./profile.model", "./profile.service", "../dashboard.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,14 @@ System.register(["@angular/core", "./profile.model", "./profile.service", "../da
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, profile_model_1, profile_service_1, dashboard_service_1, ProfileComponent;
+    var core_1, router_1, profile_model_1, profile_service_1, dashboard_service_1, ProfileComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (profile_model_1_1) {
                 profile_model_1 = profile_model_1_1;
@@ -28,9 +31,10 @@ System.register(["@angular/core", "./profile.model", "./profile.service", "../da
         ],
         execute: function () {
             ProfileComponent = (function () {
-                function ProfileComponent(profileService, dashboardService) {
+                function ProfileComponent(profileService, dashboardService, router) {
                     this.profileService = profileService;
                     this.dashboardService = dashboardService;
+                    this.router = router;
                     this.disableFields = true;
                     this.errorMessage = "";
                     this.successMessage = "";
@@ -43,8 +47,13 @@ System.register(["@angular/core", "./profile.model", "./profile.service", "../da
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.profileService.submitProfile(this.profileModel).subscribe(function (response) {
-                        _this.successMessage = "Profile updated";
-                        _this.dashboardService.userDetails = _this.profileModel;
+                        if (response == "sessionExpired") {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.successMessage = "Profile updated";
+                            _this.dashboardService.userDetails = _this.profileModel;
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -56,7 +65,7 @@ System.register(["@angular/core", "./profile.model", "./profile.service", "../da
                     selector: 'profile',
                     templateUrl: "./app/components/dashboard/profile/profile.html"
                 }),
-                __metadata("design:paramtypes", [profile_service_1.ProfileService, dashboard_service_1.DashboardService])
+                __metadata("design:paramtypes", [profile_service_1.ProfileService, dashboard_service_1.DashboardService, router_1.Router])
             ], ProfileComponent);
             exports_1("ProfileComponent", ProfileComponent);
         }

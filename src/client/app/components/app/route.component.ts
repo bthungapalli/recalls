@@ -22,16 +22,15 @@ const appRoutes: Routes = [
     { path: 'forgotPassword', component: ForgotPasswordComponent }
    ]},
    { path: 'dashboard', component: DashboardComponent,
-   children: [
-     { path: '', redirectTo: 'profile', pathMatch: 'full' },
-     { path: 'profile', component: ProfileComponent },
-     { path: 'userManagement', component: UserManagementComponent },
-     { path: 'categories', component: CategoriesComponent },
-     { path: 'recall', component: RecallComponent },
-     { path: 'recalls', component: RecallsComponent }
-
-
-    ]}
+     children: [
+       { path: '', redirectTo: 'profile', pathMatch: 'full' },
+       { path: 'profile', component: ProfileComponent },
+       { path: 'userManagement', component: UserManagementComponent },
+       { path: 'categories', component: CategoriesComponent },
+       { path: 'recall', component: RecallComponent },
+       { path: 'recalls', component: RecallsComponent }
+      ]
+   }
 ];
 
 

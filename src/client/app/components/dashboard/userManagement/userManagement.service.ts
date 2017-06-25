@@ -12,13 +12,13 @@ export class UserManagementService {
       constructor(private http: Http) {
       }
 
-      getAllUsers(): Observable<Profile[]> {
+      getAllUsers(): Observable<any> {
        return this.http.get(this.GET_ALL_USERS_URL)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      activeOrInActivateUser(user:Profile): Observable<Profile> {
+      activeOrInActivateUser(user:Profile): Observable<any> {
        return this.http.put(this.ACTIVATE_OR_INACTIVATE_URL,user)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

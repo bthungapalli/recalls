@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var userService=require("../services/userService");
+var checkSession=require("../services/checkSessionService");
 
-
-router.put('/',function (req,res,next){
+router.put('/',checkSession.requireLogin,function (req,res,next){
 		var userDetails = req.body;
 		userService.createOrUpdateUser(userDetails,function(err,createdUser){
 			if(err)

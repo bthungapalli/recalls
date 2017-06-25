@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
+
 import {Profile} from './profile.model';
 import {ProfileService} from './profile.service';
 import {DashboardService} from '../dashboard.service';
@@ -16,7 +18,7 @@ export class ProfileComponent {
       public successMessage:String="";
       public profileModel: Profile;
 
-      constructor(private profileService:ProfileService,private dashboardService:DashboardService) {
+      constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router) {
           this.profileModel = new Profile();
           this.profileModel= (<any>Object).assign({}, dashboardService.userDetails);
       }
@@ -26,8 +28,14 @@ export class ProfileComponent {
         this.errorMessage="";
         this.successMessage="";
             this.profileService.submitProfile(this.profileModel).subscribe(response => {
-                this.successMessage="Profile updated";
-                this.dashboardService.userDetails=this.profileModel;
+
+            if(response=="sessionExpired"){
+              this.router.navigate(['home']);
+            }else{
+              this.successMessage="Profile updated";
+              this.dashboardService.userDetails=this.profileModel;
+            }
+
             },err => {
                 this.errorMessage="Something went wrong.Please contact administrator";
             });

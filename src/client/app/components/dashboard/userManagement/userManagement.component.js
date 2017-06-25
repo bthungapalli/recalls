@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../profile/profile.model", "./userManagement.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "../profile/profile.model", "./userManagement.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,14 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, profile_model_1, userManagement_service_1, UserManagementComponent;
+    var core_1, router_1, profile_model_1, userManagement_service_1, UserManagementComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (profile_model_1_1) {
                 profile_model_1 = profile_model_1_1;
@@ -25,8 +28,9 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
         ],
         execute: function () {
             UserManagementComponent = (function () {
-                function UserManagementComponent(userManagementService) {
+                function UserManagementComponent(userManagementService, router) {
                     this.userManagementService = userManagementService;
+                    this.router = router;
                     this.users = [];
                     this.errorMessage = "";
                     this.successMessage = "";
@@ -35,7 +39,12 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
                 UserManagementComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.userManagementService.getAllUsers().subscribe(function (response) {
-                        _this.users = response;
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.users = response;
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -50,7 +59,12 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
                     tempUser = Object.assign({}, user);
                     tempUser.isActive = value;
                     this.userManagementService.activeOrInActivateUser(tempUser).subscribe(function (response) {
-                        user.isActive = response.isActive;
+                        if (response.sessionExpired) {
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            user.isActive = response.isActive;
+                        }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -63,7 +77,7 @@ System.register(["@angular/core", "../profile/profile.model", "./userManagement.
                     selector: 'userManagement',
                     templateUrl: "./app/components/dashboard/userManagement/UserManagement.html"
                 }),
-                __metadata("design:paramtypes", [userManagement_service_1.UserManagementService])
+                __metadata("design:paramtypes", [userManagement_service_1.UserManagementService, router_1.Router])
             ], UserManagementComponent);
             exports_1("UserManagementComponent", UserManagementComponent);
         }
