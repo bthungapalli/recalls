@@ -12,11 +12,7 @@ router.post('/',function (req,res,next){
 		});
 });
 
-router.get('/logout', function(request, response) {
-	request.session.reset();
-	console.log("logout.."+ request.session.user)
-	response.send('logout');
-	});
+
 
 
 module.exports = router;

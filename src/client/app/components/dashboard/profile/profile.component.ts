@@ -29,7 +29,7 @@ export class ProfileComponent {
         this.successMessage="";
             this.profileService.submitProfile(this.profileModel).subscribe(response => {
 
-            if(response=="sessionExpired"){
+            if(response.sessionExpired){
               this.router.navigate(['home']);
             }else{
               this.successMessage="Profile updated";

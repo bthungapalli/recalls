@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./profile/profile.model"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Rx", "./profile/profile.model"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,17 @@ System.register(["@angular/core", "./profile/profile.model"], function (exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, profile_model_1, DashboardService;
+    var core_1, http_1, Rx_1, profile_model_1, DashboardService;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
+            function (Rx_1_1) {
+                Rx_1 = Rx_1_1;
             },
             function (profile_model_1_1) {
                 profile_model_1 = profile_model_1_1;
@@ -22,7 +28,9 @@ System.register(["@angular/core", "./profile/profile.model"], function (exports_
         ],
         execute: function () {
             DashboardService = (function () {
-                function DashboardService() {
+                function DashboardService(http) {
+                    this.http = http;
+                    this.LOGOUT_URL = "/logout";
                     this.userDetails = new profile_model_1.Profile();
                 }
                 DashboardService.prototype.setUserToProfile = function (login) {
@@ -38,11 +46,16 @@ System.register(["@angular/core", "./profile/profile.model"], function (exports_
                     this.userDetails.zipcode = login.zipcode;
                     this.userDetails.alertsOn = login.alertsOn;
                 };
+                DashboardService.prototype.logout = function () {
+                    return this.http.get(this.LOGOUT_URL)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
                 return DashboardService;
             }());
             DashboardService = __decorate([
                 core_1.Injectable(),
-                __metadata("design:paramtypes", [])
+                __metadata("design:paramtypes", [http_1.Http])
             ], DashboardService);
             exports_1("DashboardService", DashboardService);
         }
