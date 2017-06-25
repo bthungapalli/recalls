@@ -4,9 +4,11 @@ import {DataTableModule} from "angular2-datatable";
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
+
 import { RecallsComponent }  from './recalls.component';
 import { RecallComponent }  from './recall.component';
 import { RecallsService }  from './recalls.service';
+import { DataFilterPipe }   from './data.filter';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { RecallsService }  from './recalls.service';
   ],
   declarations: [
     RecallsComponent,
-    RecallComponent
+    RecallComponent,
+    DataFilterPipe
   ],
   providers:[
     RecallsService

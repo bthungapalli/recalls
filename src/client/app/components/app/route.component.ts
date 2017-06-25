@@ -9,6 +9,7 @@ import {ProfileComponent} from '../dashboard/profile/profile.component';
 import {UserManagementComponent} from '../dashboard/userManagement/userManagement.component';
 import {CategoriesComponent} from '../dashboard/categories/categories.component';
 import {RecallComponent} from '../dashboard/recalls/recall.component';
+import {RecallsComponent} from '../dashboard/recalls/recalls.component';
 
 
 const appRoutes: Routes = [
@@ -26,7 +27,8 @@ const appRoutes: Routes = [
      { path: 'profile', component: ProfileComponent },
      { path: 'userManagement', component: UserManagementComponent },
      { path: 'categories', component: CategoriesComponent },
-     { path: 'recall', component: RecallComponent }
+     { path: 'recall', component: RecallComponent },
+     { path: 'recalls', component: RecallsComponent }
 
 
     ]}

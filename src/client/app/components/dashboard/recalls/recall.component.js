@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./recalls.model", "./recalls.service", "../categories/categories.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,11 +10,14 @@ System.register(["@angular/core", "./recalls.model", "./recalls.service", "../ca
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, recalls_model_1, recalls_service_1, categories_service_1, RecallComponent;
+    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, RecallComponent;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (recalls_model_1_1) {
                 recalls_model_1 = recalls_model_1_1;
@@ -28,9 +31,10 @@ System.register(["@angular/core", "./recalls.model", "./recalls.service", "../ca
         ],
         execute: function () {
             RecallComponent = (function () {
-                function RecallComponent(recallsService, categoriesService) {
+                function RecallComponent(recallsService, categoriesService, router) {
                     this.recallsService = recallsService;
                     this.categoriesService = categoriesService;
+                    this.router = router;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.categories = [];
@@ -49,7 +53,7 @@ System.register(["@angular/core", "./recalls.model", "./recalls.service", "../ca
                 RecallComponent.prototype.submitRecall = function () {
                     var _this = this;
                     this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
-                        console.log(response);
+                        _this.router.navigate(['dashboard/recalls']);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -61,7 +65,7 @@ System.register(["@angular/core", "./recalls.model", "./recalls.service", "../ca
                     selector: 'recall',
                     templateUrl: "./app/components/dashboard/recalls/recall.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router])
             ], RecallComponent);
             exports_1("RecallComponent", RecallComponent);
         }

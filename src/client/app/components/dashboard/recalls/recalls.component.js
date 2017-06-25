@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./recalls.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "./recalls.service", "../categories/categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "./recalls.service"], function (exports_1, con
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, recalls_service_1, RecallsComponent;
+    var core_1, recalls_service_1, categories_service_1, RecallsComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -18,20 +18,32 @@ System.register(["@angular/core", "./recalls.service"], function (exports_1, con
             },
             function (recalls_service_1_1) {
                 recalls_service_1 = recalls_service_1_1;
+            },
+            function (categories_service_1_1) {
+                categories_service_1 = categories_service_1_1;
             }
         ],
         execute: function () {
             RecallsComponent = (function () {
-                function RecallsComponent(recallsService) {
+                function RecallsComponent(recallsService, categoriesService) {
                     this.recallsService = recallsService;
+                    this.categoriesService = categoriesService;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.recalls = [];
+                    this.categories = [];
+                    this.sortBy = "created_at";
+                    this.sortOrder = "desc";
                 }
                 RecallsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.recallsService.getAllRecalls().subscribe(function (response) {
                         _this.recalls = response;
+                    }, function (err) {
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
+                    });
+                    this.categoriesService.getAllCategories().subscribe(function (response) {
+                        _this.categories = response;
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
@@ -44,7 +56,7 @@ System.register(["@angular/core", "./recalls.service"], function (exports_1, con
                     selector: 'recalls',
                     templateUrl: "./app/components/dashboard/recalls/recalls.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService])
             ], RecallsComponent);
             exports_1("RecallsComponent", RecallsComponent);
         }

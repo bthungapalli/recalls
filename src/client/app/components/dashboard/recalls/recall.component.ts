@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
@@ -18,7 +19,7 @@ export class RecallComponent implements OnInit{
       public recallModel:Recall;
       public categories:Category[]=[];
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router) {
          this.recallModel=new Recall();
          this.recallModel.categoryName="Select Category";
       }
@@ -33,7 +34,7 @@ export class RecallComponent implements OnInit{
 
       submitRecall(){
           this.recallsService.submitRecall(this.recallModel).subscribe(response => {
-               console.log(response);
+               this.router.navigate(['dashboard/recalls']);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
           });

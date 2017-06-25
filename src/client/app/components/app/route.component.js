@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "../home/home.component", "../home/login/login.component", "../home/registration/registration.component", "../home/forgotPassword/forgotPassword.component", "../dashboard/dashboard.component", "../dashboard/profile/profile.component", "../dashboard/userManagement/userManagement.component", "../dashboard/categories/categories.component", "../dashboard/recalls/recall.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "../home/home.component", "../home/login/login.component", "../home/registration/registration.component", "../home/forgotPassword/forgotPassword.component", "../dashboard/dashboard.component", "../dashboard/profile/profile.component", "../dashboard/userManagement/userManagement.component", "../dashboard/categories/categories.component", "../dashboard/recalls/recall.component", "../dashboard/recalls/recalls.component"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/router", "../home/home.component", "
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, home_component_1, login_component_1, registration_component_1, forgotPassword_component_1, dashboard_component_1, profile_component_1, userManagement_component_1, categories_component_1, recall_component_1, appRoutes, RouteComponent;
+    var core_1, router_1, home_component_1, login_component_1, registration_component_1, forgotPassword_component_1, dashboard_component_1, profile_component_1, userManagement_component_1, categories_component_1, recall_component_1, recalls_component_1, appRoutes, RouteComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -42,6 +42,9 @@ System.register(["@angular/core", "@angular/router", "../home/home.component", "
             },
             function (recall_component_1_1) {
                 recall_component_1 = recall_component_1_1;
+            },
+            function (recalls_component_1_1) {
+                recalls_component_1 = recalls_component_1_1;
             }
         ],
         execute: function () {
@@ -60,7 +63,8 @@ System.register(["@angular/core", "@angular/router", "../home/home.component", "
                         { path: 'profile', component: profile_component_1.ProfileComponent },
                         { path: 'userManagement', component: userManagement_component_1.UserManagementComponent },
                         { path: 'categories', component: categories_component_1.CategoriesComponent },
-                        { path: 'recall', component: recall_component_1.RecallComponent }
+                        { path: 'recall', component: recall_component_1.RecallComponent },
+                        { path: 'recalls', component: recalls_component_1.RecallsComponent }
                     ] }
             ];
             RouteComponent = (function () {

@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/common", "angular2-datatable", "@angular/forms", "@angular/http", "./recalls.component", "./recall.component", "./recalls.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "angular2-datatable", "@angular/forms", "@angular/http", "./recalls.component", "./recall.component", "./recalls.service", "./data.filter"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, common_1, angular2_datatable_1, forms_1, http_1, recalls_component_1, recall_component_1, recalls_service_1, RecallsModule;
+    var core_1, common_1, angular2_datatable_1, forms_1, http_1, recalls_component_1, recall_component_1, recalls_service_1, data_filter_1, RecallsModule;
     return {
         setters: [
             function (core_1_1) {
@@ -33,6 +33,9 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
             },
             function (recalls_service_1_1) {
                 recalls_service_1 = recalls_service_1_1;
+            },
+            function (data_filter_1_1) {
+                data_filter_1 = data_filter_1_1;
             }
         ],
         execute: function () {
@@ -51,7 +54,8 @@ System.register(["@angular/core", "@angular/common", "angular2-datatable", "@ang
                     ],
                     declarations: [
                         recalls_component_1.RecallsComponent,
-                        recall_component_1.RecallComponent
+                        recall_component_1.RecallComponent,
+                        data_filter_1.DataFilterPipe
                     ],
                     providers: [
                         recalls_service_1.RecallsService
