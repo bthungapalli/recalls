@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "./route.component", "./app.component", "../home/home.module", "../dashboard/dashboard.module", "../home/login/login.module", "../dashboard/profile/profile.module", "../home/registration/registration.module", "../home/forgotPassword/forgotPassword.module", "../dashboard/userManagement/userManagement.module", "../dashboard/categories/categories.module"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "./route.component", "./app.component", "../home/home.module", "../dashboard/dashboard.module", "../home/login/login.module", "../dashboard/profile/profile.module", "../home/registration/registration.module", "../home/forgotPassword/forgotPassword.module", "../dashboard/userManagement/userManagement.module", "../dashboard/categories/categories.module", "../dashboard/recalls/recalls.module"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, platform_browser_1, forms_1, route_component_1, app_component_1, home_module_1, dashboard_module_1, login_module_1, profile_module_1, registration_module_1, forgotPassword_module_1, userManagement_module_1, categories_module_1, AppModule;
+    var core_1, platform_browser_1, forms_1, route_component_1, app_component_1, home_module_1, dashboard_module_1, login_module_1, profile_module_1, registration_module_1, forgotPassword_module_1, userManagement_module_1, categories_module_1, recalls_module_1, AppModule;
     return {
         setters: [
             function (core_1_1) {
@@ -48,6 +48,9 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
             },
             function (categories_module_1_1) {
                 categories_module_1 = categories_module_1_1;
+            },
+            function (recalls_module_1_1) {
+                recalls_module_1 = recalls_module_1_1;
             }
         ],
         execute: function () {
@@ -69,7 +72,8 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
                         profile_module_1.ProfileModule,
                         forgotPassword_module_1.ForgotPasswordModule,
                         userManagement_module_1.UserManagementModule,
-                        categories_module_1.CategoriesModule
+                        categories_module_1.CategoriesModule,
+                        recalls_module_1.RecallsModule
                     ],
                     declarations: [
                         app_component_1.AppComponent

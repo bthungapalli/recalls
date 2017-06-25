@@ -12,6 +12,7 @@ import { RegistrationModule }  from '../home/registration/registration.module';
 import { ForgotPasswordModule }  from '../home/forgotPassword/forgotPassword.module';
 import { UserManagementModule }  from '../dashboard/userManagement/userManagement.module';
 import { CategoriesModule }  from '../dashboard/categories/categories.module';
+import { RecallsModule }  from '../dashboard/recalls/recalls.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CategoriesModule }  from '../dashboard/categories/categories.module';
     ProfileModule,
     ForgotPasswordModule,
     UserManagementModule,
-    CategoriesModule
+    CategoriesModule,
+    RecallsModule
   ],
   declarations: [
     AppComponent
