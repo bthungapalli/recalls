@@ -21,8 +21,8 @@
    "appName":"Recalls"
   },
   "smtpConfig":{
-    "host":"outlook.office365.com",
-    "port":587,
+    "host":"smtp.gmail.com",
+    "port":465,
     "authUser":"",
       "authPassword":""
   },
