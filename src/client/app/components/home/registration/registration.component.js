@@ -48,7 +48,7 @@ System.register(["@angular/core", "./registration.model", "./registration.servic
                     this.errorMessage = "";
                     this.registrationService.checkEmail(this.registrationModel).subscribe(function (response) {
                         if (response.alreadyExist) {
-                            _this.errorMessage = response.alreadyExist;
+                            _this.errorMessage = "Email already exist";
                         }
                     }, function (err) {
                         console.log(err);
