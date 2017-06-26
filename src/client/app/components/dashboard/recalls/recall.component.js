@@ -38,6 +38,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.categories = [];
+                    this.description = "";
                     this.recallModel = new recalls_model_1.Recall();
                     this.recallModel.categoryName = "Select Category";
                 }
@@ -55,8 +56,27 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     });
                 };
                 ;
+                RecallComponent.prototype.ngAfterViewInit = function () {
+                    var _this = this;
+                    tinymce.init({
+                        selector: '#description',
+                        plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table contextmenu paste code'
+                        ],
+                        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                        setup: function (editor) {
+                            _this.editor = editor;
+                            editor.on('keyup', function () {
+                                _this.description = editor.getContent();
+                            });
+                        },
+                    });
+                };
                 RecallComponent.prototype.submitRecall = function () {
                     var _this = this;
+                    this.recallModel.description = this.description;
                     this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
                         if (response.sessionExpired) {
                             _this.router.navigate(['home']);
@@ -67,6 +87,9 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
+                };
+                RecallComponent.prototype.ngOnDestroy = function () {
+                    tinymce.remove(this.editor);
                 };
                 return RecallComponent;
             }());
