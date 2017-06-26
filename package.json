@@ -30,6 +30,7 @@
     "core-js": "^2.4.1",
     "mongoose": "^4.10.8",
     "mydatepicker": "^2.0.21",
+    "nconf": "^0.8.4",
     "reflect-metadata": "^0.1.10",
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",

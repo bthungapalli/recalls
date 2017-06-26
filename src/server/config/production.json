@@ -1,0 +1,40 @@
+{
+ "port": "8123",
+ "httpsport":"443",
+  "sessionDetails":{
+    "cookieName":"session",
+    "secretKey":"recalls",
+    "duration":1800000,
+    "activeDuration":30000,
+    "httpOnly":true,
+    "secure":true,
+    "ephemeral":true
+  },
+  "mongoDbConnection":{
+    "host":"localhost",
+    "Db":"recalls"
+  },
+  "impact":{
+    "URL":"impact.osius.com"
+  },
+  "mail":{
+    "challengeMeSupport":"bthungapalli@osius.com",
+   "subject":"[OSIWizz] ",
+   "appURL" : "http://osiwizz.osius.com",
+   "appName":"OSIWizz"
+  },
+  "smtpConfig":{
+    "host":"outlook.office365.com",
+    "port":587,
+    "authUser":"osiwizz-admin@osius.com",
+      "authPassword":"Welcome@05!"
+  },
+  "context":{
+     "path":"http://localhost:8123/images/logo.png"
+ },
+ "AllHands":{
+   "emailId":"lbole@osius.com",
+   "flag":false
+ }
+
+}

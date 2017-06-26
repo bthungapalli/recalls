@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var sessions = require("client-sessions");
+var nconf = require('nconf');
 
 var mainRoute = require('./routes/mainRoute');
 var registrationRoute = require('./routes/registrationRoute');
@@ -17,18 +18,39 @@ var recallsRoute = require('./routes/recallsRoute');
 
 
 var app = express();
-mongoose.connect('mongodb://localhost/recalls');
 
+/************  Loading property file based on env  ****************/
+
+var environmentPropertyFile="";
+
+if(process.env.NODE_ENV!=='development' && process.env.NODE_ENV!=='testing' && process.env.NODE_ENV!=='production'){
+	console.log("loading environment::::::::::development");
+	environmentPropertyFile="./config/development.json";
+}else{
+	console.log("loading environment::::::::::"+process.env.NODE_ENV);
+	environmentPropertyFile="./config/"+process.env.NODE_ENV+".json";
+}
+
+nconf.argv()
+     .env()
+     .file({ file:environmentPropertyFile
+     });
+
+/************   mongo connection  ****************/
+var mongoDbConnection=nconf.get('mongoDbConnection');
+mongoose.connect('mongodb://'+mongoDbConnection.host+'/'+mongoDbConnection.Db);
+
+/************   session  ****************/
+var sessionDetials=nconf.get('sessionDetails');
 app.use(sessions({
-  cookieName: 'session', // cookie name dictates the key name added to the request object
-  secret: 'recall', // should be a large unguessable string
-  duration: 1800000, // how long the session will stay valid in ms
-  activeDuration: 30000, // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
-  httpOnly: true,
-  secure: true,
-  ephemeral: true
-
-}));
+	  cookieName: sessionDetials.cookieName,
+	  secret: sessionDetials.secretKey,
+	  duration: sessionDetials.duration,
+	  activeDuration: sessionDetials.activeDuration,
+	  httpOnly: sessionDetials.httpOnly,
+	  secure: sessionDetials.secure,
+	  ephemeral: sessionDetials.ephemeral
+	}));
 
 // view engine setup
 app.set('views',path.resolve(__dirname, '../client/views'));
@@ -42,6 +64,7 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/************   configuring routes   ****************/
 app.use("/node_modules",express.static(path.resolve(__dirname, '../../node_modules')));
 app.use("/app",express.static(path.resolve(__dirname, '../client/app')));
 app.use("/public",express.static(path.resolve(__dirname, '../client/public')));
@@ -61,10 +84,10 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-var server = app.listen(3000, function() {
-    var host = 'localhost';
+var port=nconf.get('port');
+var server = app.listen(port, function() {
     var port = server.address().port;
-    console.log('App listening at http://%s:%s', host, port);
+    console.log('App listening at port: '+ port);
 });
 
 module.exports = app;
