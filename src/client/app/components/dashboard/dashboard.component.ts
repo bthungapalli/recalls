@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {DashboardService} from './dashboard.service';
+import {Profile} from './profile/profile.model';
 
 @Component({
   selector: 'dashboard',
@@ -10,9 +11,10 @@ import {DashboardService} from './dashboard.service';
 export class DashboardComponent{
 
       public errorMessage:String="";
+      public profile:Profile;
 
       constructor(private dashboardService:DashboardService,private router:Router) {
-
+      this.profile=  dashboardService.userDetails;
       }
 
       logout(){

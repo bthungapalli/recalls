@@ -28,6 +28,8 @@ export class DashboardService {
        this.userDetails.state=login.state;
        this.userDetails.zipcode=login.zipcode;
        this.userDetails.alertsOn=login.alertsOn;
+       this.userDetails.role=login.role;
+       this.userDetails.isActive=login.isActive;
       }
 
       logout(): Observable<any> {

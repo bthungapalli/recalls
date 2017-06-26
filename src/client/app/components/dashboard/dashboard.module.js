@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms", "../app/route.component", "./dashboard.component", "./dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/forms", "../app/route.component", "./dashboard.component", "./dashboard.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,11 +7,14 @@ System.register(["@angular/core", "@angular/forms", "../app/route.component", ".
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, forms_1, route_component_1, dashboard_component_1, dashboard_service_1, DashboardModule;
+    var core_1, common_1, forms_1, route_component_1, dashboard_component_1, dashboard_service_1, DashboardModule;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (forms_1_1) {
                 forms_1 = forms_1_1;
@@ -36,7 +39,8 @@ System.register(["@angular/core", "@angular/forms", "../app/route.component", ".
                 core_1.NgModule({
                     imports: [
                         forms_1.FormsModule,
-                        route_component_1.RouteComponent
+                        route_component_1.RouteComponent,
+                        common_1.CommonModule
                     ],
                     declarations: [
                         dashboard_component_1.DashboardComponent

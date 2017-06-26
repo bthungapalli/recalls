@@ -1,9 +1,10 @@
 <div>
   <a [routerLink]="['./profile']">Profile </a><br>
-  <a [routerLink]="['./userManagement']">User Management </a><br>
-    <a [routerLink]="['./categories']">Categories </a><br>
-      <a [routerLink]="['./recall']">Recall </a><br>
-        <a [routerLink]="['./recalls']">Recalls </a><br>
+  {{profile.role}}
+  <a *ngIf="profile.role==='Admin'" [routerLink]="['./userManagement']">User Management </a><br>
+    <a *ngIf="profile.role==='Admin'" [routerLink]="['./categories']">Categories </a><br>
+      <a *ngIf="profile.role==='Vendor'" [routerLink]="['./recall']">Create Recall </a><br>
+        <a  *ngIf="profile.role!=='Admin'" [routerLink]="['./recalls']">Recalls </a><br>
         <a (click)="logout()">logout </a><br>
 
   <router-outlet></router-outlet>

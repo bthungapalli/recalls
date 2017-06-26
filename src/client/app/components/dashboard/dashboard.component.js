@@ -29,6 +29,7 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
                     this.dashboardService = dashboardService;
                     this.router = router;
                     this.errorMessage = "";
+                    this.profile = dashboardService.userDetails;
                 }
                 DashboardComponent.prototype.logout = function () {
                     var _this = this;

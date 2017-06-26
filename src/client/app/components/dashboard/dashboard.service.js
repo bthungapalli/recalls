@@ -45,6 +45,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx", "./profile/profile
                     this.userDetails.state = login.state;
                     this.userDetails.zipcode = login.zipcode;
                     this.userDetails.alertsOn = login.alertsOn;
+                    this.userDetails.role = login.role;
+                    this.userDetails.isActive = login.isActive;
                 };
                 DashboardService.prototype.logout = function () {
                     return this.http.get(this.LOGOUT_URL)
