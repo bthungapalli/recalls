@@ -6,13 +6,13 @@ import {Observable} from 'rxjs/Rx';
 @Injectable()
 export class ForgotPasswordService {
 
-      private  FORGOT_PASSWORD_POST_URL="/forgotPassword";
+      private  FORGOT_PASSWORD_POST_URL="/forgotPassword/";
 
       constructor(private http: Http) {
       }
 
-      submitForgotPassword(forgotPasswordModel:Registration): Observable<Registration> {
-       return this.http.post(this.FORGOT_PASSWORD_POST_URL,forgotPasswordModel)
+      submitForgotPassword(forgotPasswordModel:Registration): Observable<any> {
+       return this.http.post(this.FORGOT_PASSWORD_POST_URL+forgotPasswordModel.email,forgotPasswordModel)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }

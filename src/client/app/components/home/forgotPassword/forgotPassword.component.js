@@ -41,11 +41,11 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                     this.successMessage = "";
                     this.forgotPasswordService.submitForgotPassword(this.forgotPasswordModel)
                         .subscribe(function (response) {
-                        if (response == null) {
-                            _this.errorMessage = "Email does not exist,Please Sign In";
+                        if (response.emailSent) {
+                            _this.successMessage = "Mail sent";
                         }
                         else {
-                            _this.successMessage = "Mail sent";
+                            _this.errorMessage = "Email does not exist,Please Sign In";
                         }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";

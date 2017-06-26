@@ -14,6 +14,7 @@ var profileRoute = require('./routes/profileRoute');
 var userManagementRoute = require('./routes/userManagementRoute');
 var categoriesRoute = require('./routes/categoriesRoute');
 var recallsRoute = require('./routes/recallsRoute');
+var forgotPasswordRoute = require('./routes/forgotPasswordRoute');
 
 
 
@@ -75,6 +76,8 @@ app.use('/profile', profileRoute);
 app.use('/userManagement', userManagementRoute);
 app.use('/categories', categoriesRoute);
 app.use('/recalls', recallsRoute);
+app.use('/forgotPassword', forgotPasswordRoute);
+
 
 
 // catch 404 and forward to error handler

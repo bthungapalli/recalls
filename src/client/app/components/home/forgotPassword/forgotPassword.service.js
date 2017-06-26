@@ -27,10 +27,10 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
             ForgotPasswordService = (function () {
                 function ForgotPasswordService(http) {
                     this.http = http;
-                    this.FORGOT_PASSWORD_POST_URL = "/forgotPassword";
+                    this.FORGOT_PASSWORD_POST_URL = "/forgotPassword/";
                 }
                 ForgotPasswordService.prototype.submitForgotPassword = function (forgotPasswordModel) {
-                    return this.http.post(this.FORGOT_PASSWORD_POST_URL, forgotPasswordModel)
+                    return this.http.post(this.FORGOT_PASSWORD_POST_URL + forgotPasswordModel.email, forgotPasswordModel)
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };

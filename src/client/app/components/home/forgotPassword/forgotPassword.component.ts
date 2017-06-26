@@ -25,10 +25,10 @@ submitForgotPassword(){
       this.successMessage="";
       this.forgotPasswordService.submitForgotPassword(this.forgotPasswordModel)
       .subscribe(response => {
-                  if(response==null){
-                  this.errorMessage="Email does not exist,Please Sign In";
+                  if(response.emailSent){
+                  this.successMessage="Mail sent";
                   }else{
-                    this.successMessage="Mail sent";
+                    this.errorMessage="Email does not exist,Please Sign In";
                   }
                   },err => {
                   this.errorMessage="Something went wrong.Please contact administrator";

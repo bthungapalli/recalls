@@ -14,27 +14,20 @@
 	   "host":"localhost",
 	   "Db":"recalls"
    },
-   "impact":{
-	   "URL":"impact.osius.com"
-   },
    "mail":{
-	   "challengeMeSupport":"bthungapalli@osius.com",
-		"subject":"[OSIWizz] ",
+	  "recallSupport":"apatha@osius.com",
+		"subject":"[Recalls] ",
 		"appURL" : "http://osiwizz.osius.com",
-		"appName":"OSIWizz"
+		"appName":"Recalls"
    },
    "smtpConfig":{
 	   "host":"outlook.office365.com",
 	   "port":587,
-	   "authUser":"osiwizz-admin@osius.com",
-       "authPassword":"Welcome@05!"
+	   "authUser":"",
+       "authPassword":""
    },
    "context":{
-	   	"path":"http://localhost:8123/images/logo.png"
-  },
-  "AllHands":{
-	  "emailId":"lbole@osius.com",
-	  "flag":false
+	   	"path":"http://localhost:3000/images/logo.png"
   }
 
 }
