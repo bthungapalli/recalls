@@ -43,6 +43,17 @@ System.register(["@angular/core", "./registration.model", "./registration.servic
                         this.errorMessage = "Password and ConfirmPassword dint match";
                     }
                 };
+                RegistrationComponent.prototype.checkEmail = function () {
+                    var _this = this;
+                    this.errorMessage = "";
+                    this.registrationService.checkEmail(this.registrationModel).subscribe(function (response) {
+                        if (response.alreadyExist) {
+                            _this.errorMessage = response.alreadyExist;
+                        }
+                    }, function (err) {
+                        console.log(err);
+                    });
+                };
                 return RegistrationComponent;
             }());
             RegistrationComponent = __decorate([

@@ -60,6 +60,10 @@ return{
 		 var conditions = { "_id":user._id };
 		 var update = { $set: {"isActive": user.isActive}};
 		 this.update(user,conditions,update,callbackForActiveOrInActivateUser);
+	 },
+	 getUser:function(user,callbackForGetUser){
+		 var query = userModel.findOne({"email":user.email});
+		 this.execute(query,callbackForGetUser);
 	 }
 
 }

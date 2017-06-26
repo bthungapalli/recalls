@@ -28,9 +28,15 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 function RegistrationService(http) {
                     this.http = http;
                     this.REGISTRATION_POST_URL = "/registration";
+                    this.CHECK_EMAIL_POST_URL = "/registration/checkEmail";
                 }
                 RegistrationService.prototype.submitSignUp = function (registrationModel) {
                     return this.http.post(this.REGISTRATION_POST_URL, registrationModel)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                RegistrationService.prototype.checkEmail = function (registrationModel) {
+                    return this.http.post(this.CHECK_EMAIL_POST_URL, registrationModel)
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };

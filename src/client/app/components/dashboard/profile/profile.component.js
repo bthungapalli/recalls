@@ -47,7 +47,7 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.profileService.submitProfile(this.profileModel).subscribe(function (response) {
-                        if (response == "sessionExpired") {
+                        if (response.sessionExpired) {
                             _this.router.navigate(['home']);
                         }
                         else {

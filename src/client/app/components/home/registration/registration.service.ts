@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Rx';
 export class RegistrationService {
 
       private  REGISTRATION_POST_URL="/registration";
+      private  CHECK_EMAIL_POST_URL="/registration/checkEmail";
 
       constructor(private http: Http) {
       }
@@ -16,5 +17,13 @@ export class RegistrationService {
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
+
+      checkEmail(registrationModel:Registration): Observable<any> {
+       return this.http.post(this.CHECK_EMAIL_POST_URL,registrationModel)
+       .map((res: Response) => {return res.json();})
+       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+
+
 
  }

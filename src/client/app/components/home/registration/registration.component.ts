@@ -31,4 +31,16 @@ export class RegistrationComponent {
 
       }
 
+      checkEmail(){
+      this.errorMessage="";
+      this.registrationService.checkEmail(this.registrationModel).subscribe(response => {
+
+              if(response.alreadyExist){
+              this.errorMessage="Email already exist";
+              }
+          },err => {
+                                  console.log(err);
+          });
+      }
+
  }
