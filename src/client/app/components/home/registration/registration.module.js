@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms", "@angular/http", "./registration.component", "./registration.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/common", "@angular/forms", "@angular/http", "./registration.component", "./registration.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,11 +7,14 @@ System.register(["@angular/core", "@angular/forms", "@angular/http", "./registra
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, forms_1, http_1, registration_component_1, registration_service_1, RegistrationModule;
+    var core_1, common_1, forms_1, http_1, registration_component_1, registration_service_1, RegistrationModule;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (forms_1_1) {
                 forms_1 = forms_1_1;
@@ -36,7 +39,8 @@ System.register(["@angular/core", "@angular/forms", "@angular/http", "./registra
                 core_1.NgModule({
                     imports: [
                         forms_1.FormsModule,
-                        http_1.HttpModule
+                        http_1.HttpModule,
+                        common_1.CommonModule
                     ],
                     declarations: [
                         registration_component_1.RegistrationComponent

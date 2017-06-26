@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms", "@angular/http", "./forgotPassword.component", "./forgotPassword.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/forms", "@angular/http", "@angular/common", "./forgotPassword.component", "./forgotPassword.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/forms", "@angular/http", "./forgotPa
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, forms_1, http_1, forgotPassword_component_1, forgotPassword_service_1, ForgotPasswordModule;
+    var core_1, forms_1, http_1, common_1, forgotPassword_component_1, forgotPassword_service_1, ForgotPasswordModule;
     return {
         setters: [
             function (core_1_1) {
@@ -18,6 +18,9 @@ System.register(["@angular/core", "@angular/forms", "@angular/http", "./forgotPa
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (forgotPassword_component_1_1) {
                 forgotPassword_component_1 = forgotPassword_component_1_1;
@@ -36,7 +39,8 @@ System.register(["@angular/core", "@angular/forms", "@angular/http", "./forgotPa
                 core_1.NgModule({
                     imports: [
                         forms_1.FormsModule,
-                        http_1.HttpModule
+                        http_1.HttpModule,
+                        common_1.CommonModule
                     ],
                     declarations: [
                         forgotPassword_component_1.ForgotPasswordComponent
