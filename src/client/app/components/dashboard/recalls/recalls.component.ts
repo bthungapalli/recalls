@@ -6,6 +6,8 @@ import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
 import {Category} from '../categories/categories.model';
+import {DashboardService} from '../dashboard.service';
+import {Profile} from '../profile/profile.model';
 
 
 
@@ -25,10 +27,11 @@ export class RecallsComponent implements OnInit{
       public category:String="All";
       public toDate:any;
       public fromDate:any;
+      public profile:Profile;
 
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router) {
-
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService) {
+            this.profile=dashboardService.userDetails;
       }
 
       ngOnInit(): void {
@@ -40,7 +43,7 @@ export class RecallsComponent implements OnInit{
       }else{
         this.recalls=response;
         if(response.length===0){
-        this.successMessage="No Recalls available for given dates";
+        this.successMessage="No Recalls available";
       }
       }
 
@@ -82,6 +85,31 @@ export class RecallsComponent implements OnInit{
         }else{
         this.errorMessage="To Date should be after From Date";
         }
+      }
+
+      deleteRecall(id:String,index:number){
+        this.errorMessage="";
+        this.successMessage="";
+
+        this.recallsService.deleteRecall(id).subscribe(response => {
+
+             if(response.sessionExpired){
+               this.router.navigate(['home']);
+             }else{
+                    var temp=JSON.parse(JSON.stringify(this.recalls));
+                    temp.forEach(function(t:any,j:any){
+                    if(t._id==id){
+                      temp.splice(j,1);
+                    }
+                    })
+                    this.recalls=[];
+                  this.recalls=temp;
+               }
+             }
+             ,err => {
+            this.errorMessage="Something went wrong.Please contact administrator";
+        });
+
       }
 
  }

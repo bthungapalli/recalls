@@ -28,6 +28,7 @@ const appRoutes: Routes = [
        { path: 'userManagement', component: UserManagementComponent },
        { path: 'categories', component: CategoriesComponent },
        { path: 'recall', component: RecallComponent },
+       { path: 'recall/:id', component: RecallComponent },
        { path: 'recalls', component: RecallsComponent }
       ]
    }

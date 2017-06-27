@@ -30,6 +30,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                     this.GET_ALL_RECALLS_URL = "/recalls/allRecalls";
                     this.GET_CREATE_RECALL_URL = "/recalls/createRecall";
                     this.GET_RECALLS_BY_FILTER_URL = "/recalls/filterRecalls";
+                    this.DELETE_RECALL_URL = "/recalls/";
                 }
                 RecallsService.prototype.getAllRecalls = function () {
                     return this.http.get(this.GET_ALL_RECALLS_URL)
@@ -44,6 +45,11 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 RecallsService.prototype.getRecallsForFilter = function (category, toDate, fromDate) {
                     var body = { "category": category, "toDate": toDate, "fromDate": fromDate };
                     return this.http.post(this.GET_RECALLS_BY_FILTER_URL, body)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                RecallsService.prototype.deleteRecall = function (id) {
+                    return this.http.delete(this.DELETE_RECALL_URL + id)
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };

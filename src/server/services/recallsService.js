@@ -31,13 +31,13 @@ return{
 			 callbackForSave(null,recall);
 	 });
 	},
-	delete:function(user,recall,condition,callbackForDelete){
+	delete:function(condition,callbackForDelete){
 		recallModel.remove(condition,function(err){
 			 if(err){
 				 console.log(err)
 				 callbackForDelete(err);
 			 }
-			 callbackForDelete(null,recall);
+			 callbackForDelete(null,{});
 	 });
 	},
 		createOrUpdateRecall : function(user,recall,callbackForCreateOrUpdateRecall){
@@ -90,6 +90,13 @@ return{
 
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecallsByFilter);
+	 },
+	 getRecallsById:function(id,callbackForGetRecallsById){
+		 var query =recallModel.find({"_id":id});
+		 this.execute(query,callbackForGetRecallsById);
+	 },
+	 deleteRecall:function(id,callbackForDeleteRecall){
+		 this.delete({"_id":id},callbackForDeleteRecall);
 	 }
 
 }

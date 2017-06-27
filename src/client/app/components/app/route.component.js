@@ -64,6 +64,7 @@ System.register(["@angular/core", "@angular/router", "../home/home.component", "
                         { path: 'userManagement', component: userManagement_component_1.UserManagementComponent },
                         { path: 'categories', component: categories_component_1.CategoriesComponent },
                         { path: 'recall', component: recall_component_1.RecallComponent },
+                        { path: 'recall/:id', component: recall_component_1.RecallComponent },
                         { path: 'recalls', component: recalls_component_1.RecallsComponent }
                     ]
                 }
