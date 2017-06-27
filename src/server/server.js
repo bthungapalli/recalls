@@ -67,6 +67,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /************   configuring routes   ****************/
 app.use("/node_modules",express.static(path.resolve(__dirname, '../../node_modules')));
+app.use("/css",express.static(path.resolve(__dirname, '../../css')));
+app.use("/js",express.static(path.resolve(__dirname, '../../js')));
 app.use("/app",express.static(path.resolve(__dirname, '../client/app')));
 app.use("/public",express.static(path.resolve(__dirname, '../client/public')));
 app.use('/', mainRoute);
