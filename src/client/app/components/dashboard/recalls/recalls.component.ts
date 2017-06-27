@@ -109,6 +109,12 @@ export class RecallsComponent implements OnInit{
              ,err => {
             this.errorMessage="Something went wrong.Please contact administrator";
         });
+      }
+
+      editRecall(id:String){
+        this.errorMessage="";
+        this.successMessage="";
+        this.router.navigate(['dashboard/recall',id]);
 
       }
 

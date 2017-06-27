@@ -53,7 +53,7 @@ return{
 				 });
 			 }else{
 				 var conditions = { "_id":recall._id };
-				 var update = { $set: {"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard,"updated_at":new Date()}};
+				 var update = { $set: {"categoryName":recall.categoryName,"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard,"updated_at":new Date()}};
 				 this.update(recall,conditions,update,callbackForCreateOrUpdateRecall);
 			 }
    },
@@ -92,7 +92,7 @@ return{
 		 this.execute(query,callbackForGetAllRecallsByFilter);
 	 },
 	 getRecallsById:function(id,callbackForGetRecallsById){
-		 var query =recallModel.find({"_id":id});
+		 var query =recallModel.findOne({"_id":id});
 		 this.execute(query,callbackForGetRecallsById);
 	 },
 	 deleteRecall:function(id,callbackForDeleteRecall){

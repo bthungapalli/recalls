@@ -1,6 +1,6 @@
 import { Component,OnInit,AfterViewInit,OnDestroy } from '@angular/core';
 import { FormsModule} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
@@ -20,14 +20,35 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
       public categories:Category[]=[];
       public  description:any="";
       public editor:any;
+      public recallId:any;
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute) {
          this.recallModel=new Recall();
          this.recallModel.categoryName="Select Category";
       }
 
       ngOnInit(): void {
-          this.categoriesService.getAllCategories().subscribe(response => {
+
+      this.activatedRoute.params.subscribe(
+       (params : Params) => {
+          this.recallId = params["id"];
+       }
+    );
+
+      if(this.recallId){
+      this.recallsService.getRecall(this.recallId).subscribe(response => {
+              if(response.sessionExpired){
+                this.router.navigate(['home']);
+              }else{
+              this.recallModel=response;
+              }
+
+          },err => {
+              this.errorMessage="Something went wrong.Please contact administrator";
+          });
+      }
+
+      this.categoriesService.getAllCategories().subscribe(response => {
               if(response.sessionExpired){
                 this.router.navigate(['home']);
               }else{
@@ -50,7 +71,7 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
                     'insertdatetime media table contextmenu paste code'
                 ],
             toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            
+
             setup: editor => {
               this.editor=editor;
               editor.on('keyup', () => {

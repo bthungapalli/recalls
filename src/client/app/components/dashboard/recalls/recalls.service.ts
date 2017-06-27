@@ -10,6 +10,7 @@ export class RecallsService {
       private  GET_CREATE_RECALL_URL="/recalls/createRecall";
       private  GET_RECALLS_BY_FILTER_URL="/recalls/filterRecalls";
       private  DELETE_RECALL_URL="/recalls/";
+      private  GET_RECALL_URL="/recalls/";
 
 
 
@@ -38,6 +39,12 @@ export class RecallsService {
 
       deleteRecall(id:String):Observable<any>{
       return this.http.delete(this.DELETE_RECALL_URL+id)
+      .map((res: Response) => {return res.json();})
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+
+      getRecall(id:String):Observable<any>{
+      return this.http.get(this.GET_RECALL_URL+id)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }

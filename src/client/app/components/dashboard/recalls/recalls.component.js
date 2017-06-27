@@ -117,6 +117,11 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
                 };
+                RecallsComponent.prototype.editRecall = function (id) {
+                    this.errorMessage = "";
+                    this.successMessage = "";
+                    this.router.navigate(['dashboard/recall', id]);
+                };
                 return RecallsComponent;
             }());
             RecallsComponent = __decorate([

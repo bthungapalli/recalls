@@ -31,10 +31,11 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
         ],
         execute: function () {
             RecallComponent = (function () {
-                function RecallComponent(recallsService, categoriesService, router) {
+                function RecallComponent(recallsService, categoriesService, router, activatedRoute) {
                     this.recallsService = recallsService;
                     this.categoriesService = categoriesService;
                     this.router = router;
+                    this.activatedRoute = activatedRoute;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.categories = [];
@@ -44,6 +45,21 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                 }
                 RecallComponent.prototype.ngOnInit = function () {
                     var _this = this;
+                    this.activatedRoute.params.subscribe(function (params) {
+                        _this.recallId = params["id"];
+                    });
+                    if (this.recallId) {
+                        this.recallsService.getRecall(this.recallId).subscribe(function (response) {
+                            if (response.sessionExpired) {
+                                _this.router.navigate(['home']);
+                            }
+                            else {
+                                _this.recallModel = response;
+                            }
+                        }, function (err) {
+                            _this.errorMessage = "Something went wrong.Please contact administrator";
+                        });
+                    }
                     this.categoriesService.getAllCategories().subscribe(function (response) {
                         if (response.sessionExpired) {
                             _this.router.navigate(['home']);
@@ -98,7 +114,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     selector: 'recall',
                     templateUrl: "./app/components/dashboard/recalls/recall.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router, router_1.ActivatedRoute])
             ], RecallComponent);
             exports_1("RecallComponent", RecallComponent);
         }

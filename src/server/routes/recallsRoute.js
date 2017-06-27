@@ -35,7 +35,7 @@ router.post('/filterRecalls',checkSession.requireLogin,function (req,res,next){
 
 
 router.get('/:id',checkSession.requireLogin,function (req,res,next){
-		var recallId=req.params.email;
+		var recallId=req.params.id;
 		recallsService.getRecallsById(recallId,function(err,recall){
 			if(err)
         		res.send("error");
