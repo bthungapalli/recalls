@@ -21,7 +21,7 @@ router.post('/createCategory',checkSession.requireLogin,function (req,res,next){
 		});
 });
 
-router.delete('/deleteCategory',checkSession.requireLogin,function (req,res,next){
+router.post('/deleteCategory',checkSession.requireLogin,function (req,res,next){
 		var categoryDetails = req.body;
 		categoryService.deleteCategory(categoryDetails,function(err,user){
 			if(err)

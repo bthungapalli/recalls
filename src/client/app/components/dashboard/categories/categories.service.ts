@@ -27,7 +27,7 @@ export class CategoriesService {
       }
 
       deleteCategory(categoryModel:Category):Observable<any>{
-      return this.http.delete(this.GET_DELETE_CATEGORY_URL,categoryModel)
+      return this.http.post(this.GET_DELETE_CATEGORY_URL,categoryModel)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }

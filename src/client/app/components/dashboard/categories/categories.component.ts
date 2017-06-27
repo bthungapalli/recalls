@@ -62,13 +62,20 @@ export class CategoriesComponent implements OnInit{
            }
       };
 
-      deleteCategory(category:Category,index:number){
+      deleteCategory(category:Category){
           this.categoriesService.deleteCategory(category).subscribe(response => {
 
               if(response.sessionExpired){
                 this.router.navigate(['home']);
               }else{
-                this.categories.splice(index,1);
+                  var temp=JSON.parse(JSON.stringify(this.categories));
+                  temp.forEach(function(t:any,j:any){
+                  if(t._id==category._id){
+                    temp.splice(j,1);
+                  }
+                  })
+                  this.categories=[];
+                  this.categories=temp;
               }
 
           },err => {

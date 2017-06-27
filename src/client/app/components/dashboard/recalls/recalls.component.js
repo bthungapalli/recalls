@@ -95,7 +95,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                         this.errorMessage = "To Date should be after From Date";
                     }
                 };
-                RecallsComponent.prototype.deleteRecall = function (id, index) {
+                RecallsComponent.prototype.deleteRecall = function (id) {
                     var _this = this;
                     this.errorMessage = "";
                     this.successMessage = "";

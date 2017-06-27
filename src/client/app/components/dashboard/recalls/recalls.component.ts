@@ -87,7 +87,7 @@ export class RecallsComponent implements OnInit{
         }
       }
 
-      deleteRecall(id:String,index:number){
+      deleteRecall(id:String){
         this.errorMessage="";
         this.successMessage="";
 

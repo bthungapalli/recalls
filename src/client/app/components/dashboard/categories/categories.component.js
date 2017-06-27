@@ -78,14 +78,21 @@ System.register(["@angular/core", "@angular/router", "./categories.model", "./ca
                     }
                 };
                 ;
-                CategoriesComponent.prototype.deleteCategory = function (category, index) {
+                CategoriesComponent.prototype.deleteCategory = function (category) {
                     var _this = this;
                     this.categoriesService.deleteCategory(category).subscribe(function (response) {
                         if (response.sessionExpired) {
                             _this.router.navigate(['home']);
                         }
                         else {
-                            _this.categories.splice(index, 1);
+                            var temp = JSON.parse(JSON.stringify(_this.categories));
+                            temp.forEach(function (t, j) {
+                                if (t._id == category._id) {
+                                    temp.splice(j, 1);
+                                }
+                            });
+                            _this.categories = [];
+                            _this.categories = temp;
                         }
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
