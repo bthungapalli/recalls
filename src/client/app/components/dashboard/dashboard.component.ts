@@ -12,6 +12,7 @@ export class DashboardComponent{
 
       public errorMessage:String="";
       public profile:Profile;
+      public expand:boolean=true;
 
       constructor(private dashboardService:DashboardService,private router:Router) {
       this.profile=  dashboardService.userDetails;
@@ -25,6 +26,10 @@ export class DashboardComponent{
             this.errorMessage="Something went wrong.Please contact administrator";
         });
 
+      }
+
+      toggle(){
+      this.expand=!this.expand;
       }
 
  }

@@ -1,4 +1,4 @@
-<div class="nav-md">
+<div bind-ngClass="{'nav-md':expand,'nav-sm':!expand}" >
   <div class="container body">
     <div class="main_container">
       <div class="col-md-3 left_col">
@@ -16,10 +16,11 @@
             <div class="menu_section">
               <h3>{{profile.role}}</h3>
               <ul class="nav side-menu">
-                <li *ngIf="profile.role==='Admin'" ><a [routerLink]="['./userManagement']"><i class="fa fa-home"></i> User Management</a></li>
-                <li *ngIf="profile.role==='Admin'"><a [routerLink]="['./categories']"><i class="fa fa-sitemap"></i> Categories</a></li>
-                <li *ngIf="profile.role==='Vendor'"><a [routerLink]="['./recall']"><i class="fa fa-edit"></i> Create Recall</a></li>
-                <li *ngIf="profile.role!=='Admin'"><a [routerLink]="['./recalls']"><i class="fa fa-clone"></i> Recalls</a></li>
+                <li *ngIf="profile.role==='Admin'" ><a routerLinkActive="active"[routerLink]="['./userManagement']"><i class="fa fa-home"></i> User Management</a></li>
+                <li *ngIf="profile.role==='Admin'"><a routerLinkActive="active" [routerLink]="['./categories']"><i class="fa fa-sitemap"></i> Categories</a></li>
+                <li *ngIf="profile.role==='Vendor'"><a routerLinkActive="active"[routerLink]="['./recall']"><i class="fa fa-edit"></i> Create Recall</a></li>
+                <li *ngIf="profile.role!=='Admin'"><a routerLinkActive="active" [routerLink]="['./recalls']"><i class="fa fa-clone"></i> Recalls</a></li>
+                <li ><a routerLinkActive="active" [routerLink]="['./profile']"><i class="fa fa-user"></i> Profile</a></li>
                   </ul>
             </div>
           </div>
@@ -34,13 +35,13 @@
         <div class="nav_menu">
           <nav class="" role="navigation">
             <div class="nav toggle">
-              <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              <a id="menu_toggle" (click)="toggle()"><i class="fa fa-bars"></i></a>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  {{profile.firstName}}
+                  {{profile.firstName| uppercase}}
                   <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -67,7 +68,7 @@
       <!-- footer content -->
       <footer style="background: #2a3f54;padding-top: 10px;padding-bottom: 5px;">
         <div class="pull-right">
-        <label style="color:white">Recalls</label>
+        <label style="color:#1abb9c">Recalls</label>
         </div>
         <div class="clearfix"></div>
       </footer>

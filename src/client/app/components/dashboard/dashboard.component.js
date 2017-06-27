@@ -29,6 +29,7 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
                     this.dashboardService = dashboardService;
                     this.router = router;
                     this.errorMessage = "";
+                    this.expand = true;
                     this.profile = dashboardService.userDetails;
                 }
                 DashboardComponent.prototype.logout = function () {
@@ -38,6 +39,9 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                     });
+                };
+                DashboardComponent.prototype.toggle = function () {
+                    this.expand = !this.expand;
                 };
                 return DashboardComponent;
             }());
