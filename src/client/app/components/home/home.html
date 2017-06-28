@@ -1,36 +1,15 @@
-<div class="col-xs-12" style="background-color: #EDEDED;margin: 4% 26%;max-width: 50%;">
+<div class="col-xs-12 homePage"  style="background-color: #EDEDED;">
 
-<div class="col-sm-6 col-xs-12" style="
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-size: x-large;
-    background-color: #26B99A;
-    margin-top: 10px;
-    border-bottom-width: 10px;
-    margin-bottom: 10px;text-align: center;
-">
-  <a [routerLink]="['./login']" style="color:white">Login </a>
+<div   >
+  <a class=" col-xs-6 homeLabels"  routerLinkActive="homeActive" [routerLink]="['./login']" style="color:white">Login </a>
 </div>
-  <div class="col-sm-6 col-xs-12" style="
-  padding-top: 15px;
-  padding-bottom: 15px;
-  font-size: x-large;
-  background-color: #435359;
-  margin-top: 10px;
-  border-bottom-width: 10px;
-  margin-bottom: 10px;text-align: center;
-">
-    <a [routerLink]="['./registration']"  style="color:white">registration </a>
+  <div >
+    <a  class="col-xs-6 homeLabels"  routerLinkActive="homeActive" [routerLink]="['./registration']"  style="color:white">Sign In </a>
   </div>
 
 
-
-
-
   <router-outlet></router-outlet>
-  <a [routerLink]="['./forgotPassword']">Forgot Password ?</a>
-<!--
-  margin: 10% 7%;
-      max-width: 88%; -->
+
+
 
 </div>

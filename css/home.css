@@ -1,0 +1,24 @@
+.homeLabels{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: x-large;
+  background-color: #435359;
+  margin-top: 10px;
+  border-bottom-width: 10px;
+  margin-bottom: 10px;text-align: center;
+}
+
+.homeActive{
+  background-color: #26B99A !important;
+}
+
+.homePage{
+margin: 4% 26%;max-width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .homePage{
+    margin: 10% 7%;
+    max-width: 88%;
+  }
+}
