@@ -5,6 +5,7 @@ import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
 import {Category} from '../categories/categories.model';
+import {SpinnerService} from '../spinner.service';
 
 declare var tinymce: any;
 
@@ -22,7 +23,7 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
       public editor:any;
       public recallId:any;
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService) {
          this.recallModel=new Recall();
          this.recallModel.categoryName="Select Category";
       }
@@ -36,27 +37,32 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
     );
 
       if(this.recallId){
+      this.spinnerService.emitChange(true);
       this.recallsService.getRecall(this.recallId).subscribe(response => {
               if(response.sessionExpired){
+              this.spinnerService.emitChange(false);
                 this.router.navigate(['home']);
               }else{
               this.recallModel=response;
               }
-
+this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
           });
       }
-
+this.spinnerService.emitChange(true);
       this.categoriesService.getAllCategories().subscribe(response => {
               if(response.sessionExpired){
+              this.spinnerService.emitChange(false);
                 this.router.navigate(['home']);
               }else{
                 this.categories=response;
               }
-
+this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
           });
 
       };
@@ -82,9 +88,10 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
         }
 
       submitRecall(){
+      this.spinnerService.emitChange(false);
       this.recallModel.description=this.description;
           this.recallsService.submitRecall(this.recallModel).subscribe(response => {
-
+this.spinnerService.emitChange(false);
                if(response.sessionExpired){
                  this.router.navigate(['home']);
                }else{
@@ -92,6 +99,7 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
                }
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
           });
       }
 

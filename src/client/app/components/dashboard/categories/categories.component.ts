@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import {Category} from './categories.model';
 import {CategoriesService} from './categories.service';
-
+import {SpinnerService} from '../spinner.service';
 
 
 @Component({
@@ -18,23 +18,28 @@ export class CategoriesComponent implements OnInit{
       public successMessage:String="";
       public categoryModel:Category;
 
-      constructor(private categoriesService:CategoriesService,private router:Router) {
+      constructor(private categoriesService:CategoriesService,private router:Router,private spinnerService:SpinnerService) {
             this.categoryModel=new Category();
       }
 
       ngOnInit(): void {
+      this.spinnerService.emitChange(true);
           this.categoriesService.getAllCategories().subscribe(response => {
                 if(response.sessionExpired){
+                  this.spinnerService.emitChange(false);
                   this.router.navigate(['home']);
                 }else{
                    this.categories=response;
                 }
+                this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
           });
       };
 
       submitCategory(){
+      this.spinnerService.emitChange(true);
           this.errorMessage="";
            var isCategoryAlreadyExist=false;
             var categoryModel=  this.categoryModel;
@@ -46,23 +51,27 @@ export class CategoriesComponent implements OnInit{
 
            if(isCategoryAlreadyExist){
                 this.errorMessage="Category already exist";
+                this.spinnerService.emitChange(false);
            }else{
                this.categoriesService.createCategory(this.categoryModel).subscribe(response => {
 
                  if(response.sessionExpired){
+                 this.spinnerService.emitChange(false);
                    this.router.navigate(['home']);
                  }else{
                    this.categories.push(response);
                    this.categoryModel=new Category();
                  }
-
+                   this.spinnerService.emitChange(false);
                },err => {
                    this.errorMessage="Something went wrong.Please contact administrator";
+                   this.spinnerService.emitChange(false);
                });
            }
       };
 
       deleteCategory(category:Category){
+      this.spinnerService.emitChange(true);
           this.categoriesService.deleteCategory(category).subscribe(response => {
 
               if(response.sessionExpired){
@@ -77,9 +86,10 @@ export class CategoriesComponent implements OnInit{
                   this.categories=[];
                   this.categories=temp;
               }
-
+this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
           });
       };
 

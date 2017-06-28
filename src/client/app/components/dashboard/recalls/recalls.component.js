@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./recalls.service", "../categories/categories.service", "../dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./recalls.service", "../categories/categories.service", "../dashboard.service", "../spinner.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, recalls_service_1, categories_service_1, dashboard_service_1, RecallsComponent;
+    var core_1, router_1, recalls_service_1, categories_service_1, dashboard_service_1, spinner_service_1, RecallsComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -27,15 +27,19 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
             },
             function (dashboard_service_1_1) {
                 dashboard_service_1 = dashboard_service_1_1;
+            },
+            function (spinner_service_1_1) {
+                spinner_service_1 = spinner_service_1_1;
             }
         ],
         execute: function () {
             RecallsComponent = (function () {
-                function RecallsComponent(recallsService, categoriesService, router, dashboardService) {
+                function RecallsComponent(recallsService, categoriesService, router, dashboardService, spinnerService) {
                     this.recallsService = recallsService;
                     this.categoriesService = categoriesService;
                     this.router = router;
                     this.dashboardService = dashboardService;
+                    this.spinnerService = spinnerService;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.recalls = [];
@@ -47,8 +51,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                 }
                 RecallsComponent.prototype.ngOnInit = function () {
                     var _this = this;
+                    this.spinnerService.emitChange(true);
                     this.recallsService.getAllRecalls().subscribe(function (response) {
                         if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
                             _this.router.navigate(['home']);
                         }
                         else {
@@ -57,18 +63,24 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                                 _this.successMessage = "No Recalls available";
                             }
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
+                    this.spinnerService.emitChange(true);
                     this.categoriesService.getAllCategories().subscribe(function (response) {
                         if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
                             _this.router.navigate(['home']);
                         }
                         else {
                             _this.categories = response;
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
                 };
                 ;
@@ -77,8 +89,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                     this.errorMessage = "";
                     this.successMessage = "";
                     if (this.fromDate.epoc < this.toDate.epoc) {
+                        this.spinnerService.emitChange(true);
                         this.recallsService.getRecallsForFilter(this.category, this.toDate.formatted, this.fromDate.formatted).subscribe(function (response) {
                             if (response.sessionExpired) {
+                                _this.spinnerService.emitChange(false);
                                 _this.router.navigate(['home']);
                             }
                             else {
@@ -87,8 +101,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                                     _this.successMessage = "No Recalls available for given dates.";
                                 }
                             }
+                            _this.spinnerService.emitChange(false);
                         }, function (err) {
                             _this.errorMessage = "Something went wrong.Please contact administrator";
+                            _this.spinnerService.emitChange(false);
                         });
                     }
                     else {
@@ -99,8 +115,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                     var _this = this;
                     this.errorMessage = "";
                     this.successMessage = "";
+                    this.spinnerService.emitChange(true);
                     this.recallsService.deleteRecall(id).subscribe(function (response) {
                         if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
                             _this.router.navigate(['home']);
                         }
                         else {
@@ -113,8 +131,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                             _this.recalls = [];
                             _this.recalls = temp;
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
                 };
                 RecallsComponent.prototype.editRecall = function (id) {
@@ -129,7 +149,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                     selector: 'recalls',
                     templateUrl: "./app/components/dashboard/recalls/recalls.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router, dashboard_service_1.DashboardService])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router, dashboard_service_1.DashboardService, spinner_service_1.SpinnerService])
             ], RecallsComponent);
             exports_1("RecallsComponent", RecallsComponent);
         }

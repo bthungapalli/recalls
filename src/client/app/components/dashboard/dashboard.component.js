@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./dashboard.service", "./spinner.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, dashboard_service_1, DashboardComponent;
+    var core_1, router_1, dashboard_service_1, spinner_service_1, DashboardComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -21,16 +21,24 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
             },
             function (dashboard_service_1_1) {
                 dashboard_service_1 = dashboard_service_1_1;
+            },
+            function (spinner_service_1_1) {
+                spinner_service_1 = spinner_service_1_1;
             }
         ],
         execute: function () {
             DashboardComponent = (function () {
-                function DashboardComponent(dashboardService, router) {
+                function DashboardComponent(dashboardService, router, spinnerService) {
+                    var _this = this;
                     this.dashboardService = dashboardService;
                     this.router = router;
+                    this.spinnerService = spinnerService;
                     this.errorMessage = "";
                     this.expand = true;
                     this.profile = dashboardService.userDetails;
+                    spinnerService.changeEmitted$.subscribe(function (text) {
+                        _this.spinner = text;
+                    });
                 }
                 DashboardComponent.prototype.logout = function () {
                     var _this = this;
@@ -50,7 +58,7 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service"], fun
                     selector: 'dashboard',
                     templateUrl: "./app/components/dashboard/dashboard.html"
                 }),
-                __metadata("design:paramtypes", [dashboard_service_1.DashboardService, router_1.Router])
+                __metadata("design:paramtypes", [dashboard_service_1.DashboardService, router_1.Router, spinner_service_1.SpinnerService])
             ], DashboardComponent);
             exports_1("DashboardComponent", DashboardComponent);
         }

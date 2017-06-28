@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import {DashboardService} from './dashboard.service';
 import {Profile} from './profile/profile.model';
-
+import {SpinnerService} from './spinner.service';
 @Component({
   selector: 'dashboard',
   templateUrl:"./app/components/dashboard/dashboard.html"
@@ -13,9 +13,15 @@ export class DashboardComponent{
       public errorMessage:String="";
       public profile:Profile;
       public expand:boolean=true;
+      public spinner:boolean;
 
-      constructor(private dashboardService:DashboardService,private router:Router) {
+      constructor(private dashboardService:DashboardService,private router:Router,private spinnerService: SpinnerService) {
       this.profile=  dashboardService.userDetails;
+      spinnerService.changeEmitted$.subscribe(
+        text => {
+            this.spinner=text;
+        });
+      
       }
 
       logout(){

@@ -8,7 +8,7 @@ import {CategoriesService} from '../categories/categories.service';
 import {Category} from '../categories/categories.model';
 import {DashboardService} from '../dashboard.service';
 import {Profile} from '../profile/profile.model';
-
+import {SpinnerService} from '../spinner.service';
 
 
 @Component({
@@ -30,15 +30,16 @@ export class RecallsComponent implements OnInit{
       public profile:Profile;
 
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService) {
             this.profile=dashboardService.userDetails;
       }
 
       ngOnInit(): void {
-
+this.spinnerService.emitChange(true);
       this.recallsService.getAllRecalls().subscribe(response => {
 
       if(response.sessionExpired){
+      this.spinnerService.emitChange(false);
         this.router.navigate(['home']);
       }else{
         this.recalls=response;
@@ -46,31 +47,39 @@ export class RecallsComponent implements OnInit{
         this.successMessage="No Recalls available";
       }
       }
-
+this.spinnerService.emitChange(false);
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
+          this.spinnerService.emitChange(false);
       });
 
+this.spinnerService.emitChange(true);
       this.categoriesService.getAllCategories().subscribe(response => {
           if(response.sessionExpired){
+          this.spinnerService.emitChange(false);
             this.router.navigate(['home']);
           }else{
               this.categories=response;
           }
+          this.spinnerService.emitChange(false);
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
+          this.spinnerService.emitChange(false);
       });
 
       };
 
 
       getRecallsForFilter(){
+
         this.errorMessage="";
         this.successMessage="";
         if(this.fromDate.epoc<this.toDate.epoc){
+        this.spinnerService.emitChange(true);
         this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
 
              if(response.sessionExpired){
+             this.spinnerService.emitChange(false);
                this.router.navigate(['home']);
              }else{
                this.recalls=response;
@@ -78,9 +87,10 @@ export class RecallsComponent implements OnInit{
                this.successMessage="No Recalls available for given dates."
                }
              }
-
+this.spinnerService.emitChange(false);
         },err => {
             this.errorMessage="Something went wrong.Please contact administrator";
+            this.spinnerService.emitChange(false);
         });
         }else{
         this.errorMessage="To Date should be after From Date";
@@ -90,10 +100,11 @@ export class RecallsComponent implements OnInit{
       deleteRecall(id:String){
         this.errorMessage="";
         this.successMessage="";
-
+this.spinnerService.emitChange(true);
         this.recallsService.deleteRecall(id).subscribe(response => {
 
              if(response.sessionExpired){
+             this.spinnerService.emitChange(false);
                this.router.navigate(['home']);
              }else{
                     var temp=JSON.parse(JSON.stringify(this.recalls));
@@ -105,9 +116,11 @@ export class RecallsComponent implements OnInit{
                     this.recalls=[];
                   this.recalls=temp;
                }
+               this.spinnerService.emitChange(false);
              }
              ,err => {
             this.errorMessage="Something went wrong.Please contact administrator";
+            this.spinnerService.emitChange(false);
         });
       }
 

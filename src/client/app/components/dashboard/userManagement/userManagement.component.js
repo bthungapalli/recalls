@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "../profile/profile.model", "./userManagement.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "../profile/profile.model", "./userManagement.service", "../spinner.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, profile_model_1, userManagement_service_1, UserManagementComponent;
+    var core_1, router_1, profile_model_1, userManagement_service_1, spinner_service_1, UserManagementComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -24,13 +24,17 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
             },
             function (userManagement_service_1_1) {
                 userManagement_service_1 = userManagement_service_1_1;
+            },
+            function (spinner_service_1_1) {
+                spinner_service_1 = spinner_service_1_1;
             }
         ],
         execute: function () {
             UserManagementComponent = (function () {
-                function UserManagementComponent(userManagementService, router) {
+                function UserManagementComponent(userManagementService, router, spinnerService) {
                     this.userManagementService = userManagementService;
                     this.router = router;
+                    this.spinnerService = spinnerService;
                     this.users = [];
                     this.errorMessage = "";
                     this.successMessage = "";
@@ -38,15 +42,19 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
                 }
                 UserManagementComponent.prototype.ngOnInit = function () {
                     var _this = this;
+                    this.spinnerService.emitChange(true);
                     this.userManagementService.getAllUsers().subscribe(function (response) {
                         if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
                             _this.router.navigate(['home']);
                         }
                         else {
                             _this.users = response;
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
                 };
                 ;
@@ -58,15 +66,19 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
                     var tempUser = new profile_model_1.Profile();
                     tempUser = Object.assign({}, user);
                     tempUser.isActive = value;
+                    this.spinnerService.emitChange(true);
                     this.userManagementService.activeOrInActivateUser(tempUser).subscribe(function (response) {
                         if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
                             _this.router.navigate(['home']);
                         }
                         else {
                             user.isActive = response.isActive;
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
                 };
                 ;
@@ -77,7 +89,7 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
                     selector: 'userManagement',
                     templateUrl: "./app/components/dashboard/userManagement/UserManagement.html"
                 }),
-                __metadata("design:paramtypes", [userManagement_service_1.UserManagementService, router_1.Router])
+                __metadata("design:paramtypes", [userManagement_service_1.UserManagementService, router_1.Router, spinner_service_1.SpinnerService])
             ], UserManagementComponent);
             exports_1("UserManagementComponent", UserManagementComponent);
         }
