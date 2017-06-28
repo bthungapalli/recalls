@@ -18,7 +18,7 @@ router.post('/:email',function (req,res,next){
 			}else{
 
 
-				var subject =  subject =  nconf.get("mail").subject+"Password for Recalls";
+				var subject =  nconf.get("mail").subject+"Password for Recalls";
 				var template = "forgotPassword.html";
 
 				var context =  {

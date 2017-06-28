@@ -19,7 +19,34 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 		recallsService.createOrUpdateRecall(user,recall,function(err,recall){
 			if(err)
         		res.send("error");
-			res.json(recall);
+
+						userService.getAllUsers(function(err,users){
+							if(err)
+										res.send("error");
+										var subject =  nconf.get("mail").subject+" New Recall ";
+										var template = "newRecall.html";
+
+										var context =  {
+												title : nconf.get("mail").appName,
+												recallTitle : recall.title,
+												recallCategory : recall.categoryName,
+												appURL : nconf.get("mail").appURL,
+												appName : nconf.get("mail").appName
+												// contextPath : nconf.get("context").path
+											};
+
+										for( var user in users){
+												if(user.alertsOn==="Email"){
+													mailUtil.sendMail(user.email,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
+					                console.log("Email sent to: "+user.email);
+													});
+												}else{
+        									console.log("Mobile subcription");
+												}
+										}
+						});
+
+						res.json(recall);
 		});
 });
 
