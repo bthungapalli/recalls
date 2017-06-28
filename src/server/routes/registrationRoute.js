@@ -9,6 +9,7 @@ router.post('/',function (req,res,next){
 		userService.createOrUpdateUser(userDetails,function(err,createdUser){
 			if(err)
         		res.send("error");
+						req.session.user = createdUser;
 			res.json(createdUser);
 		});
 });

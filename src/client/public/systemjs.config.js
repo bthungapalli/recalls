@@ -13,7 +13,11 @@ System.config({
     'angular2-datatable': {
        main: './index.js',
       defaultExtension: 'js'
-   }
+   },
+    'ng2-component-spinner' : {
+      defaultExtension : 'js',
+      main : 'index.js'
+    }
   },
     paths: {
       // paths serve as alias
@@ -38,7 +42,7 @@ System.config({
       'angular2-datatable': 'npm:angular2-datatable',
       'lodash': 'npm:lodash/lodash.js',
       'mydatepicker': 'npm:mydatepicker/bundles/mydatepicker.umd.min.js',
-
+      "ng2-component-spinner": "node_modules/ng2-component-spinner/dist",
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'

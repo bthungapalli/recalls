@@ -1,14 +1,16 @@
-<div class="col-xs-12 homePage"  style="background-color: #EDEDED;">
+<div class="col-xs-12 homePage"  style="background-color: #EDEDED;position:relative">
 
-<div   >
+<div>
   <a class=" col-xs-6 homeLabels"  routerLinkActive="homeActive" [routerLink]="['./login']" style="color:white">Login </a>
 </div>
-  <div >
+  <div>
     <a  class="col-xs-6 homeLabels"  routerLinkActive="homeActive" [routerLink]="['./registration']"  style="color:white">Sign In </a>
   </div>
 
 
-  <router-outlet></router-outlet>
+  <router-outlet ></router-outlet>
+
+<spinner-component [spinnerShow]="spinner"></spinner-component>
 
 
 

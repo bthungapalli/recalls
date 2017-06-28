@@ -68,10 +68,10 @@
         <label for="alerts">Login As  <sup class="text-danger">*</sup></label>
         <br>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio1" value="Vendor"> Vendor
+          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio1" value="Vendor" required> Vendor
         </label>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio2" value="User"> User
+          <input type="radio" [(ngModel)]="registrationModel.role" name="role" id="inlineroleRadio2" value="User" required> User
         </label>
       </div>
     </div>
@@ -80,16 +80,16 @@
         <label for="alerts">Alerts On  <sup class="text-danger">*</sup></label>
         <br>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio1" value="Email"> Email
+          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio1" value="Email" required> Email
         </label>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio2" value="Mobile"> Mobile
+          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio2" value="Mobile" required> Mobile
         </label>
       </div>
     </div>
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage!==''" class="btn btn-block btn-success">Sign In</button>
+      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage=='Email already exist'" class="btn btn-block btn-success">Sign In</button>
     </div>
   </form>
 

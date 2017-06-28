@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 import {Registration} from './registration.model';
 import {RegistrationService} from './registration.service';
+import {DashboardService} from '../../dashboard/dashboard.service';
+import {SpinnerService} from '../spinner.service';
 
 
 @Component({
@@ -12,21 +15,27 @@ export class RegistrationComponent {
 
       public errorMessage:String="";
       public registrationModel: Registration;
+public spinner:boolean;
 
-      constructor(private registrationService:RegistrationService) {
+      constructor(private registrationService:RegistrationService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService) {
           this.registrationModel = new Registration();
       }
 
       submitSignUp(){
+      this.spinnerService.emitChange(true);
         this.errorMessage="";
         if(this.registrationModel.password===this.registrationModel.confirmPassword){
             this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
-                console.log(response);
+            this.dashboardService.setUserToProfile(response);
+            this.router.navigate(['dashboard/profile']);
+                this.spinnerService.emitChange(false);
             },err => {
-                                    console.log(err);
+                                    this.errorMessage="Something went wrong.Please contact administrator";
+                                    this.spinnerService.emitChange(false);
             });
         }else{
             this.errorMessage="Password and ConfirmPassword dint match";
+            this.spinnerService.emitChange(false);
         }
 
       }

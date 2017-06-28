@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "../registration/registration.model", "./login.service", "../../dashboard/dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "../registration/registration.model", "./login.service", "../../dashboard/dashboard.service", "../spinner.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, registration_model_1, login_service_1, dashboard_service_1, LoginComponent;
+    var core_1, router_1, registration_model_1, login_service_1, dashboard_service_1, spinner_service_1, LoginComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -27,19 +27,24 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
             },
             function (dashboard_service_1_1) {
                 dashboard_service_1 = dashboard_service_1_1;
+            },
+            function (spinner_service_1_1) {
+                spinner_service_1 = spinner_service_1_1;
             }
         ],
         execute: function () {
             LoginComponent = (function () {
-                function LoginComponent(loginService, router, dashboardService) {
+                function LoginComponent(loginService, router, dashboardService, spinnerService) {
                     this.loginService = loginService;
                     this.router = router;
                     this.dashboardService = dashboardService;
+                    this.spinnerService = spinnerService;
                     this.errorMessage = "";
                     this.loginModel = new registration_model_1.Registration();
                 }
                 LoginComponent.prototype.submitLogin = function () {
                     var _this = this;
+                    this.spinnerService.emitChange(true);
                     this.errorMessage = "";
                     this.loginService.submitLogin(this.loginModel)
                         .subscribe(function (response) {
@@ -53,10 +58,13 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                             else {
                                 _this.dashboardService.setUserToProfile(response);
                                 _this.router.navigate(['dashboard/profile']);
+                                _this.spinnerService.emitChange(false);
                             }
                         }
+                        _this.spinnerService.emitChange(false);
                     }, function (err) {
                         _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
                     });
                 };
                 return LoginComponent;
@@ -66,7 +74,7 @@ System.register(["@angular/core", "@angular/router", "../registration/registrati
                     selector: 'login',
                     templateUrl: "./app/components/home/login/login.html"
                 }),
-                __metadata("design:paramtypes", [login_service_1.LoginService, router_1.Router, dashboard_service_1.DashboardService])
+                __metadata("design:paramtypes", [login_service_1.LoginService, router_1.Router, dashboard_service_1.DashboardService, spinner_service_1.SpinnerService])
             ], LoginComponent);
             exports_1("LoginComponent", LoginComponent);
         }

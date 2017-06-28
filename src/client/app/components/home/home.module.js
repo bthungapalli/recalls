@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/forms", "../app/route.component", "./home.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/forms", "../app/route.component", "ng2-component-spinner", "./home.component", "./spinner.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/forms", "../app/route.component", ".
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, forms_1, route_component_1, home_component_1, HomeModule;
+    var core_1, forms_1, route_component_1, ng2_component_spinner_1, home_component_1, spinner_service_1, HomeModule;
     return {
         setters: [
             function (core_1_1) {
@@ -19,8 +19,14 @@ System.register(["@angular/core", "@angular/forms", "../app/route.component", ".
             function (route_component_1_1) {
                 route_component_1 = route_component_1_1;
             },
+            function (ng2_component_spinner_1_1) {
+                ng2_component_spinner_1 = ng2_component_spinner_1_1;
+            },
             function (home_component_1_1) {
                 home_component_1 = home_component_1_1;
+            },
+            function (spinner_service_1_1) {
+                spinner_service_1 = spinner_service_1_1;
             }
         ],
         execute: function () {
@@ -33,10 +39,14 @@ System.register(["@angular/core", "@angular/forms", "../app/route.component", ".
                 core_1.NgModule({
                     imports: [
                         forms_1.FormsModule,
-                        route_component_1.RouteComponent
+                        route_component_1.RouteComponent,
+                        ng2_component_spinner_1.SpinnerComponentModule
                     ],
                     declarations: [
                         home_component_1.HomeComponent
+                    ],
+                    providers: [
+                        spinner_service_1.SpinnerService
                     ]
                 })
             ], HomeModule);
