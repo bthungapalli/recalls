@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var recallsService=require("../services/recallsService");
 var checkSession=require("../services/checkSessionService");
+var userService=require("../services/userService");
+var nconf = require('nconf');
+var mailUtil=require("../utils/mailUtil");
+
 
 router.get('/allRecalls',checkSession.requireLogin,function (req,res,next){
 	  var user=req.session.user;
