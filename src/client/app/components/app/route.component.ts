@@ -31,7 +31,9 @@ const appRoutes: Routes = [
        { path: 'recall/:id', component: RecallComponent },
        { path: 'recalls', component: RecallsComponent }
       ]
-   }
+   },
+   {path: '**', redirectTo: 'dashboard'}
+,
 ];
 
 

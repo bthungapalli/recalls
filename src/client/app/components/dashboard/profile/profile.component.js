@@ -35,6 +35,7 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
         execute: function () {
             ProfileComponent = (function () {
                 function ProfileComponent(profileService, dashboardService, router, spinnerService) {
+                    var _this = this;
                     this.profileService = profileService;
                     this.dashboardService = dashboardService;
                     this.router = router;
@@ -43,7 +44,22 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.profileModel = new profile_model_1.Profile();
-                    this.profileModel = Object.assign({}, dashboardService.userDetails);
+                    this.spinnerService.emitChange(true);
+                    this.profileService.getUser().subscribe(function (response) {
+                        if (response.sessionExpired) {
+                            _this.spinnerService.emitChange(false);
+                            _this.router.navigate(['home']);
+                        }
+                        else {
+                            _this.profileModel = Object.assign({}, response);
+                            _this.dashboardService.emitChange(response);
+                            _this.dashboardService.userDetails = response;
+                            _this.spinnerService.emitChange(false);
+                        }
+                    }, function (err) {
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
+                        _this.spinnerService.emitChange(false);
+                    });
                 }
                 ProfileComponent.prototype.submitProfile = function () {
                     var _this = this;

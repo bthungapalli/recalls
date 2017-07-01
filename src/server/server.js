@@ -79,7 +79,7 @@ app.use('/userManagement', userManagementRoute);
 app.use('/categories', categoriesRoute);
 app.use('/recalls', recallsRoute);
 app.use('/forgotPassword', forgotPasswordRoute);
-
+app.use('/**', mainRoute);
 
 
 // catch 404 and forward to error handler

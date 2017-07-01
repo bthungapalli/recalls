@@ -20,9 +20,31 @@ export class ProfileComponent {
 
       constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService) {
           this.profileModel = new Profile();
-          this.profileModel= (<any>Object).assign({}, dashboardService.userDetails);
+          
+          this.spinnerService.emitChange(true);
+           this.profileService.getUser().subscribe(response => {
+
+            if(response.sessionExpired){
+            this.spinnerService.emitChange(false);
+              this.router.navigate(['home']);
+            }else{
+                this.profileModel= (<any>Object).assign({}, response);
+                this.dashboardService.emitChange(response);
+              this.dashboardService.userDetails=response;
+              this.spinnerService.emitChange(false);
+            }
+
+            },err => {
+                this.errorMessage="Something went wrong.Please contact administrator";
+                this.spinnerService.emitChange(false);
+            });
+          
+          
       }
 
+              
+              
+              
       submitProfile(){
       this.spinnerService.emitChange(true);
         this.disableFields=true;

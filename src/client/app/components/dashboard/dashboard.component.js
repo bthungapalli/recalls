@@ -39,6 +39,9 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service", "./s
                     spinnerService.changeEmitted$.subscribe(function (text) {
                         _this.spinner = text;
                     });
+                    dashboardService.changeEmitted$.subscribe(function (response) {
+                        _this.profile = response;
+                    });
                 }
                 DashboardComponent.prototype.logout = function () {
                     var _this = this;

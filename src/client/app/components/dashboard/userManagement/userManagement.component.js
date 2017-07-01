@@ -87,7 +87,7 @@ System.register(["@angular/core", "@angular/router", "../profile/profile.model",
             UserManagementComponent = __decorate([
                 core_1.Component({
                     selector: 'userManagement',
-                    templateUrl: "./app/components/dashboard/userManagement/UserManagement.html"
+                    templateUrl: "./app/components/dashboard/userManagement/userManagement.html"
                 }),
                 __metadata("design:paramtypes", [userManagement_service_1.UserManagementService, router_1.Router, spinner_service_1.SpinnerService])
             ], UserManagementComponent);

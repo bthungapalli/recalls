@@ -28,9 +28,15 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 function ProfileService(http) {
                     this.http = http;
                     this.PROFILE_UPDATE_URL = "/profile";
+                    this.PROFILE_GET_URL = "/profile";
                 }
                 ProfileService.prototype.submitProfile = function (profileModel) {
                     return this.http.put(this.PROFILE_UPDATE_URL, profileModel)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                ProfileService.prototype.getUser = function () {
+                    return this.http.get(this.PROFILE_GET_URL)
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
                 };

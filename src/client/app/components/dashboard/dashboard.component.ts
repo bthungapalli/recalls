@@ -21,7 +21,10 @@ export class DashboardComponent{
         text => {
             this.spinner=text;
         });
-      
+        dashboardService.changeEmitted$.subscribe(
+        response => {
+            this.profile=response;
+        });   
       }
 
       logout(){

@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Rx';
 export class ProfileService {
 
       private  PROFILE_UPDATE_URL="/profile";
+    private  PROFILE_GET_URL="/profile";
 
       constructor(private http: Http) {
       }
@@ -16,5 +17,13 @@ export class ProfileService {
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
+    
+    getUser(): Observable<any> {
+       return this.http.get(this.PROFILE_GET_URL)
+       .map((res: Response) => {return res.json();})
+       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+    
+    
 
  }

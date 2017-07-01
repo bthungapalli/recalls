@@ -12,5 +12,15 @@ router.put('/',checkSession.requireLogin,function (req,res,next){
 		});
 });
 
+router.get('/',checkSession.requireLogin,function (req,res,next){
+	var userDetails =req.session.user;
+	
+	userService.getUser(userDetails,function(err,user){
+		if(err)
+    		res.send("error");
+		res.json(user);
+	});
+});
+
 
 module.exports = router;

@@ -9,7 +9,7 @@ import {SpinnerService} from '../spinner.service';
 
 @Component({
   selector: 'userManagement',
-  templateUrl:"./app/components/dashboard/userManagement/UserManagement.html"
+  templateUrl:"./app/components/dashboard/userManagement/userManagement.html"
 })
 export class UserManagementComponent implements OnInit{
 
