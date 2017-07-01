@@ -73,7 +73,8 @@ return{
 			startDate.setDate(startDate.getDate());
 			var endDate = new Date(recallFilter.toDate);
 			endDate.setDate(endDate.getDate());
-
+			startDate.setHours(0,0,0,0);
+			endDate.setHours(23,59,59,999);
 			if(user.role==="Vendor"){
 				if(recallFilter.category=="All"){
 					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"created_by":user.email}]};
@@ -87,7 +88,6 @@ return{
 					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
 				}
 			}
-
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecallsByFilter);
 	 },
