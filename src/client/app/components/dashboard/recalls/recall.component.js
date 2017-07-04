@@ -101,7 +101,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                         setup: function (editor) {
                             _this.editor = editor;
                             editor.on('init', function () {
-                                if (_this.recallModel.description != '') {
+                                if (_this.recallModel.description != undefined) {
                                     editor.setContent(_this.recallModel.description);
                                     _this.description = editor.getContent();
                                 }

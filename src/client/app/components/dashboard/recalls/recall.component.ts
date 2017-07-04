@@ -86,7 +86,7 @@ export class RecallComponent implements OnInit, OnDestroy{
               this.editor=editor;
                 
                editor.on('init', () => {
-                   if( this.recallModel.description!=''){
+                   if( this.recallModel.description!=undefined){
                     editor.setContent(this.recallModel.description);
                         this.description=editor.getContent();
                     }
