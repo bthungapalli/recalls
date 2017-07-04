@@ -62,11 +62,15 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                             else {
                                 _this.recallModel = response;
                             }
+                            _this.callTinyMCE();
                             _this.spinnerService.emitChange(false);
                         }, function (err) {
                             _this.errorMessage = "Something went wrong.Please contact administrator";
                             _this.spinnerService.emitChange(false);
                         });
+                    }
+                    else {
+                        this.callTinyMCE();
                     }
                     this.spinnerService.emitChange(true);
                     this.categoriesService.getAllCategories().subscribe(function (response) {
@@ -84,7 +88,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     });
                 };
                 ;
-                RecallComponent.prototype.ngAfterViewInit = function () {
+                RecallComponent.prototype.callTinyMCE = function () {
                     var _this = this;
                     tinymce.init({
                         selector: '#description',
@@ -96,6 +100,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
                         setup: function (editor) {
                             _this.editor = editor;
+                            editor.on('init', function () {
+                                if (_this.recallModel.description != '') {
+                                    editor.setContent(_this.recallModel.description);
+                                    _this.description = editor.getContent();
+                                }
+                            });
                             editor.on('keyup', function () {
                                 _this.description = editor.getContent();
                             });

@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var userService=require("../services/userService");
-
+var Cryptr = require('cryptr'),
+cryptr = new Cryptr('recallsSecretKeyToEncryptPassword');
 
 
 router.post('/',function (req,res,next){
 		var userDetails = req.body;
+		userDetails.password = cryptr.encrypt(userDetails.password);
 		userService.createOrUpdateUser(userDetails,function(err,createdUser){
 			if(err)
         		res.send("error");

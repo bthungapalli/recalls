@@ -13,7 +13,7 @@ declare var tinymce: any;
   selector: 'recall',
   templateUrl:"./app/components/dashboard/recalls/recall.html"
 })
-export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
+export class RecallComponent implements OnInit, OnDestroy{
 
       public errorMessage:String="";
       public successMessage:String="";
@@ -45,13 +45,17 @@ export class RecallComponent implements OnInit,AfterViewInit, OnDestroy{
               }else{
               this.recallModel=response;
               }
-this.spinnerService.emitChange(false);
+           this.callTinyMCE();
+            this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
               this.spinnerService.emitChange(false);
           });
-      }
-this.spinnerService.emitChange(true);
+      }else{
+          this.callTinyMCE();
+      }    
+          
+            this.spinnerService.emitChange(true);
       this.categoriesService.getAllCategories().subscribe(response => {
               if(response.sessionExpired){
               this.spinnerService.emitChange(false);
@@ -59,7 +63,7 @@ this.spinnerService.emitChange(true);
               }else{
                 this.categories=response;
               }
-this.spinnerService.emitChange(false);
+            this.spinnerService.emitChange(false);
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
               this.spinnerService.emitChange(false);
@@ -68,7 +72,7 @@ this.spinnerService.emitChange(false);
       };
 
 
-      ngAfterViewInit() {
+      callTinyMCE() {
           tinymce.init({
             selector: '#description',
             plugins: [
@@ -80,6 +84,13 @@ this.spinnerService.emitChange(false);
 
             setup: editor => {
               this.editor=editor;
+                
+               editor.on('init', () => {
+                   if( this.recallModel.description!=''){
+                    editor.setContent(this.recallModel.description);
+                        this.description=editor.getContent();
+                    }
+                });  
               editor.on('keyup', () => {
                 this.description= editor.getContent();
               });
@@ -91,7 +102,7 @@ this.spinnerService.emitChange(false);
       this.spinnerService.emitChange(false);
       this.recallModel.description=this.description;
           this.recallsService.submitRecall(this.recallModel).subscribe(response => {
-this.spinnerService.emitChange(false);
+          this.spinnerService.emitChange(false);
                if(response.sessionExpired){
                  this.router.navigate(['home']);
                }else{

@@ -49,7 +49,7 @@ return{
 			 }
    },
 	 checkUser:function(user,callbackForCheckUser){
-		 var query = userModel.findOne({"email":user.email,"password":user.password});
+		 var query = userModel.findOne({"email":user.email});
 		 this.execute(query,callbackForCheckUser);
 	 },
 	 getAllUsers:function(callbackForGetAllUsers){

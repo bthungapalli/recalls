@@ -4,6 +4,8 @@ var nconf = require('nconf');
 
 var userService=require("../services/userService");
 var mailUtil=require("../utils/mailUtil");
+var Cryptr = require('cryptr'),
+cryptr = new Cryptr('recallsSecretKeyToEncryptPassword');
 
 
 
@@ -17,14 +19,13 @@ router.post('/:email',function (req,res,next){
 				res.json({"emailSent":false});
 			}else{
 
-
 				var subject =  nconf.get("mail").subject+"Password for Recalls";
 				var template = "forgotPassword.html";
 
 				var context =  {
 						title : nconf.get("mail").appName,
 						username : user.firstName,
-						password : user.password,
+						password : cryptr.decrypt(user.password),
 						appURL : nconf.get("mail").appURL,
 						appName : nconf.get("mail").appName
 						// contextPath : nconf.get("context").path
