@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, Rx_1, CategoriesService;
+    var core_1, http_1, Observable_1, CategoriesService;
     return {
         setters: [
             function (core_1_1) {
@@ -19,8 +19,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (Rx_1_1) {
-                Rx_1 = Rx_1_1;
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             }
         ],
         execute: function () {
@@ -34,17 +34,17 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 CategoriesService.prototype.getAllCategories = function () {
                     return this.http.get(this.GET_ALL_CATEGORIES_URL)
                         .map(function (res) { return res.json(); })
-                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                        .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
                 };
                 CategoriesService.prototype.createCategory = function (categoryModel) {
                     return this.http.post(this.GET_CREATE_CATEGORY_URL, categoryModel)
                         .map(function (res) { return res.json(); })
-                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                        .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
                 };
                 CategoriesService.prototype.deleteCategory = function (categoryModel) {
                     return this.http.post(this.GET_DELETE_CATEGORY_URL, categoryModel)
                         .map(function (res) { return res.json(); })
-                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                        .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
                 };
                 return CategoriesService;
             }());

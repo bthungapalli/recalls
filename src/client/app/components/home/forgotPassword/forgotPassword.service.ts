@@ -1,7 +1,7 @@
 import { Component,Injectable } from '@angular/core';
 import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular/http';
 import {Registration} from '../registration/registration.model';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ForgotPasswordService {

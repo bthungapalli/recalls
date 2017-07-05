@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, Rx_1, ForgotPasswordService;
+    var core_1, http_1, Observable_1, ForgotPasswordService;
     return {
         setters: [
             function (core_1_1) {
@@ -19,8 +19,8 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (Rx_1_1) {
-                Rx_1 = Rx_1_1;
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             }
         ],
         execute: function () {
@@ -32,7 +32,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                 ForgotPasswordService.prototype.submitForgotPassword = function (forgotPasswordModel) {
                     return this.http.post(this.FORGOT_PASSWORD_POST_URL + forgotPasswordModel.email, forgotPasswordModel)
                         .map(function (res) { return res.json(); })
-                        .catch(function (error) { return Rx_1.Observable.throw(error.json().error || 'Server error'); });
+                        .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
                 };
                 return ForgotPasswordService;
             }());

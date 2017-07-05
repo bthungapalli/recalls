@@ -1,7 +1,7 @@
 import { Component,Injectable } from '@angular/core';
 import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular/http';
 import {Profile} from './profile.model';
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ProfileService {
