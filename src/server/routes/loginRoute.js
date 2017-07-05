@@ -10,13 +10,18 @@ router.post('/',function (req,res,next){
 			if(err)
         		res.send("error");
 			
-			decryptedPassword = cryptr.decrypt(user.password);
-			if(decryptedPassword==userDetails.password){
-				req.session.user = userDetails;
-				 res.json(user);
-			}else{
+			if(user==null){
 				res.json(null);
+			}else{
+				decryptedPassword = cryptr.decrypt(user.password);
+				if(decryptedPassword==userDetails.password){
+					req.session.user = userDetails;
+					 res.json(user);
+				}else{
+					res.json(null);
+				}
 			}
+			
 		});
 });
 
