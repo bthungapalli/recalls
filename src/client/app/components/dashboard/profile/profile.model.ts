@@ -13,4 +13,5 @@ export class Profile {
     public alertsOn?:string[];
     public role?:string;
     public isActive?:boolean;
+    public categories?:string[];
 }

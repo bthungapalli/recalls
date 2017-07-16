@@ -6,7 +6,6 @@ import { HomeComponent }  from './home.component';
 import { SpinnerService }  from './spinner.service';
 
 
-
 @NgModule({
   imports: [
     FormsModule,

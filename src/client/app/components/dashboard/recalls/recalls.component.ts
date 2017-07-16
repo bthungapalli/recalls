@@ -9,7 +9,7 @@ import {Category} from '../categories/categories.model';
 import {DashboardService} from '../dashboard.service';
 import {Profile} from '../profile/profile.model';
 import {SpinnerService} from '../spinner.service';
-
+import {ProfileService} from '../profile/profile.service';
 
 @Component({
   selector: 'recalls',
@@ -20,7 +20,7 @@ export class RecallsComponent implements OnInit{
       public errorMessage:String="";
       public successMessage:String="";
       public recalls:Recall[]=[];
-      public categories:Category[]=[];
+      public categories:String[]=[];
       public sortBy:String = "created_at";
       public sortOrder:String = "desc";
 
@@ -30,12 +30,30 @@ export class RecallsComponent implements OnInit{
       public profile:Profile;
 
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService) {
-            this.profile=dashboardService.userDetails;
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private profileService:ProfileService) {
+          
+          if(dashboardService.userDetails.categories!==undefined){
+               this.profile=dashboardService.userDetails;
+               this.categories=dashboardService.userDetails.categories;
+          }else{
+                 this.profileService.getUser().subscribe(response => {
+            if(response.sessionExpired){
+              this.router.navigate(['home']);
+            }else{
+                this.profile=response;
+              this.categories=response.categories;
+              this.dashboardService.userDetails=response;
+            }
+            },err => {
+                this.errorMessage="Something went wrong.Please contact administrator";
+                this.spinnerService.emitChange(false);
+            });
+          }
       }
 
       ngOnInit(): void {
-this.spinnerService.emitChange(true);
+         
+      this.spinnerService.emitChange(true);
       this.recallsService.getAllRecalls().subscribe(response => {
 
       if(response.sessionExpired){
@@ -47,25 +65,25 @@ this.spinnerService.emitChange(true);
         this.successMessage="No Recalls available";
       }
       }
-this.spinnerService.emitChange(false);
+       this.spinnerService.emitChange(false);
       },err => {
           this.errorMessage="Something went wrong.Please contact administrator";
           this.spinnerService.emitChange(false);
       });
 
-this.spinnerService.emitChange(true);
-      this.categoriesService.getAllCategories().subscribe(response => {
-          if(response.sessionExpired){
-          this.spinnerService.emitChange(false);
-            this.router.navigate(['home']);
-          }else{
-              this.categories=response;
-          }
-          this.spinnerService.emitChange(false);
-      },err => {
-          this.errorMessage="Something went wrong.Please contact administrator";
-          this.spinnerService.emitChange(false);
-      });
+//this.spinnerService.emitChange(true);
+//      this.categoriesService.getAllCategories().subscribe(response => {
+//          if(response.sessionExpired){
+//          this.spinnerService.emitChange(false);
+//            this.router.navigate(['home']);
+//          }else{
+//              this.categories=response;
+//          }
+//          this.spinnerService.emitChange(false);
+//      },err => {
+//          this.errorMessage="Something went wrong.Please contact administrator";
+//          this.spinnerService.emitChange(false);
+//      });
 
       };
 
@@ -74,9 +92,12 @@ this.spinnerService.emitChange(true);
 
         this.errorMessage="";
         this.successMessage="";
-        if(this.fromDate.epoc<this.toDate.epoc){
-        this.spinnerService.emitChange(true);
-        this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
+          
+          if((this.fromDate!==undefined && this.fromDate!==null) && (this.toDate!==undefined && this.toDate!==null) && this.fromDate.epoc>this.toDate.epoc){
+              this.errorMessage="To Date should be after From Date";
+          }else{
+              this.spinnerService.emitChange(true);
+        this.recallsService.getRecallsForFilter(this.category,(this.toDate===undefined || this.toDate===null)?undefined:this.toDate.formatted,(this.fromDate===undefined || this.fromDate===null)?undefined:this.fromDate.formatted).subscribe(response => {
 
              if(response.sessionExpired){
              this.spinnerService.emitChange(false);
@@ -87,14 +108,35 @@ this.spinnerService.emitChange(true);
                this.successMessage="No Recalls available for given dates."
                }
              }
-this.spinnerService.emitChange(false);
+             this.spinnerService.emitChange(false);
         },err => {
             this.errorMessage="Something went wrong.Please contact administrator";
             this.spinnerService.emitChange(false);
         });
-        }else{
-        this.errorMessage="To Date should be after From Date";
-        }
+         }
+          
+          
+//        if(this.fromDate this.toDate  this.fromDate.epoc<this.toDate.epoc){
+//        this.spinnerService.emitChange(true);
+//        this.recallsService.getRecallsForFilter(this.category,this.toDate.formatted,this.fromDate.formatted).subscribe(response => {
+//
+//             if(response.sessionExpired){
+//             this.spinnerService.emitChange(false);
+//               this.router.navigate(['home']);
+//             }else{
+//               this.recalls=response;
+//               if(response.length===0){
+//               this.successMessage="No Recalls available for given dates."
+//               }
+//             }
+//this.spinnerService.emitChange(false);
+//        },err => {
+//            this.errorMessage="Something went wrong.Please contact administrator";
+//            this.spinnerService.emitChange(false);
+//        });
+//        }else{
+//        this.errorMessage="To Date should be after From Date";
+//        }
       }
 
       deleteRecall(id:String){

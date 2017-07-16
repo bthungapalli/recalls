@@ -6,6 +6,8 @@ import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
 import {Category} from '../categories/categories.model';
 import {SpinnerService} from '../spinner.service';
+import {Profile} from '../profile/profile.model';
+import {DashboardService} from '../dashboard.service';
 
 declare var tinymce: any;
 
@@ -22,10 +24,13 @@ export class RecallComponent implements OnInit, OnDestroy{
       public  description:any="";
       public editor:any;
       public recallId:any;
+      public profile:Profile;
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.recallModel.categoryName="Select Category";
+         this.profile=dashboardService.userDetails;
+         this.categories=this.profile.categories;
       }
 
       ngOnInit(): void {
@@ -55,19 +60,19 @@ export class RecallComponent implements OnInit, OnDestroy{
           this.callTinyMCE();
       }    
           
-            this.spinnerService.emitChange(true);
-      this.categoriesService.getAllCategories().subscribe(response => {
-              if(response.sessionExpired){
-              this.spinnerService.emitChange(false);
-                this.router.navigate(['home']);
-              }else{
-                this.categories=response;
-              }
-            this.spinnerService.emitChange(false);
-          },err => {
-              this.errorMessage="Something went wrong.Please contact administrator";
-              this.spinnerService.emitChange(false);
-          });
+//            this.spinnerService.emitChange(true);
+//      this.categoriesService.getAllCategories().subscribe(response => {
+//              if(response.sessionExpired){
+//              this.spinnerService.emitChange(false);
+//                this.router.navigate(['home']);
+//              }else{
+//                this.categories=response;
+//              }
+//            this.spinnerService.emitChange(false);
+//          },err => {
+//              this.errorMessage="Something went wrong.Please contact administrator";
+//              this.spinnerService.emitChange(false);
+//          });
 
       };
 

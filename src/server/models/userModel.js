@@ -24,6 +24,7 @@ var UserSchema = new Schema({
     alertsOn:{type: Array, required: true},
     role:{type:String,required:true},
     isActive:{type: Boolean, required: true,default:true},
+    categories:{type:Array,required:true},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

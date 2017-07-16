@@ -37,6 +37,7 @@ export class DashboardService {
        this.userDetails.alertsOn=login.alertsOn;
        this.userDetails.role=login.role;
        this.userDetails.isActive=login.isActive;
+       this.userDetails.categories=login.categories;
       }
 
       logout(): Observable<any> {

@@ -55,6 +55,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable", "rxjs/Subj
                     this.userDetails.alertsOn = login.alertsOn;
                     this.userDetails.role = login.role;
                     this.userDetails.isActive = login.isActive;
+                    this.userDetails.categories = login.categories;
                 };
                 DashboardService.prototype.logout = function () {
                     return this.http.get(this.LOGOUT_URL)

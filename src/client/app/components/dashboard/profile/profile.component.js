@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./profile.model", "./profile.service", "../dashboard.service", "../spinner.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./profile.model", "./profile.service", "../dashboard.service", "../spinner.service", "../../dashboard/categories/categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, profile_model_1, profile_service_1, dashboard_service_1, spinner_service_1, ProfileComponent;
+    var core_1, router_1, profile_model_1, profile_service_1, dashboard_service_1, spinner_service_1, categories_service_1, ProfileComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -30,21 +30,31 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
             },
             function (spinner_service_1_1) {
                 spinner_service_1 = spinner_service_1_1;
+            },
+            function (categories_service_1_1) {
+                categories_service_1 = categories_service_1_1;
             }
         ],
         execute: function () {
             ProfileComponent = (function () {
-                function ProfileComponent(profileService, dashboardService, router, spinnerService) {
+                function ProfileComponent(profileService, dashboardService, router, spinnerService, categoriesService) {
                     var _this = this;
                     this.profileService = profileService;
                     this.dashboardService = dashboardService;
                     this.router = router;
                     this.spinnerService = spinnerService;
+                    this.categoriesService = categoriesService;
                     this.disableFields = true;
                     this.errorMessage = "";
                     this.successMessage = "";
+                    this.categories = [];
                     this.profileModel = new profile_model_1.Profile();
                     this.spinnerService.emitChange(true);
+                    this.categoriesService.getAllCategories().subscribe(function (response) {
+                        _this.categories = response;
+                    }, function (err) {
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
+                    });
                     this.profileService.getUser().subscribe(function (response) {
                         if (response.sessionExpired) {
                             _this.spinnerService.emitChange(false);
@@ -100,7 +110,7 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
                     selector: 'profile',
                     templateUrl: "./app/components/dashboard/profile/profile.html"
                 }),
-                __metadata("design:paramtypes", [profile_service_1.ProfileService, dashboard_service_1.DashboardService, router_1.Router, spinner_service_1.SpinnerService])
+                __metadata("design:paramtypes", [profile_service_1.ProfileService, dashboard_service_1.DashboardService, router_1.Router, spinner_service_1.SpinnerService, categories_service_1.CategoriesService])
             ], ProfileComponent);
             exports_1("ProfileComponent", ProfileComponent);
         }

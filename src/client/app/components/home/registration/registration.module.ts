@@ -4,7 +4,7 @@ import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import { RegistrationComponent }  from './registration.component';
 import { RegistrationService }  from './registration.service';
-
+import { CategoriesService }  from '../../dashboard/categories/categories.service';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { RegistrationService }  from './registration.service';
     RegistrationComponent
   ],
   providers:[
-    RegistrationService
+    RegistrationService,CategoriesService
   ]
 })
 export class RegistrationModule { }

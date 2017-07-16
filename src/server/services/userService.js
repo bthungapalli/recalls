@@ -39,12 +39,12 @@ return{
 				 		 console.log("error:"+error);
 				 		 callbackForCreateOrUpdateUser(error);
 				 	 }
-				 	 var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"role":user.role});
+				 	 var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"role":user.role,"categories":user.categories});
 				 	 serviceObj.save(userCreated,callbackForCreateOrUpdateUser);
 				 });
 			 }else{
 				 var conditions = { "_id":user._id };
-				 var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"updated_at":new Date()}};
+				 var update = { $set: {"firstName": user.firstName,"lastName": user.lastName,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"updated_at":new Date(),"categories":user.categories}};
 				 this.update(user,conditions,update,callbackForCreateOrUpdateUser);
 			 }
    },
@@ -64,6 +64,10 @@ return{
 	 getUser:function(user,callbackForGetUser){
 		 var query = userModel.findOne({"email":user.email});
 		 this.execute(query,callbackForGetUser);
+	 },
+	 getAllUsersBasedOnCategory:function(category,callbackForGetAllUsersBasedOnCategory){
+		 var query = userModel.find({ "categories": { $in: [categoryName] } }); 
+		 this.execute(query,callbackForGetAllUsersBasedOnCategory);
 	 }
 
 }

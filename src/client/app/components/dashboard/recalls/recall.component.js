@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service", "../dashboard.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, RecallComponent;
+    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, dashboard_service_1, RecallComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -30,22 +30,28 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
             },
             function (spinner_service_1_1) {
                 spinner_service_1 = spinner_service_1_1;
+            },
+            function (dashboard_service_1_1) {
+                dashboard_service_1 = dashboard_service_1_1;
             }
         ],
         execute: function () {
             RecallComponent = (function () {
-                function RecallComponent(recallsService, categoriesService, router, activatedRoute, spinnerService) {
+                function RecallComponent(recallsService, categoriesService, router, activatedRoute, spinnerService, dashboardService) {
                     this.recallsService = recallsService;
                     this.categoriesService = categoriesService;
                     this.router = router;
                     this.activatedRoute = activatedRoute;
                     this.spinnerService = spinnerService;
+                    this.dashboardService = dashboardService;
                     this.errorMessage = "";
                     this.successMessage = "";
                     this.categories = [];
                     this.description = "";
                     this.recallModel = new recalls_model_1.Recall();
                     this.recallModel.categoryName = "Select Category";
+                    this.profile = dashboardService.userDetails;
+                    this.categories = this.profile.categories;
                 }
                 RecallComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -72,20 +78,19 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     else {
                         this.callTinyMCE();
                     }
-                    this.spinnerService.emitChange(true);
-                    this.categoriesService.getAllCategories().subscribe(function (response) {
-                        if (response.sessionExpired) {
-                            _this.spinnerService.emitChange(false);
-                            _this.router.navigate(['home']);
-                        }
-                        else {
-                            _this.categories = response;
-                        }
-                        _this.spinnerService.emitChange(false);
-                    }, function (err) {
-                        _this.errorMessage = "Something went wrong.Please contact administrator";
-                        _this.spinnerService.emitChange(false);
-                    });
+                    //            this.spinnerService.emitChange(true);
+                    //      this.categoriesService.getAllCategories().subscribe(response => {
+                    //              if(response.sessionExpired){
+                    //              this.spinnerService.emitChange(false);
+                    //                this.router.navigate(['home']);
+                    //              }else{
+                    //                this.categories=response;
+                    //              }
+                    //            this.spinnerService.emitChange(false);
+                    //          },err => {
+                    //              this.errorMessage="Something went wrong.Please contact administrator";
+                    //              this.spinnerService.emitChange(false);
+                    //          });
                 };
                 ;
                 RecallComponent.prototype.callTinyMCE = function () {
@@ -139,7 +144,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     selector: 'recall',
                     templateUrl: "./app/components/dashboard/recalls/recall.html"
                 }),
-                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router, router_1.ActivatedRoute, spinner_service_1.SpinnerService])
+                __metadata("design:paramtypes", [recalls_service_1.RecallsService, categories_service_1.CategoriesService, router_1.Router, router_1.ActivatedRoute, spinner_service_1.SpinnerService, dashboard_service_1.DashboardService])
             ], RecallComponent);
             exports_1("RecallComponent", RecallComponent);
         }

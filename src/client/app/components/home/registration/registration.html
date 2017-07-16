@@ -33,6 +33,16 @@
         <input type="password" [(ngModel)]="registrationModel.confirmPassword" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password" required>
       </div>
     </div>
+      <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+        <select class="form-control" [(ngModel)]="registrationModel.categories" name="categoryName" multiple="true" size="5" required>
+          <option *ngFor="let category of categories" value= {{category.categoryName}}>
+            {{category.categoryName}}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="col-xs-12">
       <div class="form-group">
         <label for="mobileNumber">Mobile Number <sup class="text-danger">*</sup></label>
@@ -77,7 +87,7 @@
     </div>
     <div class="col-sm-6 col-xs-12">
       <div class="form-group">
-        <label for="alerts">Alerts On  {{registrationModel.alertsOn}}<sup class="text-danger">*</sup></label>
+        <label for="alerts">Alerts On <sup class="text-danger">*</sup></label>
         <br>
         <label class="radio-inline">
           <input type="checkbox" [(ngModel)]="isEmailAlert" name="alertsOn" id="inlineRadio1" value="Email" > Email

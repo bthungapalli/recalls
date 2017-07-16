@@ -24,7 +24,7 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 			if(err)
         		res.send("error");
 
-						userService.getAllUsers(function(err,users){
+						userService.getAllUsersBasedOnCategory(recall.categoryName,function(err,users){
 							if(err)
 										res.send("error");
 										var subject =  nconf.get("mail").subject+" New Recall ";

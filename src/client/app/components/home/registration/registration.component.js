@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./registration.model", "./registration.service", "../../dashboard/dashboard.service", "../spinner.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./registration.model", "./registration.service", "../../dashboard/dashboard.service", "../spinner.service", "../../dashboard/categories/categories.service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./registration.model", "./
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, registration_model_1, registration_service_1, dashboard_service_1, spinner_service_1, RegistrationComponent;
+    var core_1, router_1, registration_model_1, registration_service_1, dashboard_service_1, spinner_service_1, categories_service_1, RegistrationComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -30,17 +30,28 @@ System.register(["@angular/core", "@angular/router", "./registration.model", "./
             },
             function (spinner_service_1_1) {
                 spinner_service_1 = spinner_service_1_1;
+            },
+            function (categories_service_1_1) {
+                categories_service_1 = categories_service_1_1;
             }
         ],
         execute: function () {
             RegistrationComponent = (function () {
-                function RegistrationComponent(registrationService, router, dashboardService, spinnerService) {
+                function RegistrationComponent(registrationService, router, dashboardService, spinnerService, categoriesService) {
+                    var _this = this;
                     this.registrationService = registrationService;
                     this.router = router;
                     this.dashboardService = dashboardService;
                     this.spinnerService = spinnerService;
+                    this.categoriesService = categoriesService;
                     this.errorMessage = "";
+                    this.categories = [];
                     this.registrationModel = new registration_model_1.Registration();
+                    this.categoriesService.getAllCategories().subscribe(function (response) {
+                        _this.categories = response;
+                    }, function (err) {
+                        _this.errorMessage = "Something went wrong.Please contact administrator";
+                    });
                 }
                 RegistrationComponent.prototype.submitSignUp = function () {
                     var _this = this;
@@ -88,7 +99,7 @@ System.register(["@angular/core", "@angular/router", "./registration.model", "./
                     selector: 'registration',
                     templateUrl: "./app/components/home/registration/registration.html"
                 }),
-                __metadata("design:paramtypes", [registration_service_1.RegistrationService, router_1.Router, dashboard_service_1.DashboardService, spinner_service_1.SpinnerService])
+                __metadata("design:paramtypes", [registration_service_1.RegistrationService, router_1.Router, dashboard_service_1.DashboardService, spinner_service_1.SpinnerService, categories_service_1.CategoriesService])
             ], RegistrationComponent);
             exports_1("RegistrationComponent", RegistrationComponent);
         }

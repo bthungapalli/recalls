@@ -3,7 +3,7 @@ var router = express.Router();
 var categoryService=require("../services/categoryService");
 var checkSession=require("../services/checkSessionService");
 
-router.get('/allCategories',checkSession.requireLogin,function (req,res,next){
+router.get('/allCategories',function (req,res,next){
 		categoryService.getAllCategories(function(err,users){
 			if(err)
         		res.send("error");

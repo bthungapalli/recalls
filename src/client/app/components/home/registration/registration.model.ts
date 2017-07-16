@@ -13,4 +13,5 @@ export class Registration {
     public alertsOn?:string[];
     public role?:string;
     public isActive?:boolean;
+    public categories?:string[];
 }

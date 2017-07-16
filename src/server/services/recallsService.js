@@ -60,9 +60,9 @@ return{
 	 getAllRecalls:function(user,callbackForGetAllRecalls){
 		 var condition;
 		 if(user.role==="Vendor"){
-			 condition={"created_by":user.email};
+			 condition={"created_by":user.email,"categoryName":{$in:user.categories}};
 		 }else{
-			 condition={};
+			 condition={"categoryName":{$in:user.categories}};
 		 }
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecalls);
@@ -75,18 +75,64 @@ return{
 			endDate.setDate(endDate.getDate());
 			startDate.setHours(0,0,0,0);
 			endDate.setHours(23,59,59,999);
+			
+			var startDate;
+			var endDate;
+			if(recallFilter.fromDate !==undefined && recallFilter.toDate!==undefined){
+				startDate= new Date(recallFilter.fromDate);
+					startDate.setDate(startDate.getDate());
+					 endDate = new Date(recallFilter.toDate);
+					endDate.setDate(endDate.getDate());
+					startDate.setHours(0,0,0,0);
+					endDate.setHours(23,59,59,999);
+			}else if(recallFilter.fromDate !==undefined){
+				startDate= new Date(recallFilter.fromDate);
+				startDate.setDate(startDate.getDate());
+				 endDate = new Date(recallFilter.fromDate);
+				endDate.setDate(endDate.getDate());
+				startDate.setHours(0,0,0,0);
+				endDate.setHours(23,59,59,999);
+			}else if(recallFilter.toDate !==undefined){
+				startDate= new Date(recallFilter.toDate);
+				startDate.setDate(startDate.getDate());
+				 endDate = new Date(recallFilter.toDate);
+				endDate.setDate(endDate.getDate());
+				startDate.setHours(0,0,0,0);
+				endDate.setHours(23,59,59,999);
+			}
+			
 			if(user.role==="Vendor"){
-				if(recallFilter.category=="All"){
-					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"created_by":user.email}]};
+				
+				if(recallFilter.fromDate !==undefined || recallFilter.toDate!==undefined){
+					if(recallFilter.category=="All"){
+						condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":user.categories},{"created_by":user.email}]};
+					}else{
+						condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category},{"created_by":user.email}]};
+					}
 				}else{
-					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category},{"created_by":user.email}]};
+					if(recallFilter.category=="All"){
+						condition={$and : [{"categoryName":user.categories},{"created_by":user.email}]};
+					}else{
+						condition={$and : [{"categoryName":recallFilter.category},{"created_by":user.email}]};
+					}
 				}
+				
 			}else{
-				if(recallFilter.category=="All"){
-					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}}]};
+				
+				if(recallFilter.fromDate !==undefined || recallFilter.toDate!==undefined){
+					if(recallFilter.category=="All"){
+						condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":user.categories}]};
+					}else{
+						condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
+					}
 				}else{
-					condition={$and : [{"created_at": {$gte: startDate}},{"created_at": {$lte: endDate}},{"categoryName":recallFilter.category}]};
+					if(recallFilter.category=="All"){
+						condition={$and : [{"categoryName":user.categories}]};
+					}else{
+						condition={$and : [{"categoryName":recallFilter.category}]};
+					}
 				}
+				
 			}
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecallsByFilter);

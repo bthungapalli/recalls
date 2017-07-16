@@ -23,15 +23,15 @@
       <label for="categoryName"> Category </label>
       <select class="form-control" [(ngModel)]="category"  name="categoryName">
         <option>All</option>
-        <option *ngFor="let category of categories" value= {{category.categoryName}}>
-          {{category.categoryName}}
+        <option *ngFor="let category1 of categories" value= {{category1}}>
+          {{category1}}
         </option>
       </select>
     </div>
   </div>
-
-  <div class="col-sm-2  col-xs-12" style="margin-top: 24px;">
-    <button type="button" (click)="getRecallsForFilter()" [disabled]="toDate==null || fromDate==null" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
+<!-- [disabled]="toDate==null || fromDate==null" 
+ -->  <div class="col-sm-2  col-xs-12" style="margin-top: 24px;">
+    <button type="button" (click)="getRecallsForFilter()" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
   </div>
 
 

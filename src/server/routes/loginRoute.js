@@ -15,7 +15,7 @@ router.post('/',function (req,res,next){
 			}else{
 				decryptedPassword = cryptr.decrypt(user.password);
 				if(decryptedPassword==userDetails.password){
-					req.session.user = userDetails;
+					req.session.user = user;
 					 res.json(user);
 				}else{
 					res.json(null);

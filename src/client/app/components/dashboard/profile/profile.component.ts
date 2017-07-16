@@ -6,6 +6,8 @@ import {Profile} from './profile.model';
 import {ProfileService} from './profile.service';
 import {DashboardService} from '../dashboard.service';
 import {SpinnerService} from '../spinner.service';
+import {CategoriesService} from '../../dashboard/categories/categories.service';
+import {Category} from '../../dashboard/categories/categories.model';
 
 @Component({
   selector: 'profile',
@@ -19,11 +21,19 @@ export class ProfileComponent {
       public profileModel: Profile;
       public isEmailAlert:boolean;
       public isMobileAlert:boolean;
-
-      constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService) {
+      public categories:Category[]=[];
+    
+      constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
           this.profileModel = new Profile();
           
           this.spinnerService.emitChange(true);
+          
+            this.categoriesService.getAllCategories().subscribe(response => {
+                   this.categories=response;
+          },err => {
+              this.errorMessage="Something went wrong.Please contact administrator";
+          });
+          
            this.profileService.getUser().subscribe(response => {
 
             if(response.sessionExpired){

@@ -5,6 +5,8 @@ import {Registration} from './registration.model';
 import {RegistrationService} from './registration.service';
 import {DashboardService} from '../../dashboard/dashboard.service';
 import {SpinnerService} from '../spinner.service';
+import {CategoriesService} from '../../dashboard/categories/categories.service';
+import {Category} from '../../dashboard/categories/categories.model';
 
 
 @Component({
@@ -18,9 +20,15 @@ export class RegistrationComponent {
       public spinner:boolean;
       public isEmailAlert:boolean;
       public isMobileAlert:boolean;
+      public categories:Category[]=[];
 
-      constructor(private registrationService:RegistrationService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService) {
+      constructor(private registrationService:RegistrationService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
           this.registrationModel = new Registration();
+          this.categoriesService.getAllCategories().subscribe(response => {
+                   this.categories=response;
+          },err => {
+              this.errorMessage="Something went wrong.Please contact administrator";
+          });
       }
 
       submitSignUp(){

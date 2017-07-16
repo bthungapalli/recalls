@@ -17,6 +17,16 @@
       </div>
     </div> -->
 
+ <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+        <select class="form-control" [(ngModel)]="profileModel.categories" name="categoryName" [disabled]="disableFields" multiple="true" size="5" required>
+          <option *ngFor="let category of categories" value= {{category.categoryName}}>
+            {{category.categoryName}}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="col-xs-12">
       <div class="form-group">
         <label for="mobileNumber">Mobile Number <sup class="text-danger">*</sup></label>
