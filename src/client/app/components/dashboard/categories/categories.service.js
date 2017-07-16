@@ -30,6 +30,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                     this.GET_ALL_CATEGORIES_URL = "/categories/allCategories";
                     this.GET_CREATE_CATEGORY_URL = "/categories/createCategory";
                     this.GET_DELETE_CATEGORY_URL = "/categories/deleteCategory";
+                    this.GET_REQUEST_CATEGORY_URL = "/categories/requestCategory";
                 }
                 CategoriesService.prototype.getAllCategories = function () {
                     return this.http.get(this.GET_ALL_CATEGORIES_URL)
@@ -43,6 +44,11 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                 };
                 CategoriesService.prototype.deleteCategory = function (categoryModel) {
                     return this.http.post(this.GET_DELETE_CATEGORY_URL, categoryModel)
+                        .map(function (res) { return res.json(); })
+                        .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
+                };
+                CategoriesService.prototype.requestCategory = function (categoryName) {
+                    return this.http.post(this.GET_REQUEST_CATEGORY_URL, { "categoryName": categoryName })
                         .map(function (res) { return res.json(); })
                         .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error'); });
                 };

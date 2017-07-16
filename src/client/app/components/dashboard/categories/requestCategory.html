@@ -1,0 +1,20 @@
+<div class="col-xs-12">
+  <h3>Request Category</h3>
+  <hr style="margin-top: 0px;margin-bottom: 15px;border-top: 2.5px solid #1abb9c;">
+  <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
+  <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
+
+  <form (ngSubmit)="submitRequest();" #categoryDetails="ngForm">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName">Category Name <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="categoryName" name="categoryName" class="form-control" id="categoryName" placeholder="Category Name" required>
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-center">
+      <button type="submit"   class="btn btn-success">Submit</button>
+    </div>
+  </form>
+
+</div>

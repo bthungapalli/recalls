@@ -10,7 +10,7 @@ import {UserManagementComponent} from '../dashboard/userManagement/userManagemen
 import {CategoriesComponent} from '../dashboard/categories/categories.component';
 import {RecallComponent} from '../dashboard/recalls/recall.component';
 import {RecallsComponent} from '../dashboard/recalls/recalls.component';
-
+import {RequestCategoryComponent} from '../dashboard/categories/requestCategory.component';
 
 const appRoutes: Routes = [
   { path: '' , redirectTo: 'home', pathMatch: 'full'},
@@ -29,7 +29,8 @@ const appRoutes: Routes = [
        { path: 'categories', component: CategoriesComponent },
        { path: 'recall', component: RecallComponent },
        { path: 'recall/:id', component: RecallComponent },
-       { path: 'recalls', component: RecallsComponent }
+       { path: 'recalls', component: RecallsComponent },
+       { path: 'requestCategory', component: RequestCategoryComponent }
       ]
    },
    {path: '**', redirectTo: 'dashboard'}

@@ -6,6 +6,7 @@ import {HttpModule} from '@angular/http';
 
 import { CategoriesComponent }  from './categories.component';
 import { CategoriesService }  from './categories.service';
+import {RequestCategoryComponent} from './requestCategory.component';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { CategoriesService }  from './categories.service';
 
   ],
   declarations: [
-    CategoriesComponent
+    CategoriesComponent,RequestCategoryComponent
   ],
   providers:[
     CategoriesService
