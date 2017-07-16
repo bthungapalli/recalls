@@ -52,17 +52,17 @@
         <label for="alerts">Alerts On</label>
         <br>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="profileModel.alertsOn" name="alertsOn" [disabled]="disableFields" id="inlineRadio1" value="Email" required> Email
+          <input type="checkbox" [(ngModel)]="isEmailAlert" name="alertsOn1" [disabled]="disableFields" id="inlineRadio1" value="Email" > Email
         </label>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="profileModel.alertsOn" name="alertsOn" [disabled]="disableFields" id="inlineRadio2" value="Mobile" required> Mobile
+          <input type="checkbox" [(ngModel)]="isMobileAlert" name="alertsOn2" [disabled]="disableFields" id="inlineRadio2" value="Mobile" > Mobile
         </label>
       </div>
     </div>
 
     <div class="col-xs-12 text-center">
       <button type="button" (click)="disableFields=false;" *ngIf="disableFields" class="btn btn-primary">Edit</button>
-      <button type="submit" [disabled]="!personalDetails.form.valid" *ngIf="!disableFields"  class="btn btn-success">Update</button>
+      <button type="submit" [disabled]="!personalDetails.form.valid || !(isMobileAlert || isEmailAlert)" *ngIf="!disableFields"  class="btn btn-success">Update</button>
     </div>
   </form>
 

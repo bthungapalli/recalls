@@ -15,7 +15,9 @@ export class RegistrationComponent {
 
       public errorMessage:String="";
       public registrationModel: Registration;
-public spinner:boolean;
+      public spinner:boolean;
+      public isEmailAlert:boolean;
+      public isMobileAlert:boolean;
 
       constructor(private registrationService:RegistrationService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService) {
           this.registrationModel = new Registration();
@@ -25,6 +27,14 @@ public spinner:boolean;
       this.spinnerService.emitChange(true);
         this.errorMessage="";
         if(this.registrationModel.password===this.registrationModel.confirmPassword){
+            
+            if(this.isEmailAlert && this.isMobileAlert){
+                this.registrationModel.alertsOn=["Email","Mobile"];
+            }else if(this.isEmailAlert){
+                this.registrationModel.alertsOn=["Email"];
+            }else if(this.isMobileAlert){
+                this.registrationModel.alertsOn=["Mobile"];
+            }
             this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
             this.dashboardService.setUserToProfile(response);
             this.router.navigate(['dashboard/profile']);

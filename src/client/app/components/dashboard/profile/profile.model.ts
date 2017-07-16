@@ -10,7 +10,7 @@ export class Profile {
     public city?: string;
     public state?: string;
     public zipcode?:string;
-    public alertsOn?:string;
+    public alertsOn?:string[];
     public role?:string;
     public isActive?:boolean;
 }

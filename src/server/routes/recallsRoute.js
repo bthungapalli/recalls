@@ -40,11 +40,11 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 											};
 
 										for( var user in users){
-												if(user.alertsOn==="Email"){
+												if(user.alertsOn.includes("Email")){
 													mailUtil.sendMail(user.email,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
 					                console.log("Email sent to: "+user.email);
 													});
-												}else{
+												}else if(user.alertsOn.includes("Mobile")){
         									console.log("Mobile subcription");
 												}
 										}

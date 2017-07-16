@@ -47,6 +47,15 @@ System.register(["@angular/core", "@angular/router", "./registration.model", "./
                     this.spinnerService.emitChange(true);
                     this.errorMessage = "";
                     if (this.registrationModel.password === this.registrationModel.confirmPassword) {
+                        if (this.isEmailAlert && this.isMobileAlert) {
+                            this.registrationModel.alertsOn = ["Email", "Mobile"];
+                        }
+                        else if (this.isEmailAlert) {
+                            this.registrationModel.alertsOn = ["Email"];
+                        }
+                        else if (this.isMobileAlert) {
+                            this.registrationModel.alertsOn = ["Mobile"];
+                        }
                         this.registrationService.submitSignUp(this.registrationModel).subscribe(function (response) {
                             _this.dashboardService.setUserToProfile(response);
                             _this.router.navigate(['dashboard/profile']);

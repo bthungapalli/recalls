@@ -77,19 +77,19 @@
     </div>
     <div class="col-sm-6 col-xs-12">
       <div class="form-group">
-        <label for="alerts">Alerts On  <sup class="text-danger">*</sup></label>
+        <label for="alerts">Alerts On  {{registrationModel.alertsOn}}<sup class="text-danger">*</sup></label>
         <br>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio1" value="Email" required> Email
+          <input type="checkbox" [(ngModel)]="isEmailAlert" name="alertsOn" id="inlineRadio1" value="Email" > Email
         </label>
         <label class="radio-inline">
-          <input type="radio" [(ngModel)]="registrationModel.alertsOn" name="alertsOn" id="inlineRadio2" value="Mobile" required> Mobile
+          <input type="checkbox" [(ngModel)]="isMobileAlert" name="alertsOn" id="inlineRadio2" value="Mobile" > Mobile
         </label>
       </div>
     </div>
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage=='Email already exist'" class="btn btn-block btn-success">Sign In</button>
+      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage=='Email already exist' || !(isMobileAlert || isEmailAlert)" class="btn btn-block btn-success">Sign In</button>
     </div>
   </form>
 

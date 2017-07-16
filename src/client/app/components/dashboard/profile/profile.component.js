@@ -52,6 +52,8 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
                         }
                         else {
                             _this.profileModel = Object.assign({}, response);
+                            _this.isEmailAlert = _this.profileModel.alertsOn.includes("Email");
+                            _this.isMobileAlert = _this.profileModel.alertsOn.includes("Mobile");
                             _this.dashboardService.emitChange(response);
                             _this.dashboardService.userDetails = response;
                             _this.spinnerService.emitChange(false);
@@ -67,6 +69,15 @@ System.register(["@angular/core", "@angular/router", "./profile.model", "./profi
                     this.disableFields = true;
                     this.errorMessage = "";
                     this.successMessage = "";
+                    if (this.isEmailAlert && this.isMobileAlert) {
+                        this.profileModel.alertsOn = ["Email", "Mobile"];
+                    }
+                    else if (this.isEmailAlert) {
+                        this.profileModel.alertsOn = ["Email"];
+                    }
+                    else if (this.isMobileAlert) {
+                        this.profileModel.alertsOn = ["Mobile"];
+                    }
                     this.profileService.submitProfile(this.profileModel).subscribe(function (response) {
                         if (response.sessionExpired) {
                             _this.spinnerService.emitChange(false);

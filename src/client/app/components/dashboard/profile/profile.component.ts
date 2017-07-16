@@ -17,6 +17,8 @@ export class ProfileComponent {
       public errorMessage:String="";
       public successMessage:String="";
       public profileModel: Profile;
+      public isEmailAlert:boolean;
+      public isMobileAlert:boolean;
 
       constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService) {
           this.profileModel = new Profile();
@@ -29,6 +31,8 @@ export class ProfileComponent {
               this.router.navigate(['home']);
             }else{
                 this.profileModel= (<any>Object).assign({}, response);
+               this.isEmailAlert= this.profileModel.alertsOn.includes("Email");
+                this.isMobileAlert= this.profileModel.alertsOn.includes("Mobile");
                 this.dashboardService.emitChange(response);
               this.dashboardService.userDetails=response;
               this.spinnerService.emitChange(false);
@@ -50,6 +54,13 @@ export class ProfileComponent {
         this.disableFields=true;
         this.errorMessage="";
         this.successMessage="";
+           if(this.isEmailAlert && this.isMobileAlert){
+                this.profileModel.alertsOn=["Email","Mobile"];
+            }else if(this.isEmailAlert){
+                this.profileModel.alertsOn=["Email"];
+            }else if(this.isMobileAlert){
+                this.profileModel.alertsOn=["Mobile"];
+            }
             this.profileService.submitProfile(this.profileModel).subscribe(response => {
 
             if(response.sessionExpired){
