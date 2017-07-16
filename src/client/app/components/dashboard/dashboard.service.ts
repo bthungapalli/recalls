@@ -1,10 +1,8 @@
 import { Component,Injectable } from '@angular/core';
 import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import {Observable} from 'rxjs/Rx';
 import { Registration } from '../home/registration/registration.model';
 import { Profile } from './profile/profile.model';
 

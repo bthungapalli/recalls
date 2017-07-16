@@ -42,6 +42,9 @@ System.register(["@angular/core", "@angular/router", "./dashboard.service", "./s
                     dashboardService.changeEmitted$.subscribe(function (response) {
                         _this.profile = response;
                     });
+                    if (this.profile.role !== "Admin") {
+                        this.router.navigate(['dashboard/recalls']);
+                    }
                 }
                 DashboardComponent.prototype.logout = function () {
                     var _this = this;

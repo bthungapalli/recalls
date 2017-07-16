@@ -25,6 +25,10 @@ export class DashboardComponent{
         response => {
             this.profile=response;
         });   
+          
+          if(this.profile.role!=="Admin"){
+               this.router.navigate(['dashboard/recalls']);
+          }
       }
 
       logout(){
