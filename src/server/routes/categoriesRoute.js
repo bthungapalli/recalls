@@ -3,7 +3,7 @@ var router = express.Router();
 var categoryService=require("../services/categoryService");
 var checkSession=require("../services/checkSessionService");
 var nconf = require('nconf');
-var mailUtil=require("../utils/mailUtil");
+var mailUtil=require("../utils/MailUtil");
 
 router.get('/allCategories',function (req,res,next){
 		categoryService.getAllCategories(function(err,users){

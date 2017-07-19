@@ -3,7 +3,7 @@ var router = express.Router();
 var nconf = require('nconf');
 
 var userService=require("../services/userService");
-var mailUtil=require("../utils/mailUtil");
+var mailUtil=require("../utils/MailUtil");
 var Cryptr = require('cryptr'),
 cryptr = new Cryptr('recallsSecretKeyToEncryptPassword');
 
