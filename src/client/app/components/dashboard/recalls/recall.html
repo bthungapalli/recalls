@@ -4,37 +4,96 @@
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
   <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
 
-
  <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
-        <select class="form-control" [(ngModel)]="recallModel.categoryName" name="categoryName">
-          <option>Select Category</option>
+        <select class="form-control" (change)="changeCategory();" [disabled]="recallId" [(ngModel)]="recallModel.categoryName" name="categoryName">
           <option *ngFor="let category of categories" value= {{category}}>
             {{category}}
           </option>
         </select>
       </div>
     </div>
-
-  <form *ngIf="recallModel.categoryName!=='Select Category'" (ngSubmit)="submitRecall();" #recallDetails="ngForm">
+    
+  <form  (ngSubmit)="submitRecall();" #recallDetails="ngForm">
   
+<div *ngIf="recallModel.categoryName==='Consumer Products'">
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
       </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-12">
       <div class="form-group">
-        <label for="categoryName"> Manufacturer </label>
-        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" >
+        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+        <textarea id="description"></textarea>
       </div>
     </div>
     <div class="col-xs-6">
       <div class="form-group">
-        <label for="categoryName"> Product</label>
-        <input type="text" [(ngModel)]="recallModel.product" name="product" class="form-control" id="product" placeholder="Product" >
+        <label for="categoryName"> Name of Product <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.productName" name="productName" class="form-control" id="productName" placeholder="Product Name" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Remedy <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Recall Date <sup class="text-danger">*</sup></label>
+         <my-date-picker name="recallDate" [(ngModel)]="recallModel.recallDate" required></my-date-picker>      
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber" placeholder="Recall Number" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName">  Incidents/Injuries <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.incidentsOrInjuries" name="incidentsOrInjuries" class="form-control" id="incidentsOrInjuries" placeholder="Incidents/Injuries" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName">  Sold At <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.soldAt" name="soldAt" class="form-control" id="soldAt" placeholder="Sold At" required>
+      </div>
+    </div>
+   <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Importer(s) <sup class="text-danger">*</sup> </label>
+        <input type="text" [(ngModel)]="recallModel.importer" name="importer" class="form-control" id="importer" placeholder="Importer(s)" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Manufactured In <sup class="text-danger">*</sup> </label>
+        <input type="text" [(ngModel)]="recallModel.manufacturedIn" name="manufacturedIn" class="form-control" id="manufacturedIn" placeholder="Manufactured In" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Units <sup class="text-danger">*</sup> </label>
+        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+     <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Hazard <sup class="text-danger">*</sup> </label>
+        <input type="text" [(ngModel)]="recallModel.hazard" name="hazard" class="form-control" id="hazard" placeholder="Hazard" required>
       </div>
     </div>
     <div class="col-xs-12">
@@ -43,26 +102,351 @@
         <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
       </div>
     </div>
+   
+</div>
+
+
+
+<div *ngIf="recallModel.categoryName==='Meat and Poultry Products'">
     <div class="col-xs-12">
       <div class="form-group">
-
+        <label for="title"> Title <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
         <textarea id="description"></textarea>
       </div>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-6">
       <div class="form-group">
-        <label for="categoryName"> Hazard </label>
-        <input type="text" [(ngModel)]="recallModel.hazard" name="hazard" class="form-control" id="hazard" placeholder="Hazard" >
+        <label for="classRecall"> class <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.classRecall" name="class" class="form-control" id="class" placeholder="Class" required>
       </div>
     </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="healthRisk"> Health Risk <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.healthRisk" name="healthRisk" class="form-control" id="healthRisk" placeholder="Health Risk" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber" placeholder="Recall Number" required>
+      </div>
+    </div>
+     
+</div>
 
+
+
+<div *ngIf="recallModel.categoryName==='Motor Vehicles'">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+        <textarea id="description"></textarea>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="components"> Components <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
+      </div>
+    </div>
+     <div class="col-xs-12">
+      <div class="form-group">
+        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
+      </div>
+    </div>
+   
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
+      </div>
+    </div>
+     
+</div>
+
+
+
+
+<div *ngIf="recallModel.categoryName==='Child Safety Seats'">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+        <textarea id="description"></textarea>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="components"> Components <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+     <div class="col-xs-12">
+      <div class="form-group">
+        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
+      </div>
+    </div>
+     
+</div>
+
+
+
+<div *ngIf="recallModel.categoryName==='Tires'">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+        <textarea id="description"></textarea>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
+      </div>
+    </div>
+     <div class="col-xs-6">
+      <div class="form-group">
+        <label for="components"> Components <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
+      </div>
+    </div>
+     <div class="col-xs-12">
+      <div class="form-group">
+        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
+      </div>
+    </div>
+     
+</div>
+
+
+
+<div *ngIf="recallModel.categoryName==='Boats and Boating Safety'">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="number"> Number <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.number"  name="number" class="form-control" id="number" placeholder="Number" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="mIC"> MIC <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.mIC"  name="mIC" class="form-control" id="mIC" placeholder="MIC" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="company"> Company <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.company" name="company" class="form-control" id="company" placeholder="Company" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="companyOfficial">  Company Official <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.companyOfficial" name="companyOfficial" class="form-control" id="companyOfficial" placeholder="Company Official" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="model">  Model Name <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.model" name="model" class="form-control" id="model" placeholder="Model Name" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="modelYear">  Model Year <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.modelYear" name="modelYear" class="form-control" id="modelYear" placeholder="Model Year" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="problem1">  Problem 1 <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.problem1" name="problem1" class="form-control" id="problem1" placeholder="Problem 1" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="problem2">  Problem 2 <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.problem2" name="problem2" class="form-control" id="problem2" placeholder="Problem 2" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="hIN">  HIN <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.hIN" name="hIN" class="form-control" id="hIN" placeholder="HIN" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="disposition">  Disposition <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.disposition" name="disposition" class="form-control" id="disposition" placeholder="Disposition" required>
+      </div>
+    </div>
+   <div class="col-xs-6">
+      <div class="form-group">
+        <label for="units"> Units <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="boatType"> Boat Type <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.boatType" name="boatType" class="form-control" id="boatType" placeholder="Boat Type" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="severity"> Severity <sup class="text-danger">*</sup> </label>
+        <input type="text" [(ngModel)]="recallModel.severity" name="severity" class="form-control" id="severity" placeholder="severity" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="caseOpenDate"> Case Open Date <sup class="text-danger">*</sup></label>
+        <my-date-picker [(ngModel)]="recallModel.caseOpenDate" name="caseOpenDate"  id="caseOpenDate" placeholder="Case Open Date" required></my-date-picker>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="caseCloseDate"> Case Close Date <sup class="text-danger">*</sup></label>
+        <my-date-picker [(ngModel)]="recallModel.caseCloseDate" name="caseCloseDate"  id="caseCloseDate" placeholder="Case Close Date" required></my-date-picker>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="campaignOpenDate"> Campaign Open Date <sup class="text-danger">*</sup></label>
+        <my-date-picker [(ngModel)]="recallModel.campaignOpenDate" name="campaignOpenDate"  id="campaignOpenDate" placeholder="Campaign Open Date" required></my-date-picker>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="campaignCloseDate"> Campaign Close Date <sup class="text-danger">*</sup></label>
+        <my-date-picker [(ngModel)]="recallModel.campaignCloseDate" name="campaignCloseDate"  id="campaignCloseDate" placeholder="Campaign Close Date" required></my-date-picker>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="comments"> Comments <sup class="text-danger">*</sup></label>
+        <textarea [(ngModel)]="recallModel.comments" name="comments" class="form-control" id="comments" placeholder="Comments" required></textarea>
+      </div>
+    </div>
+</div>
 
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.categoryName=='Select Category' || description==''"  class="btn btn-success">Submit</button>
+      <button type="submit"  class="btn btn-success">Submit</button>
     </div>
-  </form>
+  </form> 
 
 
 </div>

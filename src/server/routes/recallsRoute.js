@@ -38,16 +38,18 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 												appName : nconf.get("mail").appName
 												// contextPath : nconf.get("context").path
 											};
-
-										for( var user in users){
-												if(user.alertsOn.includes("Email")){
+										 console.log("*********"+JSON.stringify(users));
+										 
+										 users.forEach(function(user, index) {
+											 if(user.alertsOn.includes("Email")){
 													mailUtil.sendMail(user.email,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
 					                console.log("Email sent to: "+user.email);
 													});
 												}else if(user.alertsOn.includes("Mobile")){
-        									console.log("Mobile subcription");
+     									console.log("Mobile subcription");
 												}
-										}
+											})
+										 
 						});
 
 						res.json(recall);

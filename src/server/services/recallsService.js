@@ -42,18 +42,38 @@ return{
 	},
 		createOrUpdateRecall : function(user,recall,callbackForCreateOrUpdateRecall){
 			 if(recall._id ==undefined){
+				
 				 var serviceObj=this;
 				 counterModel.findByIdAndUpdate({_id : "recallId"}, {$inc: {seq: 1} }, function(error, counter)   {
 				 	 if(error){
 				 		 console.log("error:"+error);
 				 		 callbackForCreateOrUpdateRecall(error);
 				 	 }
-				 	 var recallCreated = new recallModel({"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard,"created_by":user.email});
+				 	 var recallCreated = new recallModel(
+				 	{"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"productName": recall.productName,
+					"hazard": recall.hazard,"remedy": recall.remedy,"recallDate": recall.recallDate,"recallNumber": recall.recallNumber,
+					"description": recall.description,"incidentsOrInjuries": recall.incidentsOrInjuries,"soldAt": recall.soldAt,"importer": recall.importer,
+					"manufacturer":recall.manufacturer,"manufacturedIn": recall.manufacturedIn,"units": recall.units,"classRecall": recall.classRecall,"healthRisk": recall.healthRisk,
+					"nHTSACampaignNumber": recall.nHTSACampaignNumber,"components": recall.components,"summary": recall.summary,"notes": recall.notes,
+					"number": recall.number,"company": recall.company,"modelName": recall.modelName,"hIN": recall.hIN,
+					"disposition": recall.disposition,"boatType": recall.boatType,"severity": recall.severity,"comments": recall.comments,
+					"mIC": recall.mIC,"companyOfficial": recall.companyOfficial,"modelYear": recall.modelYear,"caseOpenDate": recall.caseOpenDate,
+					"caseCloseDate": recall.caseCloseDate,"campaignOpenDate": recall.campaignOpenDate,"campaignCloseDate": recall.campaignCloseDate,
+					"created_by":user.email});
 				 	 serviceObj.save(recallCreated,callbackForCreateOrUpdateRecall);
 				 });
 			 }else{
 				 var conditions = { "_id":recall._id };
-				 var update = { $set: {"categoryName":recall.categoryName,"manufacturer": recall.manufacturer,"product": recall.product,"summary": recall.summary,"description": recall.description,"hazard": recall.hazard,"updated_at":new Date()}};
+				 var update = { $set: {"title": recall.title,"categoryName":recall.categoryName,"productName": recall.productName,
+					 "hazard": recall.hazard,"remedy": recall.remedy,"recallDate": recall.recallDate,"recallNumber": recall.recallNumber,
+					 "description": recall.description,"incidentsOrInjuries": recall.incidentsOrInjuries,"soldAt": recall.soldAt,"importer": recall.importer,
+					 "manufacturer":recall.manufacturer,"manufacturedIn": recall.manufacturedIn,"units": recall.units,"classRecall": recall.classRecall,"healthRisk": recall.healthRisk,
+					 "nHTSACampaignNumber": recall.nHTSACampaignNumber,"components": recall.components,"summary": recall.summary,"notes": recall.notes,
+					 "number": recall.number,"company": recall.company,"modelName": recall.modelName,"hIN": recall.hIN,
+					 "disposition": recall.disposition,"boatType": recall.boatType,"severity": recall.severity,"comments": recall.comments,
+					 "mIC": recall.mIC,"companyOfficial": recall.companyOfficial,"modelYear": recall.modelYear,"caseOpenDate": recall.caseOpenDate,
+					 "caseCloseDate": recall.caseCloseDate,"campaignOpenDate": recall.campaignOpenDate,"campaignCloseDate": recall.campaignCloseDate,
+					 "updated_at":new Date()}};
 				 this.update(recall,conditions,update,callbackForCreateOrUpdateRecall);
 			 }
    },

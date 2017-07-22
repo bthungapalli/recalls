@@ -49,9 +49,9 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.categories = [];
                     this.description = "";
                     this.recallModel = new recalls_model_1.Recall();
-                    this.recallModel.categoryName = "Select Category";
                     this.profile = dashboardService.userDetails;
                     this.categories = this.profile.categories;
+                    this.thisObject = this;
                 }
                 RecallComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -68,7 +68,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                             else {
                                 _this.recallModel = response;
                             }
-                            _this.callTinyMCE();
+                            //this.recallModel.categoryName= this.categories[0];
+                            var callTinyMCE = _this.callTinyMCE;
+                            var thisObject = _this.thisObject;
+                            setTimeout(function () {
+                                callTinyMCE(thisObject);
+                            }, 500);
                             _this.spinnerService.emitChange(false);
                         }, function (err) {
                             _this.errorMessage = "Something went wrong.Please contact administrator";
@@ -76,7 +81,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                         });
                     }
                     else {
-                        this.callTinyMCE();
+                        this.recallModel.categoryName = this.categories[0];
+                        var callTinyMCE = this.callTinyMCE;
+                        var thisObject = this.thisObject;
+                        setTimeout(function () {
+                            callTinyMCE(thisObject);
+                        }, 500);
                     }
                     //            this.spinnerService.emitChange(true);
                     //      this.categoriesService.getAllCategories().subscribe(response => {
@@ -93,10 +103,10 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     //          });
                 };
                 ;
-                RecallComponent.prototype.callTinyMCE = function () {
-                    var _this = this;
+                RecallComponent.prototype.callTinyMCE = function (thisObject) {
+                    var selector = "#description"; //+this.recallModel.categoryName;
                     tinymce.init({
-                        selector: '#description',
+                        selector: selector,
                         plugins: [
                             'advlist autolink lists link image charmap print preview anchor',
                             'searchreplace visualblocks code fullscreen',
@@ -104,15 +114,15 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                         ],
                         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
                         setup: function (editor) {
-                            _this.editor = editor;
+                            thisObject.editor = editor;
                             editor.on('init', function () {
-                                if (_this.recallModel.description != undefined) {
-                                    editor.setContent(_this.recallModel.description);
-                                    _this.description = editor.getContent();
+                                if (thisObject.recallModel.description != undefined) {
+                                    editor.setContent(thisObject.recallModel.description);
+                                    thisObject.recallModel.description = editor.getContent();
                                 }
                             });
                             editor.on('keyup', function () {
-                                _this.description = editor.getContent();
+                                thisObject.recallModel.description = editor.getContent();
                             });
                         },
                     });
@@ -120,7 +130,15 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                 RecallComponent.prototype.submitRecall = function () {
                     var _this = this;
                     this.spinnerService.emitChange(false);
-                    this.recallModel.description = this.description;
+                    if (this.recallModel.categoryName === "Boats and Boating Safety") {
+                        this.recallModel.caseOpenDate = this.recallModel.caseOpenDate.formatted;
+                        this.recallModel.caseCloseDate = this.recallModel.caseCloseDate.formatted;
+                        this.recallModel.campaignOpenDate = this.recallModel.campaignOpenDate.formatted;
+                        this.recallModel.campaignCloseDate = this.recallModel.campaignCloseDate.formatted;
+                    }
+                    else if (this.recallModel.categoryName === "Consumer Products") {
+                        this.recallModel.recallDate = this.recallModel.recallDate.formatted;
+                    }
                     this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
                         _this.spinnerService.emitChange(false);
                         if (response.sessionExpired) {
@@ -133,6 +151,17 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                         _this.spinnerService.emitChange(false);
                     });
+                };
+                RecallComponent.prototype.changeCategory = function () {
+                    var categoryName = this.recallModel.categoryName;
+                    this.recallModel = new recalls_model_1.Recall();
+                    this.recallModel.categoryName = categoryName;
+                    tinymce.remove(this.editor);
+                    var callTinyMCE = this.callTinyMCE;
+                    var thisObject = this.thisObject;
+                    setTimeout(function () {
+                        callTinyMCE(thisObject);
+                    }, 500);
                 };
                 RecallComponent.prototype.ngOnDestroy = function () {
                     tinymce.remove(this.editor);

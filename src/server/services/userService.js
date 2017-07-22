@@ -66,7 +66,7 @@ return{
 		 this.execute(query,callbackForGetUser);
 	 },
 	 getAllUsersBasedOnCategory:function(category,callbackForGetAllUsersBasedOnCategory){
-		 var query = userModel.find({ "categories": { $in: [categoryName] } }); 
+		 var query = userModel.find({ "categories": { $in: [category] } }); 
 		 this.execute(query,callbackForGetAllUsersBasedOnCategory);
 	 }
 
