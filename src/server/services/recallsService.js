@@ -84,7 +84,7 @@ return{
 		 if(user.role==="Vendor"){
 			 condition={"created_by":user.email,"categoryName":{$in:user.categories}};
 		 }else{
-			 condition={"categoryName":{$in:user.categories}};
+			 condition={};//{"categoryName":{$in:user.categories}};
 		 }
 		 var query =recallModel.find(condition);
 		 this.execute(query,callbackForGetAllRecalls);

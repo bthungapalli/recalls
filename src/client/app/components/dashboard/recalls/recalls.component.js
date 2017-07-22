@@ -54,7 +54,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                     this.category = "All";
                     if (dashboardService.userDetails.categories !== undefined) {
                         this.profile = dashboardService.userDetails;
-                        this.categories = dashboardService.userDetails.categories;
+                        //this.categories=dashboardService.userDetails.categories;
                     }
                     else {
                         this.profileService.getUser().subscribe(function (response) {
@@ -91,19 +91,28 @@ System.register(["@angular/core", "@angular/router", "./recalls.service", "../ca
                         _this.errorMessage = "Something went wrong.Please contact administrator";
                         _this.spinnerService.emitChange(false);
                     });
-                    //this.spinnerService.emitChange(true);
-                    //      this.categoriesService.getAllCategories().subscribe(response => {
-                    //          if(response.sessionExpired){
-                    //          this.spinnerService.emitChange(false);
-                    //            this.router.navigate(['home']);
-                    //          }else{
-                    //              this.categories=response;
-                    //          }
-                    //          this.spinnerService.emitChange(false);
-                    //      },err => {
-                    //          this.errorMessage="Something went wrong.Please contact administrator";
-                    //          this.spinnerService.emitChange(false);
-                    //      });
+                    if (this.profile.role == 'User') {
+                        this.spinnerService.emitChange(true);
+                        this.categoriesService.getAllCategories().subscribe(function (response) {
+                            if (response.sessionExpired) {
+                                _this.spinnerService.emitChange(false);
+                                _this.router.navigate(['home']);
+                            }
+                            else {
+                                var temp = _this;
+                                response.forEach(function (category) {
+                                    temp.categories.push(category.categoryName);
+                                });
+                            }
+                            _this.spinnerService.emitChange(false);
+                        }, function (err) {
+                            _this.errorMessage = "Something went wrong.Please contact administrator";
+                            _this.spinnerService.emitChange(false);
+                        });
+                    }
+                    else {
+                        this.categories = this.profile.categories;
+                    }
                 };
                 ;
                 RecallsComponent.prototype.getRecallsForFilter = function () {

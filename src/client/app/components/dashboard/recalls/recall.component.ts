@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit,OnDestroy } from '@angular/core';
+import { Component,OnInit,OnDestroy } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import {Recall} from './recalls.model';
@@ -16,12 +16,12 @@ declare var tinymce: any;
   selector: 'recall',
   templateUrl:"./app/components/dashboard/recalls/recall.html"
 })
-export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
+export class RecallComponent implements OnInit, OnDestroy{
 
-      public errorMessage:String="";
-      public successMessage:String="";
+      public errorMessage:string="";
+      public successMessage:string="";
       public recallModel:Recall= new Recall();
-      public categories:String[]=[];
+      public categories:string[]=[];
       public  description:any="";
       public editor:any;
       public recallId:any;
