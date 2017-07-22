@@ -68,7 +68,18 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                             else {
                                 _this.recallModel = response;
                             }
-                            //this.recallModel.categoryName= this.categories[0];
+                            if (_this.recallModel.categoryName === "Boats and Boating Safety") {
+                                _this.recallModel.caseOpenDate = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                                _this.recallModel.caseCloseDate = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                                _this.recallModel.campaignOpenDate = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                                _this.recallModel.campaignCloseDate = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                            }
+                            else if (_this.recallModel.categoryName === "Consumer Products") {
+                                _this.recallModel.recallDate = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                            }
+                            else if (_this.recallModel.categoryName === "Foods, Medicines, Cosmetics") {
+                                _this.recallModel.immediateRelease = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
+                            }
                             var callTinyMCE = _this.callTinyMCE;
                             var thisObject = _this.thisObject;
                             setTimeout(function () {
@@ -138,6 +149,9 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     }
                     else if (this.recallModel.categoryName === "Consumer Products") {
                         this.recallModel.recallDate = this.recallModel.recallDate.formatted;
+                    }
+                    else if (this.recallModel.categoryName === "Foods, Medicines, Cosmetics") {
+                        this.recallModel.immediateRelease = this.recallModel.immediateRelease.formatted;
                     }
                     this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
                         _this.spinnerService.emitChange(false);

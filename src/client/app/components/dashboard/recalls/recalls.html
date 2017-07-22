@@ -267,6 +267,24 @@
                           <p > {{recallModel.campaignCloseDate | date: 'MMM dd, yyyy'}}</p>
                         </div>
                       </div>
+                      <div class="col-xs-12" *ngIf="recallModel.immediateRelease">
+                        <div class="form-group">
+                          <label for="immediateRelease"> Immediate Release </label>
+                          <p > {{recallModel.immediateRelease | date: 'MMM dd, yyyy'}}</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-12" *ngIf="recallModel.consumers">
+                        <div class="form-group">
+                          <label for="consumers"> Consumers </label>
+                          <p [innerHTML]="recallModel.consumers"> </p>
+                        </div>
+                      </div>
+                      <div class="col-xs-12" *ngIf="recallModel.media">
+                        <div class="form-group">
+                          <label for="modelYear"> Media </label>
+                          <p [innerHTML]="recallModel.media"> </p>
+                        </div>
+                      </div>
                       
                       
                       <div class="col-xs-12" *ngIf="profile.role==='Vendor'">

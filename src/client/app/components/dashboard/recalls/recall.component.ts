@@ -51,7 +51,16 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
               }else{
               this.recallModel=response;
               }
-          //this.recallModel.categoryName= this.categories[0];
+          if(this.recallModel.categoryName==="Boats and Boating Safety"){
+             this.recallModel.caseOpenDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+              this.recallModel.caseCloseDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+              this.recallModel.campaignOpenDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+              this.recallModel.campaignCloseDate={ date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+           }else if(this.recallModel.categoryName==="Consumer Products"){
+             this.recallModel.recallDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+           }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
+             this.recallModel.immediateRelease= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+           }  
           var callTinyMCE= this.callTinyMCE;
         var thisObject=this.thisObject;
         setTimeout(function() {
@@ -124,7 +133,10 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
               this.recallModel.campaignCloseDate= this.recallModel.campaignCloseDate.formatted;
            }else if(this.recallModel.categoryName==="Consumer Products"){
              this.recallModel.recallDate= this.recallModel.recallDate.formatted;
-           }    
+           }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
+             this.recallModel.immediateRelease= this.recallModel.immediateRelease.formatted;
+           }  
+             
           this.recallsService.submitRecall(this.recallModel).subscribe(response => {
           this.spinnerService.emitChange(false);
                if(response.sessionExpired){

@@ -19,6 +19,11 @@ export class Recall {
     public manufacturedIn?: string;
     public units?: string;
     
+    // food
+    public immediateRelease?:Date;
+    public consumers?:string;
+    public media?:string;
+    
     //Meat and Poultry Products
     public classRecall?:string;
     public healthRisk?:string;
