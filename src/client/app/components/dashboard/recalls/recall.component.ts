@@ -8,6 +8,7 @@ import {Category} from '../categories/categories.model';
 import {SpinnerService} from '../spinner.service';
 import {Profile} from '../profile/profile.model';
 import {DashboardService} from '../dashboard.service';
+import {Vehicle} from './vehicle.model';
 
 declare var tinymce: any;
 
@@ -19,18 +20,18 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
 
       public errorMessage:String="";
       public successMessage:String="";
-      public recallModel:Recall;
+      public recallModel:Recall= new Recall();
       public categories:String[]=[];
       public  description:any="";
       public editor:any;
       public recallId:any;
       public profile:Profile;
-      public thisObject:any;
+      public vehicle:Vehicle=new Vehicle();
+    
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
          this.categories=this.profile.categories;
-        this.thisObject=this;
       }
     
 
@@ -62,7 +63,7 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
              this.recallModel.immediateRelease= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
            }  
           var callTinyMCE= this.callTinyMCE;
-        var thisObject=this.thisObject;
+        var thisObject=this;
         setTimeout(function() {
           callTinyMCE(thisObject);
         }, 500);
@@ -74,7 +75,7 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
       }else{
       this.recallModel.categoryName= this.categories[0];    
             var callTinyMCE= this.callTinyMCE;
-        var thisObject=this.thisObject;
+        var thisObject=this;
         setTimeout(function() {
           callTinyMCE(thisObject);
         }, 500);
@@ -157,11 +158,28 @@ export class RecallComponent implements OnInit, OnDestroy,AfterViewInit{
         this.recallModel.categoryName=categoryName;
          tinymce.remove(this.editor);
         var callTinyMCE= this.callTinyMCE;
-        var thisObject=this.thisObject;
+        var thisObject=this;
         setTimeout(function() {
           callTinyMCE(thisObject);
         }, 500);
         
+    }
+    
+    addVehicle(){
+        this.recallModel.vehicles.push(this.vehicle);
+        this.vehicle=new Vehicle();
+    }
+    
+    
+    deleteVehicle(vehicle){
+        var temp=JSON.parse(JSON.stringify(this.recallModel.vehicles));
+        temp.forEach(function (vehicleTemp,index) {
+                 if(vehicleTemp.name.toUpperCase()===vehicle.name.toUpperCase() && vehicleTemp.model.toUpperCase()===vehicle.model.toUpperCase()  && vehicleTemp.year.toUpperCase()===vehicle.year.toUpperCase()){
+                 temp.splice(index,1);
+                 }
+           });
+         this.recallModel.vehicles=[];
+                  this.recallModel.vehicles=temp;
     }
 
 

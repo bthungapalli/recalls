@@ -27,7 +27,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -116,7 +116,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -150,7 +150,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -186,7 +186,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -225,6 +225,71 @@
         <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
       </div>
     </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+      
+     <div> <label for="notes"> Affected Products </label></div>  
+     <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-center">
+      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
+    </div>
+      </div>
+      
+      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+        <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+              <thead>
+                              <tr>
+                                  <th>  Name</th>
+                                  <th> Model </th>
+                                  <th>Year </th>
+                                  <th> Action </th>
+                              </tr>
+
+                              </thead>
+                <tbody>
+                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                    <td>{{vehicle.name}} </td>
+                    <td>{{vehicle.model}} </td>
+                    <td>{{vehicle.year}} </td>
+                    <td>
+                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+
+                </tr>
+                </tbody>
+                <tfoot>
+              <tr>
+                  <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+              </tr>
+              </tfoot>
+
+            </table>
+             </div>
+ </div>
+      
+    </div>
+     
    
     <div class="col-xs-12">
       <div class="form-group">
@@ -248,7 +313,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -286,6 +351,70 @@
         <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
       </div>
+    </div>
+      <div class="col-xs-12">
+      <div class="form-group">
+      
+     <div> <label for="notes"> Affected Products </label></div>  
+     <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-center">
+      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
+    </div>
+      </div>
+      
+      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+        <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+              <thead>
+                              <tr>
+                                  <th>  Name</th>
+                                  <th> Model </th>
+                                  <th>Year </th>
+                                  <th> Action </th>
+                              </tr>
+
+                              </thead>
+                <tbody>
+                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                    <td>{{vehicle.name}} </td>
+                    <td>{{vehicle.model}} </td>
+                    <td>{{vehicle.year}} </td>
+                    <td>
+                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+
+                </tr>
+                </tbody>
+                <tfoot>
+              <tr>
+                  <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+              </tr>
+              </tfoot>
+
+            </table>
+             </div>
+ </div>
+      
     </div>
     <div class="col-xs-12">
       <div class="form-group">
@@ -308,7 +437,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" required></textarea>
+        <textarea id="description" ></textarea>
       </div>
     </div>
     <div class="col-xs-6">
@@ -346,6 +475,70 @@
         <label for="summary"> Summary <sup class="text-danger">*</sup></label>
         <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
       </div>
+    </div>
+      <div class="col-xs-12">
+      <div class="form-group">
+      
+     <div> <label for="notes"> Affected Products </label></div>  
+     <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
+      </div>
+    </div>
+    <div class="col-sm-4 col-xs-12">
+      <div class="form-group">
+        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-center">
+      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
+    </div>
+      </div>
+      
+      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+        <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+              <thead>
+                              <tr>
+                                  <th>  Name</th>
+                                  <th> Model </th>
+                                  <th>Year </th>
+                                  <th> Action </th>
+                              </tr>
+
+                              </thead>
+                <tbody>
+                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                    <td>{{vehicle.name}} </td>
+                    <td>{{vehicle.model}} </td>
+                    <td>{{vehicle.year}} </td>
+                    <td>
+                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                    </td>
+
+                </tr>
+                </tbody>
+                <tfoot>
+              <tr>
+                  <td colspan="5">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+              </tr>
+              </tfoot>
+
+            </table>
+             </div>
+ </div>
+      
     </div>
     <div class="col-xs-6">
       <div class="form-group">

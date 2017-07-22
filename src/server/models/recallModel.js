@@ -52,7 +52,7 @@ var RecallSchema = new Schema({
     immediateRelease:{Date: String, required: false},
     consumers:{type: String, required: false},
     media:{type: String, required: false},
-    
+    vehicles:{type: Array, required: false},
     created_by:{type: String, required: true},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}

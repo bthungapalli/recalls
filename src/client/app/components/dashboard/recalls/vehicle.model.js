@@ -7,6 +7,9 @@ System.register([], function (exports_1, context_1) {
         execute: function () {
             Vehicle = (function () {
                 function Vehicle() {
+                    this.name = '';
+                    this.model = '';
+                    this.year = '';
                 }
                 return Vehicle;
             }());

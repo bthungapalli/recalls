@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service", "../dashboard.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service", "../dashboard.service", "./vehicle.model"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, dashboard_service_1, RecallComponent;
+    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, dashboard_service_1, vehicle_model_1, RecallComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -33,6 +33,9 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
             },
             function (dashboard_service_1_1) {
                 dashboard_service_1 = dashboard_service_1_1;
+            },
+            function (vehicle_model_1_1) {
+                vehicle_model_1 = vehicle_model_1_1;
             }
         ],
         execute: function () {
@@ -46,12 +49,13 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.dashboardService = dashboardService;
                     this.errorMessage = "";
                     this.successMessage = "";
+                    this.recallModel = new recalls_model_1.Recall();
                     this.categories = [];
                     this.description = "";
+                    this.vehicle = new vehicle_model_1.Vehicle();
                     this.recallModel = new recalls_model_1.Recall();
                     this.profile = dashboardService.userDetails;
                     this.categories = this.profile.categories;
-                    this.thisObject = this;
                 }
                 RecallComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -81,7 +85,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                                 _this.recallModel.immediateRelease = { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth() + 1, day: new Date(response.recallDate).getDate() } };
                             }
                             var callTinyMCE = _this.callTinyMCE;
-                            var thisObject = _this.thisObject;
+                            var thisObject = _this;
                             setTimeout(function () {
                                 callTinyMCE(thisObject);
                             }, 500);
@@ -94,7 +98,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     else {
                         this.recallModel.categoryName = this.categories[0];
                         var callTinyMCE = this.callTinyMCE;
-                        var thisObject = this.thisObject;
+                        var thisObject = this;
                         setTimeout(function () {
                             callTinyMCE(thisObject);
                         }, 500);
@@ -172,10 +176,24 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.recallModel.categoryName = categoryName;
                     tinymce.remove(this.editor);
                     var callTinyMCE = this.callTinyMCE;
-                    var thisObject = this.thisObject;
+                    var thisObject = this;
                     setTimeout(function () {
                         callTinyMCE(thisObject);
                     }, 500);
+                };
+                RecallComponent.prototype.addVehicle = function () {
+                    this.recallModel.vehicles.push(this.vehicle);
+                    this.vehicle = new vehicle_model_1.Vehicle();
+                };
+                RecallComponent.prototype.deleteVehicle = function (vehicle) {
+                    var temp = JSON.parse(JSON.stringify(this.recallModel.vehicles));
+                    temp.forEach(function (vehicleTemp, index) {
+                        if (vehicleTemp.name.toUpperCase() === vehicle.name.toUpperCase() && vehicleTemp.model.toUpperCase() === vehicle.model.toUpperCase() && vehicleTemp.year.toUpperCase() === vehicle.year.toUpperCase()) {
+                            temp.splice(index, 1);
+                        }
+                    });
+                    this.recallModel.vehicles = [];
+                    this.recallModel.vehicles = temp;
                 };
                 RecallComponent.prototype.ngOnDestroy = function () {
                     tinymce.remove(this.editor);

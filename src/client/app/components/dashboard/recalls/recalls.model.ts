@@ -32,7 +32,7 @@ export class Recall {
     public components?:string;
     public summary?:string;
     public notes?:string;
-    public vehicles?:Vehicle[];
+    public vehicles?:Vehicle[]=[];
     
     
     public number?:string;
