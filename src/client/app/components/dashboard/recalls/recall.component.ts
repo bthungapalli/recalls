@@ -30,7 +30,8 @@ export class RecallComponent implements OnInit, OnDestroy{
       public recallId:any;
       public profile:Profile;
       public vehicle:Vehicle=new Vehicle();
-      public uploader:FileUploader = new FileUploader({url:'http://localhost:3000/recalls/fileUpload'});
+      public fileUploadURL:string=window.origin+'/recalls/fileUpload';
+      public uploader:FileUploader = new FileUploader({url:this.fileUploadURL});
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
@@ -197,7 +198,7 @@ export class RecallComponent implements OnInit, OnDestroy{
         this.recallModel.categoryName=categoryName;
          tinymce.remove(this.editor);
         var callTinyMCE= this.callTinyMCE;
-        this.uploader=new FileUploader({url:'http://localhost:3000/recalls/fileUpload'});
+        this.uploader=new FileUploader({url:this.fileUploadURL});
         var thisObject=this;
         setTimeout(function() {
           callTinyMCE(thisObject);

@@ -29,8 +29,8 @@
   "context":{
      "path":"http://localhost:3000/images/logo.png"
  },
-   "profile":{
-	   "profilePath":""
+   "recall":{
+	   "filesPath":"/Users/apatha/Desktop/uploads/"
    }
 
 }

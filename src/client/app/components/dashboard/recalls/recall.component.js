@@ -56,7 +56,8 @@ System.register(["@angular/core", "@angular/router", "ng2-file-upload", "./recal
                     this.categories = [];
                     this.description = "";
                     this.vehicle = new vehicle_model_1.Vehicle();
-                    this.uploader = new ng2_file_upload_1.FileUploader({ url: 'http://localhost:3000/recalls/fileUpload' });
+                    this.fileUploadURL = window.origin + '/recalls/fileUpload';
+                    this.uploader = new ng2_file_upload_1.FileUploader({ url: this.fileUploadURL });
                     this.recallModel = new recalls_model_1.Recall();
                     this.profile = dashboardService.userDetails;
                     this.categories = this.profile.categories;
@@ -217,7 +218,7 @@ System.register(["@angular/core", "@angular/router", "ng2-file-upload", "./recal
                     this.recallModel.categoryName = categoryName;
                     tinymce.remove(this.editor);
                     var callTinyMCE = this.callTinyMCE;
-                    this.uploader = new ng2_file_upload_1.FileUploader({ url: 'http://localhost:3000/recalls/fileUpload' });
+                    this.uploader = new ng2_file_upload_1.FileUploader({ url: this.fileUploadURL });
                     var thisObject = this;
                     setTimeout(function () {
                         callTinyMCE(thisObject);
