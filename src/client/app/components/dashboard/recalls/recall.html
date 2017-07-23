@@ -6,7 +6,7 @@
 
  <div class="col-xs-12">
       <div class="form-group">
-        <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+        <label for="categoryName"> Category {{uploader.queue.length}}<sup class="text-danger">*</sup></label>
         <select class="form-control" (change)="changeCategory();" [disabled]="recallId" [(ngModel)]="recallModel.categoryName" name="categoryName">
           <option *ngFor="let category of categories" value= {{category}}>
             {{category}}
@@ -283,8 +283,21 @@
  </div>
       
     </div>
-     
-   
+     <div class="col-xs-12">
+	   <div class="form-group">
+	   <label for="single">Attachments</label>
+	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
+	  </div>
+	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+	  <b>Files to be Uploaded </b>
+	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	<hr>
+	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
+	  <b>Uploaded Files</b>
+	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	</div> 
     <div class="col-xs-12">
       <div class="form-group">
         <label for="notes"> Notes <sup class="text-danger">*</sup></label>
@@ -410,6 +423,21 @@
  </div>
       
     </div>
+     <div class="col-xs-12">
+	   <div class="form-group">
+	   <label for="single">Attachments</label>
+	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
+	  </div>
+	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+	  <b>Files to be Uploaded </b>
+	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	<hr>
+	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
+	  <b>Uploaded Files</b>
+	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	</div> 
     <div class="col-xs-12">
       <div class="form-group">
         <label for="notes"> Notes <sup class="text-danger">*</sup></label>
@@ -534,6 +562,21 @@
  </div>
       
     </div>
+     <div class="col-xs-12">
+	   <div class="form-group">
+	   <label for="single">Attachments</label>
+	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
+	  </div>
+	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+	  <b>Files to be Uploaded </b>
+	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	<hr>
+	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
+	  <b>Uploaded Files</b>
+	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
+	</div>
+	</div> 
     <div class="col-xs-12">
       <div class="form-group">
         <label for="notes"> Notes <sup class="text-danger">*</sup></label>

@@ -289,40 +289,46 @@
                         <div class="form-group">
                           <label for="modelYear"> Affected Products </label>
                            <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
-        <div class="table-responsive">
-            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
-              <thead>
-                              <tr>
-                                  <th>  Name</th>
-                                  <th> Model </th>
-                                  <th>Year </th>
-                                  
-                              </tr>
-
-                              </thead>
-                <tbody>
-                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
-                    <td>{{vehicle.name}} </td>
-                    <td>{{vehicle.model}} </td>
-                    <td>{{vehicle.year}} </td>
-
-                </tr>
-                </tbody>
-                <tfoot>
-              <tr>
-                  <td colspan="5">
-                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-                  </td>
-              </tr>
-              </tfoot>
-
-            </table>
-             </div>
- </div>
+						        <div class="table-responsive">
+						            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+						              <thead>
+						                              <tr>
+						                                  <th>  Name</th>
+						                                  <th> Model </th>
+						                                  <th>Year </th>
+						                                  
+						                              </tr>
+						
+						                              </thead>
+						                <tbody>
+						                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+						                    <td>{{vehicle.name}} </td>
+						                    <td>{{vehicle.model}} </td>
+						                    <td>{{vehicle.year}} </td>
+						
+						                </tr>
+						                </tbody>
+						                <tfoot>
+						              <tr>
+						                  <td colspan="5">
+						                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+						                  </td>
+						              </tr>
+						              </tfoot>
+						
+						            </table>
+						             </div>
+ 							</div>
                         </div>
                       </div>
                        
-                      
+                       <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+                        <div class="form-group">
+                          <label for="modelYear"> Attachments </label>
+                          <p *ngFor="let file of recallModel.files;" >  <a href="recalls/download/{{file}}">{{file}}</a>
+                          </p>
+                        </div>
+                      </div>
                       <div class="col-xs-12" *ngIf="profile.role==='Vendor'">
                         <div class="form-group">
                           <button type="button" (click)="editRecall(recallModel._id)" class="btn btn-xs btn-primary">Edit</button>

@@ -33,7 +33,7 @@ export class Recall {
     public summary?:string;
     public notes?:string;
     public vehicles?:Vehicle[]=[];
-    
+    public files?:string[]=[];
     
     public number?:string;
     public company?:string;

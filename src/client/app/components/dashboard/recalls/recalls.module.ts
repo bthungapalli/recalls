@@ -4,6 +4,7 @@ import {DataTableModule} from "angular2-datatable";
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import { MyDatePickerModule } from 'mydatepicker';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 import { RecallsComponent }  from './recalls.component';
@@ -23,7 +24,8 @@ import { DataFilterPipe }   from './data.filter';
   declarations: [
     RecallsComponent,
     RecallComponent,
-    DataFilterPipe
+    DataFilterPipe,
+  FileSelectDirective
   ],
   providers:[
     RecallsService

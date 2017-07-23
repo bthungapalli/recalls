@@ -1,6 +1,9 @@
 import { Component,OnInit,OnDestroy } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
+import { FileUploader } from 'ng2-file-upload';
+
+
 import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';
 import {CategoriesService} from '../categories/categories.service';
@@ -27,7 +30,7 @@ export class RecallComponent implements OnInit, OnDestroy{
       public recallId:any;
       public profile:Profile;
       public vehicle:Vehicle=new Vehicle();
-    
+      public uploader:FileUploader = new FileUploader({url:'http://localhost:3000/recalls/fileUpload'});
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
@@ -127,6 +130,7 @@ export class RecallComponent implements OnInit, OnDestroy{
 
       submitRecall(){
       this.spinnerService.emitChange(false);
+          
          if(this.recallModel.categoryName==="Boats and Boating Safety"){
              this.recallModel.caseOpenDate= this.recallModel.caseOpenDate.formatted;
               this.recallModel.caseCloseDate= this.recallModel.caseCloseDate.formatted;
@@ -137,18 +141,53 @@ export class RecallComponent implements OnInit, OnDestroy{
            }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
              this.recallModel.immediateRelease= this.recallModel.immediateRelease.formatted;
            }  
-             
-          this.recallsService.submitRecall(this.recallModel).subscribe(response => {
-          this.spinnerService.emitChange(false);
-               if(response.sessionExpired){
-                 this.router.navigate(['home']);
-               }else{
-                 this.router.navigate(['dashboard/recalls']);
-               }
-          },err => {
-              this.errorMessage="Something went wrong.Please contact administrator";
-              this.spinnerService.emitChange(false);
+          var thisObject=this;
+          if((this.recallModel.categoryName==="Tires" || this.recallModel.categoryName==="Child Safety Seats" || this.recallModel.categoryName==="Motor Vehicles") && this.uploader.queue.length>0){
+              var files=[];
+          var noOfFiles=this.uploader.queue.length;
+          this.uploader.queue.forEach(function(item){
+              item.upload();
           });
+          var successCalls=0;
+          this.uploader.onCompleteItem = (item, response, status, header) => {
+              if (status === 200) {
+                  ++successCalls;
+                  files.push(JSON.parse(response).filename);
+                  if(successCalls==noOfFiles){
+                      files.forEach(function(file){
+                          thisObject.recallModel.files.push(file);
+                      });
+                      thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
+                      thisObject.spinnerService.emitChange(false);
+                           if(response.sessionExpired){
+                             thisObject.router.navigate(['home']);
+                           }else{
+                             thisObject.router.navigate(['dashboard/recalls']);
+                           }
+                      },err => {
+                          thisObject.errorMessage="Something went wrong.Please contact administrator";
+                          thisObject.spinnerService.emitChange(false);
+                      });
+                  }
+              }else{
+                 thisObject.errorMessage="Something went wrong.Please contact administrator";
+                 thisObject.spinnerService.emitChange(false);
+              }    
+            }
+          }else{
+              thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
+                      thisObject.spinnerService.emitChange(false);
+                           if(response.sessionExpired){
+                             thisObject.router.navigate(['home']);
+                           }else{
+                             thisObject.router.navigate(['dashboard/recalls']);
+                           }
+                      },err => {
+                          thisObject.errorMessage="Something went wrong.Please contact administrator";
+                          thisObject.spinnerService.emitChange(false);
+                      });
+          }   
+          
       }
     
     
@@ -158,6 +197,7 @@ export class RecallComponent implements OnInit, OnDestroy{
         this.recallModel.categoryName=categoryName;
          tinymce.remove(this.editor);
         var callTinyMCE= this.callTinyMCE;
+        this.uploader=new FileUploader({url:'http://localhost:3000/recalls/fileUpload'});
         var thisObject=this;
         setTimeout(function() {
           callTinyMCE(thisObject);
@@ -182,6 +222,13 @@ export class RecallComponent implements OnInit, OnDestroy{
                   this.recallModel.vehicles=temp;
     }
 
+    
+    deleteFile(index){
+         var temp=JSON.parse(JSON.stringify(this.recallModel.files));
+        temp.splice(index,1);
+         this.recallModel.files=[];
+         this.recallModel.files=temp;
+    }
 
               ngOnDestroy() {
               tinymce.remove(this.editor);

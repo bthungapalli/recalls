@@ -11,6 +11,7 @@ export class RecallsService {
       private  GET_RECALLS_BY_FILTER_URL="/recalls/filterRecalls";
       private  DELETE_RECALL_URL="/recalls/";
       private  GET_RECALL_URL="/recalls/";
+      private  DOWNLOAD_URL="/recalls/download/";
 
 
 
@@ -48,6 +49,5 @@ export class RecallsService {
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
-
 
  }

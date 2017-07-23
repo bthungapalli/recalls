@@ -32,6 +32,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Observable"], function 
                     this.GET_RECALLS_BY_FILTER_URL = "/recalls/filterRecalls";
                     this.DELETE_RECALL_URL = "/recalls/";
                     this.GET_RECALL_URL = "/recalls/";
+                    this.DOWNLOAD_URL = "/recalls/download/";
                 }
                 RecallsService.prototype.getAllRecalls = function () {
                     return this.http.get(this.GET_ALL_RECALLS_URL)

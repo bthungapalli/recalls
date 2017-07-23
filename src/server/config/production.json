@@ -28,6 +28,9 @@
   },
   "context":{
      "path":"http://localhost:3000/images/logo.png"
- }
+ },
+   "profile":{
+	   "profilePath":""
+   }
 
 }

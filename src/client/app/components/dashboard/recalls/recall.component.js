@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service", "../dashboard.service", "./vehicle.model"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "ng2-file-upload", "./recalls.model", "./recalls.service", "../categories/categories.service", "../spinner.service", "../dashboard.service", "./vehicle.model"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, dashboard_service_1, vehicle_model_1, RecallComponent;
+    var core_1, router_1, ng2_file_upload_1, recalls_model_1, recalls_service_1, categories_service_1, spinner_service_1, dashboard_service_1, vehicle_model_1, RecallComponent;
     return {
         setters: [
             function (core_1_1) {
@@ -18,6 +18,9 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (ng2_file_upload_1_1) {
+                ng2_file_upload_1 = ng2_file_upload_1_1;
             },
             function (recalls_model_1_1) {
                 recalls_model_1 = recalls_model_1_1;
@@ -53,6 +56,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.categories = [];
                     this.description = "";
                     this.vehicle = new vehicle_model_1.Vehicle();
+                    this.uploader = new ng2_file_upload_1.FileUploader({ url: 'http://localhost:3000/recalls/fileUpload' });
                     this.recallModel = new recalls_model_1.Recall();
                     this.profile = dashboardService.userDetails;
                     this.categories = this.profile.categories;
@@ -143,7 +147,6 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     });
                 };
                 RecallComponent.prototype.submitRecall = function () {
-                    var _this = this;
                     this.spinnerService.emitChange(false);
                     if (this.recallModel.categoryName === "Boats and Boating Safety") {
                         this.recallModel.caseOpenDate = this.recallModel.caseOpenDate.formatted;
@@ -157,18 +160,56 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     else if (this.recallModel.categoryName === "Foods, Medicines, Cosmetics") {
                         this.recallModel.immediateRelease = this.recallModel.immediateRelease.formatted;
                     }
-                    this.recallsService.submitRecall(this.recallModel).subscribe(function (response) {
-                        _this.spinnerService.emitChange(false);
-                        if (response.sessionExpired) {
-                            _this.router.navigate(['home']);
-                        }
-                        else {
-                            _this.router.navigate(['dashboard/recalls']);
-                        }
-                    }, function (err) {
-                        _this.errorMessage = "Something went wrong.Please contact administrator";
-                        _this.spinnerService.emitChange(false);
-                    });
+                    var thisObject = this;
+                    if ((this.recallModel.categoryName === "Tires" || this.recallModel.categoryName === "Child Safety Seats" || this.recallModel.categoryName === "Motor Vehicles") && this.uploader.queue.length > 0) {
+                        var files = [];
+                        var noOfFiles = this.uploader.queue.length;
+                        this.uploader.queue.forEach(function (item) {
+                            item.upload();
+                        });
+                        var successCalls = 0;
+                        this.uploader.onCompleteItem = function (item, response, status, header) {
+                            if (status === 200) {
+                                ++successCalls;
+                                files.push(JSON.parse(response).filename);
+                                if (successCalls == noOfFiles) {
+                                    files.forEach(function (file) {
+                                        thisObject.recallModel.files.push(file);
+                                    });
+                                    thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(function (response) {
+                                        thisObject.spinnerService.emitChange(false);
+                                        if (response.sessionExpired) {
+                                            thisObject.router.navigate(['home']);
+                                        }
+                                        else {
+                                            thisObject.router.navigate(['dashboard/recalls']);
+                                        }
+                                    }, function (err) {
+                                        thisObject.errorMessage = "Something went wrong.Please contact administrator";
+                                        thisObject.spinnerService.emitChange(false);
+                                    });
+                                }
+                            }
+                            else {
+                                thisObject.errorMessage = "Something went wrong.Please contact administrator";
+                                thisObject.spinnerService.emitChange(false);
+                            }
+                        };
+                    }
+                    else {
+                        thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(function (response) {
+                            thisObject.spinnerService.emitChange(false);
+                            if (response.sessionExpired) {
+                                thisObject.router.navigate(['home']);
+                            }
+                            else {
+                                thisObject.router.navigate(['dashboard/recalls']);
+                            }
+                        }, function (err) {
+                            thisObject.errorMessage = "Something went wrong.Please contact administrator";
+                            thisObject.spinnerService.emitChange(false);
+                        });
+                    }
                 };
                 RecallComponent.prototype.changeCategory = function () {
                     var categoryName = this.recallModel.categoryName;
@@ -176,6 +217,7 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     this.recallModel.categoryName = categoryName;
                     tinymce.remove(this.editor);
                     var callTinyMCE = this.callTinyMCE;
+                    this.uploader = new ng2_file_upload_1.FileUploader({ url: 'http://localhost:3000/recalls/fileUpload' });
                     var thisObject = this;
                     setTimeout(function () {
                         callTinyMCE(thisObject);
@@ -194,6 +236,12 @@ System.register(["@angular/core", "@angular/router", "./recalls.model", "./recal
                     });
                     this.recallModel.vehicles = [];
                     this.recallModel.vehicles = temp;
+                };
+                RecallComponent.prototype.deleteFile = function (index) {
+                    var temp = JSON.parse(JSON.stringify(this.recallModel.files));
+                    temp.splice(index, 1);
+                    this.recallModel.files = [];
+                    this.recallModel.files = temp;
                 };
                 RecallComponent.prototype.ngOnDestroy = function () {
                     tinymce.remove(this.editor);

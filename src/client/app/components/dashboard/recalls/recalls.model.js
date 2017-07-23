@@ -8,6 +8,7 @@ System.register([], function (exports_1, context_1) {
             Recall = (function () {
                 function Recall() {
                     this.vehicles = [];
+                    this.files = [];
                 }
                 return Recall;
             }());
