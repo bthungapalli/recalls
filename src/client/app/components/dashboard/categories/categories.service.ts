@@ -1,6 +1,6 @@
 import { Component,Injectable } from '@angular/core';
 import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular/http';
-import {Category} from './Categories.model';
+import {Category} from './categories.model';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
