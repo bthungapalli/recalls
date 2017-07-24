@@ -1,6 +1,6 @@
 import { Component,OnInit,OnDestroy } from '@angular/core';
 import { FormsModule} from '@angular/forms';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router,ActivatedRoute,Params } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 
 
@@ -30,7 +30,7 @@ export class RecallComponent implements OnInit, OnDestroy{
       public recallId:any;
       public profile:Profile;
       public vehicle:Vehicle=new Vehicle();
-      public fileUploadURL:string=window.origin+'/recalls/fileUpload';
+      public fileUploadURL:string= (<any> window).origin+'/recalls/fileUpload';
       public uploader:FileUploader = new FileUploader({url:this.fileUploadURL});
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
@@ -57,14 +57,14 @@ export class RecallComponent implements OnInit, OnDestroy{
               this.recallModel=response;
               }
           if(this.recallModel.categoryName==="Boats and Boating Safety"){
-             this.recallModel.caseOpenDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
-              this.recallModel.caseCloseDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
-              this.recallModel.campaignOpenDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
-              this.recallModel.campaignCloseDate={ date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+             this.recallModel.caseOpenDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
+              this.recallModel.caseCloseDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
+              this.recallModel.campaignOpenDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
+              this.recallModel.campaignCloseDate={ "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
            }else if(this.recallModel.categoryName==="Consumer Products"){
-             this.recallModel.recallDate= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+             this.recallModel.recallDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
            }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
-             this.recallModel.immediateRelease= { date: { year: new Date(response.recallDate).getFullYear(), month: new Date(response.recallDate).getMonth()+1, day: new Date(response.recallDate).getDate() } };
+             this.recallModel.immediateRelease= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
            }  
           var callTinyMCE= this.callTinyMCE;
         var thisObject=this;
@@ -133,14 +133,14 @@ export class RecallComponent implements OnInit, OnDestroy{
       this.spinnerService.emitChange(false);
           
          if(this.recallModel.categoryName==="Boats and Boating Safety"){
-             this.recallModel.caseOpenDate= this.recallModel.caseOpenDate.formatted;
-              this.recallModel.caseCloseDate= this.recallModel.caseCloseDate.formatted;
-              this.recallModel.campaignOpenDate= this.recallModel.campaignOpenDate.formatted;
-              this.recallModel.campaignCloseDate= this.recallModel.campaignCloseDate.formatted;
+             this.recallModel.caseOpenDate= (<any> this.recallModel.caseOpenDate).formatted;
+              this.recallModel.caseCloseDate=(<any> this.recallModel.caseCloseDate).formatted;
+              this.recallModel.campaignOpenDate= (<any>this.recallModel.campaignOpenDate).formatted;
+              this.recallModel.campaignCloseDate= (<any>this.recallModel.campaignCloseDate).formatted;
            }else if(this.recallModel.categoryName==="Consumer Products"){
-             this.recallModel.recallDate= this.recallModel.recallDate.formatted;
+             this.recallModel.recallDate= (<any>this.recallModel.recallDate).formatted;
            }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
-             this.recallModel.immediateRelease= this.recallModel.immediateRelease.formatted;
+             this.recallModel.immediateRelease= (<any>this.recallModel.immediateRelease).formatted;
            }  
           var thisObject=this;
           if((this.recallModel.categoryName==="Tires" || this.recallModel.categoryName==="Child Safety Seats" || this.recallModel.categoryName==="Motor Vehicles") && this.uploader.queue.length>0){

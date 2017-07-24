@@ -9,7 +9,7 @@ export class Recall {
     public productName?: string;
     public hazard?: string;
     public remedy?: string;
-    public recallDate?: Date;
+    public recallDate?: Object;
     public recallNumber?: string;
     public description?: string;
     public incidentsOrInjuries?:String;
@@ -20,7 +20,7 @@ export class Recall {
     public units?: string;
     
     // food
-    public immediateRelease?:Date;
+    public immediateRelease?:Object;
     public consumers?:string;
     public media?:string;
     
@@ -46,10 +46,10 @@ export class Recall {
     public mIC?:string;
     public companyOfficial?:string;
     public modelYear?:string;
-    public caseOpenDate?:Date;
-    public caseCloseDate?:Date;
-    public campaignOpenDate?:Date;
-    public campaignCloseDate?:Date;
+    public caseOpenDate?:Object;
+    public caseCloseDate?:Object;
+    public campaignOpenDate?:Object;
+    public campaignCloseDate?:Object;
     
     public created_at?: Date;
     public updated_at?: Date;

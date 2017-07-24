@@ -66,6 +66,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /************   configuring routes   ****************/
+app.use("/dist",express.static(path.resolve(__dirname, '../../dist')));
 app.use("/node_modules",express.static(path.resolve(__dirname, '../../node_modules')));
 app.use("/css",express.static(path.resolve(__dirname, '../../css')));
 app.use("/js",express.static(path.resolve(__dirname, '../../js')));

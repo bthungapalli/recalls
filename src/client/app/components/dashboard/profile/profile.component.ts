@@ -41,8 +41,8 @@ export class ProfileComponent {
               this.router.navigate(['home']);
             }else{
                 this.profileModel= (<any>Object).assign({}, response);
-               this.isEmailAlert= this.profileModel.alertsOn.includes("Email");
-                this.isMobileAlert= this.profileModel.alertsOn.includes("Mobile");
+               this.isEmailAlert=  (<any>this.profileModel.alertsOn).includes("Email");
+                this.isMobileAlert=  (<any>this.profileModel.alertsOn).includes("Mobile");
                 this.dashboardService.emitChange(response);
               this.dashboardService.userDetails=response;
               this.spinnerService.emitChange(false);
