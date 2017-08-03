@@ -25,6 +25,8 @@ var UserSchema = new Schema({
     role:{type:String,required:true},
     isActive:{type: Boolean, required: true,default:true},
     categories:{type:Array,required:true},
+    token:{type:Number,required:true},
+    registrationConfirmed:{type:Boolean,required:false},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}
 });

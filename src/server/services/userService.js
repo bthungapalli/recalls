@@ -39,7 +39,10 @@ return{
 				 		 console.log("error:"+error);
 				 		 callbackForCreateOrUpdateUser(error);
 				 	 }
-				 	 var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"role":user.role,"categories":user.categories});
+				 	 var userCreated = new userModel({"_id":counter.seq,"firstName": user.firstName,"lastName": user.lastName,
+"password":user.password,"email":user.email,"mobileNumber":user.mobileNumber,"street":user.street,"registrationConfirmed":false,
+"city":user.city,"state":user.state,"zipcode":user.zipcode,"alertsOn":user.alertsOn,"token":Math.random().toFixed(15),
+"role":user.role,"categories":user.categories});
 				 	 serviceObj.save(userCreated,callbackForCreateOrUpdateUser);
 				 });
 			 }else{
@@ -68,6 +71,16 @@ return{
 	 getAllUsersBasedOnCategory:function(category,callbackForGetAllUsersBasedOnCategory){
 		 var query = userModel.find({ "categories": { $in: [category] } }); 
 		 this.execute(query,callbackForGetAllUsersBasedOnCategory);
+	 },
+	 getUserForToken:function(token,callbackForGetUsersForToken){
+		 var condition={ "token": token};
+		 var query = userModel.find(condition); 
+		 this.execute(query,callbackForGetUsersForToken);
+	 },
+	 activateUserByToken:function(token,callbackForActivateUserByToken){
+		 var conditions = { "token":token };
+		 var update = { $set: {"registrationConfirmed":true,"updated_at":new Date()}};
+		 this.update({},conditions,update,callbackForActivateUserByToken);
 	 }
 
 }
