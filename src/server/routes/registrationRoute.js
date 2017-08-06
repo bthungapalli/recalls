@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var userService=require("../services/userService");
+var nconf = require('nconf');
+var mailUtil=require("../utils/MailUtil");
 var Cryptr = require('cryptr'),
 cryptr = new Cryptr('recallsSecretKeyToEncryptPassword');
 

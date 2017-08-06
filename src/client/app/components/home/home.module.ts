@@ -13,7 +13,7 @@ import { SpinnerService }  from './spinner.service';
     SpinnerComponentModule
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
   ],
   providers:[
 SpinnerService

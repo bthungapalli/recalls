@@ -23,11 +23,11 @@
    "smtpConfig":{
 	   "host":"smtp.gmail.com",
 	   "port":465,
-	   "authUser":"",
-       "authPassword":""
+	   "authUser":"pathaalok@gmail.com",
+       "authPassword":"loki@2015"
    },
   "context":{
-	   	"path":"http://localhost:9000/"
+	   	"path":"http://localhost:3000/"
   },
    "recall":{
 	   "filesPath":"/Users/apatha/Desktop/uploads/"

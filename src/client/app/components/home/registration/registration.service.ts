@@ -8,6 +8,7 @@ export class RegistrationService {
 
       private  REGISTRATION_POST_URL="/registration";
       private  CHECK_EMAIL_POST_URL="/registration/checkEmail";
+      private TOKEN_URL="/registration/registrationConfirmation";
 
       constructor(private http: Http) {
       }
@@ -20,6 +21,12 @@ export class RegistrationService {
 
       checkEmail(registrationModel:Registration): Observable<any> {
        return this.http.post(this.CHECK_EMAIL_POST_URL,registrationModel)
+       .map((res: Response) => {return res.json();})
+       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+    
+     checkToken(token:Number): Observable<any> {
+       return this.http.get(this.TOKEN_URL+"?token="+token)
        .map((res: Response) => {return res.json();})
        .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
