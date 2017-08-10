@@ -90,9 +90,9 @@
     </div>
 <div class="col-xs-12">
       <div class="form-group">
-        <label for="categoryName"> Category <sup class="text-danger" *ngIf="registrationModel.role=='Vendor'">*</sup></label>
-        <select class="form-control" [(ngModel)]="registrationModel.categories" name="categoryName" multiple="true" size="5" [required]="registrationModel.role=='Vendor'">
-          <option *ngFor="let category of categories" value= {{category.categoryName}}>
+        <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+        <select class="form-control" [(ngModel)]="registrationModel.categories" name="categoryName" multiple="true" size="5" required>
+          <option *ngFor="let category of categories" value="{{category.categoryName}}">
             {{category.categoryName}}
           </option>
         </select>
