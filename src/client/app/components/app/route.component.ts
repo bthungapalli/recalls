@@ -11,12 +11,11 @@ import {CategoriesComponent} from '../dashboard/categories/categories.component'
 import {RecallComponent} from '../dashboard/recalls/recall.component';
 import {RecallsComponent} from '../dashboard/recalls/recalls.component';
 import {RequestCategoryComponent} from '../dashboard/categories/requestCategory.component';
-import {RegistrationConfirmationComponent} from '../home/registration/registration.confirmation.component';
 
 
 const appRoutes: Routes = [
   { path: '' , redirectTo: 'home', pathMatch: 'full'},
-  { path: 'registrationConfirmation' , component: RegistrationConfirmationComponent},
+  { path: 'registrationConfirmation' , redirectTo: 'home'},
   { path: 'home', component: HomeComponent,
   children: [
     { path: '', redirectTo: 'login', pathMatch: 'full' },

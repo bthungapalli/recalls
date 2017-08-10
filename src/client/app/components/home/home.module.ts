@@ -4,13 +4,15 @@ import { RouteComponent } from "../app/route.component";
 import { SpinnerComponentModule } from 'ng2-component-spinner';
 import { HomeComponent }  from './home.component';
 import { SpinnerService }  from './spinner.service';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
   imports: [
     FormsModule,
     RouteComponent,
-    SpinnerComponentModule
+    SpinnerComponentModule,
+    CommonModule
   ],
   declarations: [
     HomeComponent,

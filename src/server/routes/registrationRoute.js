@@ -56,12 +56,12 @@ router.get('/registrationConfirmation',function (req,res,next){
 		if(err)
     		res.send("error");
 					if(user==null){
-							res.json({"message":"Invalid Token"});
+							res.json({"token":false});
 					}else{
 						userService.activateUserByToken(token,function(err,user){
 							if(err)
 					    		res.send("error");
-							res.json({"message":"Successfully User Activated"});
+							res.json({"token":true});
 						});
 					}
 

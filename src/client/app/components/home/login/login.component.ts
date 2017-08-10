@@ -32,6 +32,8 @@ this.spinnerService.emitChange(true);
                   }else{
                      if(!response.isActive){
                           this.errorMessage="Your account is inactive.Please contact administrator";
+                     }if(!response.registrationConfirmed){
+                          this.errorMessage="Your account is not activated.Please click the link in Register confirmation mail";
                      }else{
                           this.dashboardService.setUserToProfile(response);
                           this.router.navigate(['dashboard/profile']);

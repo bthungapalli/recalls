@@ -14,4 +14,5 @@ export class Registration {
     public role?:string;
     public isActive?:boolean;
     public categories?:string[];
+    public registrationConfirmed?:boolean;
 }

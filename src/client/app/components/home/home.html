@@ -6,7 +6,11 @@
   <div>
     <a  class="col-xs-6 homeLabels"  routerLinkActive="homeActive" [routerLink]="['./registration']"  style="color:white">Sign In </a>
   </div>
-
+ 
+ 
+ <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
+  <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
+ 
 
   <router-outlet ></router-outlet>
 

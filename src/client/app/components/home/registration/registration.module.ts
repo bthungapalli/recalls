@@ -5,7 +5,6 @@ import {HttpModule} from '@angular/http';
 import { RegistrationComponent }  from './registration.component';
 import { RegistrationService }  from './registration.service';
 import { CategoriesService }  from '../../dashboard/categories/categories.service';
-import { RegistrationConfirmationComponent }  from './registration.confirmation.component';
 
 
 @NgModule({
@@ -15,7 +14,7 @@ import { RegistrationConfirmationComponent }  from './registration.confirmation.
       CommonModule
   ],
   declarations: [
-    RegistrationComponent,RegistrationConfirmationComponent
+    RegistrationComponent
   ],
   providers:[
     RegistrationService,CategoriesService

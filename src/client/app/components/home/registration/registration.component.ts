@@ -16,6 +16,7 @@ import {Category} from '../../dashboard/categories/categories.model';
 export class RegistrationComponent {
 
       public errorMessage:String="";
+     public successMessage:String="";
       public registrationModel: Registration;
       public spinner:boolean;
       public isEmailAlert:boolean;
@@ -44,8 +45,10 @@ export class RegistrationComponent {
                 this.registrationModel.alertsOn=["Mobile"];
             }
             this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
-            this.dashboardService.setUserToProfile(response);
-            this.router.navigate(['dashboard/profile']);
+                 this.successMessage="Successfully Registered, Activation Link Mailed";
+                 this.registrationModel = new Registration();
+//            this.dashboardService.setUserToProfile(response);
+//            this.router.navigate(['dashboard/profile']);
                 this.spinnerService.emitChange(false);
             },err => {
                                     this.errorMessage="Something went wrong.Please contact administrator";
