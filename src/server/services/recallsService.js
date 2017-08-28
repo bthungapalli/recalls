@@ -81,7 +81,7 @@ return{
    },
 	 getAllRecalls:function(user,callbackForGetAllRecalls){
 		 var condition;
-		 if(user.role==="Vendor"){
+		 if(user.role==="Retailer"){
 			 condition={"created_by":user.email,"categoryName":{$in:user.categories}};
 		 }else{
 			 condition={};//{"categoryName":{$in:user.categories}};
@@ -123,7 +123,7 @@ return{
 				endDate.setHours(23,59,59,999);
 			}
 			
-			if(user.role==="Vendor"){
+			if(user.role==="Retailer"){
 				
 				if(recallFilter.fromDate !==undefined || recallFilter.toDate!==undefined){
 					if(recallFilter.category=="All"){

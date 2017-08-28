@@ -18,9 +18,9 @@
               <ul class="nav side-menu">
                 <li *ngIf="profile.role==='Admin'" ><a routerLinkActive="active" [routerLink]="['./userManagement']"><i class="fa fa-home"></i> User Management</a></li>
                 <li *ngIf="profile.role==='Admin'"><a routerLinkActive="active" [routerLink]="['./categories']"><i class="fa fa-sitemap"></i> Categories</a></li>
-                <li *ngIf="profile.role==='Vendor'"><a routerLinkActive="active" [routerLink]="['./recall']"><i class="fa fa-edit"></i> Create Recall</a></li>
+                <li *ngIf="profile.role==='Retailer'"><a routerLinkActive="active" [routerLink]="['./recall']"><i class="fa fa-edit"></i> Create Recall</a></li>
                 <li *ngIf="profile.role!=='Admin'"><a routerLinkActive="active" [routerLink]="['./recalls']"><i class="fa fa-clone"></i> Recalls</a></li>
-                <li *ngIf="profile.role==='Vendor'"><a routerLinkActive="active" [routerLink]="['./requestCategory']"><i class="glyphicon glyphicon-send"></i> Request Category</a></li>
+                <li *ngIf="profile.role==='Retailer'"><a routerLinkActive="active" [routerLink]="['./requestCategory']"><i class="glyphicon glyphicon-send"></i> Request Category</a></li>
                 
                 <li ><a routerLinkActive="active" [routerLink]="['./profile']"><i class="fa fa-user"></i> Profile</a></li>
                   </ul>
