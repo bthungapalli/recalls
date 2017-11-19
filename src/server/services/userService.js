@@ -68,8 +68,16 @@ return{
 		 var query = userModel.findOne({"email":user.email});
 		 this.execute(query,callbackForGetUser);
 	 },
-	 getAllUsersBasedOnCategory:function(category,callbackForGetAllUsersBasedOnCategory){
-		 var query = userModel.find({ "categories": { $in: [category] } }); 
+	 getAllUsersBasedOnCategory:function(recall,callbackForGetAllUsersBasedOnCategory){
+		let tempCategories=recall.categoryName.split("~");
+		let categoryQuery={
+			"categories.categoryName":tempCategories[0]
+		};
+		recall.subCategories.forEach((subCategory,index)=>{
+			categoryQuery["categories.rows."+subCategory]=tempCategories[index+1]
+		});
+		console.log(JSON.stringify(categoryQuery));
+		 var query = userModel.find(categoryQuery); 
 		 this.execute(query,callbackForGetAllUsersBasedOnCategory);
 	 },
 	 getUserForToken:function(token,callbackForGetUsersForToken){
@@ -81,7 +89,11 @@ return{
 		 var conditions = { "token":token };
 		 var update = { $set: {"registrationConfirmed":true,"updated_at":new Date()}};
 		 this.update({},conditions,update,callbackForActivateUserByToken);
-	 }
+	 },
+	 getAllActiveUsers:function(callbackForGetAllActiveUsers){
+		var query = userModel.find({"role" : "User","isActive" : true,"registrationConfirmed" : true});
+		this.execute(query,callbackForGetAllActiveUsers);
+	},
 
 }
 }

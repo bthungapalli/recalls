@@ -4,7 +4,7 @@ export class Recall {
     public _id?:number;
     public title?: string;
     public categoryName?:string;
-    
+    public subCategories?:string[]=[];
 //Consumer Products
     public productName?: string;
     public hazard?: string;

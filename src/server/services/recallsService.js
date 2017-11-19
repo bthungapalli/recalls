@@ -1,5 +1,6 @@
 var counterModel = require("../models/counterModel");
 var recallModel=require("../models/recallModel");
+var recallJobModel=require("../models/recallJobModel");
 var recallsService =function(){
 
 return{
@@ -31,6 +32,15 @@ return{
 			 callbackForSave(null,recall);
 	 });
 	},
+	deleteJobRecalls:function(condition,callbackForDelete){
+		recallJobModel.remove(condition,function(err){
+			 if(err){
+				 console.log(err)
+				 callbackForDelete(err);
+			 }
+			 callbackForDelete(null,{});
+	 });
+	},
 	delete:function(condition,callbackForDelete){
 		recallModel.remove(condition,function(err){
 			 if(err){
@@ -50,7 +60,7 @@ return{
 				 		 callbackForCreateOrUpdateRecall(error);
 				 	 }
 				 	 var recallCreated = new recallModel(
-				 	{"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"productName": recall.productName,
+				 	{"_id":counter.seq,"title": recall.title,"categoryName":recall.categoryName,"subCategories":recall.subCategories,"productName": recall.productName,
 					"hazard": recall.hazard,"remedy": recall.remedy,"recallDate": recall.recallDate,"recallNumber": recall.recallNumber,
 					"description": recall.description,"incidentsOrInjuries": recall.incidentsOrInjuries,"soldAt": recall.soldAt,"importer": recall.importer,
 					"manufacturer":recall.manufacturer,"manufacturedIn": recall.manufacturedIn,"units": recall.units,"classRecall": recall.classRecall,"healthRisk": recall.healthRisk,
@@ -165,6 +175,10 @@ return{
 	 },
 	 deleteRecall:function(id,callbackForDeleteRecall){
 		 this.delete({"_id":id},callbackForDeleteRecall);
+	 },
+	 getJobRecalls:function(callbackForGetJobRecalls){
+		 var query =recallJobModel.find({});
+		 this.execute(query,callbackForGetJobRecalls);
 	 }
 
 }

@@ -1,0 +1,106 @@
+<div class="col-xs-12">
+  <h3>Sub Categories</h3>
+  <hr style="margin-top: 0px;margin-bottom: 15px;border-top: 2.5px solid #1abb9c;">
+  <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
+  <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
+
+  <div class="col-xs-12">
+    
+        <div class="form-group">
+          <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+          <select  class="form-control" [(ngModel)]="selectedCategory" name="categoryName">
+            <option>Select Category</option>
+            <option *ngFor="let category of categories" [ngValue]="category">
+              {{category.categoryName}}
+            </option>
+          </select>
+        </div>
+
+        <form (ngSubmit)="submitSubCategory();" #subCategoryDetails="ngForm"  *ngIf="selectedCategory!=='Select Category'">
+          <div class="col-xs-12 col-sm-6" *ngFor="let subCategory of selectedCategory.subCategories; let i = index">
+            <div class="form-group">
+              <label for="{{subCategory}}">{{subCategory}} <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="subCategoryFormData[i]" name="{{subCategory}}" class="form-control" id="{{subCategory}}" placeholder="{{subCategory}}" required>
+            </div>
+          </div>
+         
+          <div class="col-xs-12 text-center">
+            <button type="submit" [disabled]="!subCategoryDetails.form.valid"   class="btn btn-success">Submit</button>
+          </div>
+        </form>
+
+        <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;" *ngIf="selectedCategory!=='Select Category'">
+          <div class="table-responsive">
+              <table class="table table-striped " [mfData]="selectedCategory.rows" #mf="mfDataTable" [mfRowsOnPage]="10"  [(mfSortBy)]="sortBy" >
+                <thead>
+                                <tr>
+                                    <th *ngFor="let subCategory of selectedCategory.subCategories;" >
+                                      <mfDefaultSorter by="{{subCategory}}">{{subCategory}}</mfDefaultSorter>
+                                    </th>
+                                    <th>Action</th>
+  
+                                </tr>
+  
+                                </thead>
+                  <tbody>
+                  <tr *ngFor="let subCategory of mf.data; let i = index" [attr.data-index]="i">
+                      <td  *ngFor="let subCategoryData of selectedCategory.subCategories; let childIndex = index" >{{subCategory[subCategoryData]}} </td>
+                      <td>
+                        <button type="button" (click)="deleteSubCategory(i)" class="btn btn-xs btn-danger">Delete {{childIndex}}</button>
+                      </td>
+  
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+                </tfoot>
+  
+              </table>
+               </div>
+   </div>
+  </div>
+
+  <!-- <div class="col-xs-12">
+
+    <div class="form-group">
+      <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
+      <select class="form-control"  [(ngModel)]="mainCategory" name="categoryName">
+        <option *ngFor="let ex of example" [ngValue]="ex">
+          {{ex.categoryName}}
+        </option>
+      </select>
+    </div>
+    <ng-container *ngIf="mainCategory">
+    <ng-container *ngFor="let subCategories of mainCategory.subCategories; let i = index">
+
+       
+    <div class="form-group" *ngIf="mainCategory && i==0">
+        <label for="categoryName"> {{mainCategory.subCategories[i]}} <sup class="text-danger">*</sup></label>
+        <select class="form-control"  [(ngModel)]="subCategory[i]" name="categoryName">
+          <option *ngFor="let ex of mainCategory.values" [ngValue]="ex">
+            {{ex.name}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="i>0 && mainCategory  && subCategory[i-1]">
+          <label for="categoryName"> {{mainCategory.subCategories[i]}} <sup class="text-danger">*</sup></label>
+          <select class="form-control"  [(ngModel)]="subCategory[i]" name="categoryName">
+            <option *ngFor="let ex of subCategory[i-1].values" [ngValue]="ex">
+              {{ (mainCategory.subCategories.length===i+1)?ex:ex.name}}
+            </option>
+          </select>
+        </div>
+
+
+    </ng-container>
+  </ng-container>
+
+    
+  </div> -->
+
+</div>

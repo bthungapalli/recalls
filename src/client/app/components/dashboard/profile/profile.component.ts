@@ -22,6 +22,13 @@ export class ProfileComponent {
       public isEmailAlert:boolean;
       public isMobileAlert:boolean;
       public categories:Category[]=[];
+      public mainCategories:Category[]=[];
+
+      public subCategoriesArray:any=[];
+      public subCategoriesData:any=[];
+      public selectedCategory:any="Select Category";
+      public selectedSubcategories:any=[];
+    
     
       constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
           this.profileModel = new Profile();
@@ -30,6 +37,7 @@ export class ProfileComponent {
           
             this.categoriesService.getAllCategories().subscribe(response => {
                    this.categories=response;
+                   this.mainCategories=JSON.parse(JSON.stringify(response));
           },err => {
               this.errorMessage="Something went wrong.Please contact administrator";
           });
@@ -41,8 +49,10 @@ export class ProfileComponent {
               this.router.navigate(['home']);
             }else{
                 this.profileModel= (<any>Object).assign({}, response);
+                this.selectedSubcategories=this.profileModel.categories;
                this.isEmailAlert=  (<any>this.profileModel.alertsOn).includes("Email");
                 this.isMobileAlert=  (<any>this.profileModel.alertsOn).includes("Mobile");
+                this.removeExistingSubcategory();
                 this.dashboardService.emitChange(response);
               this.dashboardService.userDetails=response;
               this.spinnerService.emitChange(false);
@@ -52,13 +62,127 @@ export class ProfileComponent {
                 this.errorMessage="Something went wrong.Please contact administrator";
                 this.spinnerService.emitChange(false);
             });
-          
-          
+             
+      };
+
+      removeExistingSubcategory(){
+          this.profileModel.categories.forEach(profileCategory=>{
+            this.categories.forEach(category=>{
+                if(category.categoryName===profileCategory.categoryName){
+                    
+                    profileCategory.rows.forEach(subCategory=>{
+                        let temp=JSON.parse(JSON.stringify(category));
+                        const orderedSubCategory = {};
+                        Object.keys(orderedSubCategory).sort().forEach(function(key) {
+                            orderedSubCategory[key] = subCategory[key];
+                        });
+                        temp.rows.forEach((row,index)=>{
+                            const orderedRow = {};
+                            Object.keys(orderedRow).sort().forEach(function(key) {
+                                orderedRow[key] = row[key];
+                            });
+                            if(JSON.stringify(orderedRow)===JSON.stringify(orderedSubCategory)){
+                                category.rows.splice(index,1)
+                            }
+                        })
+                    })
+
+                }
+            })
+          })
       }
 
-              
-              
-              
+        showSubCategories(index){
+          if(index===0){
+            this.subCategoriesArray=[];
+            this.subCategoriesData=[];
+          }
+          if(index!==this.selectedCategory.subCategories.length){
+            this.subCategoriesData[index]=[];
+            let key= this.selectedCategory.subCategories[index];
+            this.subCategoriesArray[index]="Select "+key;
+            this.selectedCategory.rows.forEach(row => {
+                if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]]){
+                    this.subCategoriesData[index].push(row[key]);
+                }
+                if(index===0){
+                    if(this.subCategoriesData[index].indexOf(row[key])===-1){
+                        this.subCategoriesData[index].push(row[key]);
+                    }
+                }
+            });
+          }
+      };
+
+      removeSubCategory(category,index){
+       
+        let subCategoryRemoved=category.rows[index];
+        this.categories.forEach(category1=>{
+            if(category1.categoryName===category.categoryName){
+                category1.rows.push(subCategoryRemoved);
+            }
+        });
+        category.rows.splice(index,1);
+        this.selectedCategory="Select Category";
+        this.subCategoriesArray=[];
+        this.subCategoriesData=[];
+      }
+
+      addSubCategory(){
+    
+        let temp={};
+        let tempSubCategory;
+        let rowIndex;
+        this.selectedCategory.subCategories.forEach((category,index) => {
+            temp[category]=this.subCategoriesArray[index]
+        }); 
+        
+        this.selectedSubcategories.forEach(category=>{
+            if(category.categoryName===this.selectedCategory.categoryName){
+                tempSubCategory=category;
+            }
+        });
+        if(tempSubCategory){
+            tempSubCategory.rows.push(temp);
+        }else{
+            tempSubCategory={
+                "categoryName": this.selectedCategory.categoryName,
+                "subCategories":this.selectedCategory.subCategories,
+                "rows":[]
+            };  
+            tempSubCategory.rows.push(temp);
+            this.selectedSubcategories.push(tempSubCategory);
+        } 
+        
+        this.selectedCategory.rows.forEach((row,index)=>{
+            if(JSON.stringify(row)===JSON.stringify(temp)){
+                rowIndex=index;
+            }
+        });
+        this.selectedCategory.rows.splice(rowIndex,1);
+       
+        this.selectedCategory="Select Category";
+        this.subCategoriesArray=[];
+        this.subCategoriesData=[];
+      };
+
+      
+      isSubCategoryValid(){
+        let isInvalid=true;
+        if(this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
+            let i=0;
+            this.subCategoriesArray.forEach((subCategory,index) => {
+                if(subCategory.includes("Select")){
+                  i++;
+                }
+             }); 
+             if(i==0){
+                isInvalid=false;
+             }
+        }
+        return isInvalid;
+      };
+
       submitProfile(){
       this.spinnerService.emitChange(true);
         this.disableFields=true;
@@ -78,6 +202,7 @@ export class ProfileComponent {
               this.router.navigate(['home']);
             }else{
               this.successMessage="Profile updated";
+              this.categories=JSON.parse(JSON.stringify(this.mainCategories));
               this.dashboardService.userDetails=this.profileModel;
               this.spinnerService.emitChange(false);
             }

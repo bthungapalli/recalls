@@ -92,15 +92,77 @@
 <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Category <sup class="text-danger">*</sup></label>
-        <select class="form-control" [(ngModel)]="registrationModel.categories" name="categoryName" multiple="true" size="5" required>
-          <option *ngFor="let category of categories" value="{{category.categoryName}}">
+        <select class="form-control" (change)="showSubCategories(0);" [(ngModel)]="selectedCategory" name="categoryName" required>
+          <option>Select Category</option>
+          <option *ngFor="let category of categories" [ngValue]="category" >
             {{category.categoryName}}
           </option>
         </select>
       </div>
+
+
+      <ng-container *ngIf="selectedCategory!=='Select Category'">
+
+          <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
+
+              <div class="form-group" *ngIf="subCategoriesData[i]!==undefined && subCategoriesData[i].length>0">
+                  <label for="subCategoryName{{i}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
+                  <select class="form-control" (change)="showSubCategories(i+1);" [(ngModel)]="subCategoriesArray[i]" name="subCategoryName{{i}}" required>
+                    <option>Select {{subCategories}}</option>
+                    <option *ngFor="let subCategory of subCategoriesData[i]" value="{{subCategory}}">
+                      {{subCategory}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-xs-6" *ngIf="subCategoriesData[i]!==undefined && subCategoriesData[i].length===0">
+                    <label class="text-success">You have subcribed all subcategories of {{subCategories}} </label>
+                    </div>
+          </ng-container>
+
+          
+          <div class="col-xs-12 text-center">
+              <button type="button" [disabled]="isSubCategoryValid()" (click)="addSubCategory();" class="btn btn-danger">ADD</button>
+          </div>
+
+      </ng-container>
+
+      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;" *ngIf="selectedSubcategories.length>0">
+          <div class="table-responsive">
+              <table class="table table-striped " [mfData]="selectedSubcategories" #mf="mfDataTable" >
+                <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Sub Category</th>
+  
+                                </tr>
+  
+                                </thead>
+                  <tbody>
+                  <tr *ngFor="let category of mf.data; let i = index" [attr.data-index]="i">
+                    <td>{{category.categoryName}}</td>
+                    <td>
+                      <span class="subCategoryLabel" *ngFor="let row of category.rows;"> 
+                      
+                          <ng-container *ngFor="let subCategories of category.subCategories; let i = index">
+                              {{row[subCategories]}}{{category.subCategories.length===(i+1)?"":"->"}}
+                          </ng-container>
+
+                      </span>
+                  </td>
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                
+                </tfoot>
+  
+              </table>
+               </div>
+   </div>
+
+
     </div>
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage=='Email already exist' || !(isMobileAlert || isEmailAlert)" class="btn btn-block btn-success">Sign In</button>
+      <button type="submit" [disabled]="!personalDetails.form.valid || errorMessage=='Email already exist' || !(isMobileAlert || isEmailAlert) || selectedSubcategories.length===0" class="btn btn-block btn-success">Sign In</button>
     </div>
   </form>
 

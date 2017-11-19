@@ -15,7 +15,7 @@ var RecallSchema = new Schema({
    	_id:{type: Number, required: true,default:0},
     title: {type: String, required: false},
     categoryName:{type: String, required: true},
-    
+    subCategories:{type: Array, required: true},
     productName:{type: String, required: false},
     hazard:{type: String, required: false},
     remedy:{type: String, required: false},

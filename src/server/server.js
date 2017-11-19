@@ -15,6 +15,8 @@ var userManagementRoute = require('./routes/userManagementRoute');
 var categoriesRoute = require('./routes/categoriesRoute');
 var recallsRoute = require('./routes/recallsRoute');
 var forgotPasswordRoute = require('./routes/forgotPasswordRoute');
+var subCategoriesRoute = require('./routes/subCategoriesRoute');
+
 
 
 
@@ -36,6 +38,10 @@ nconf.argv()
      .env()
      .file({ file:environmentPropertyFile
      });
+
+/************   schedulers  ****************/
+var schedulers = require('./schedulers/vehicleScheduler');
+var emailScheduler = require('./schedulers/emailScheduler');
 
 /************   mongo connection  ****************/
 var mongoDbConnection=nconf.get('mongoDbConnection');
@@ -80,6 +86,8 @@ app.use('/userManagement', userManagementRoute);
 app.use('/categories', categoriesRoute);
 app.use('/recalls', recallsRoute);
 app.use('/forgotPassword', forgotPasswordRoute);
+app.use('/subCategories', subCategoriesRoute);
+
 app.use('/**', mainRoute);
 
 

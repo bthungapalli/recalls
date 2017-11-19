@@ -19,6 +19,15 @@ padding-bottom: 20px;
     padding-top: 20px;
 }
 
+.subCategoryLabel{
+  background: #26B99A;
+  border: 1px solid #169F85;
+  color: white;
+  border-radius: 2px;
+  padding: 3px;
+  margin: 5px;
+}
+
 @media only screen and (max-width: 768px) {
   .homePage{
     margin: 10% 7%;
