@@ -3,6 +3,8 @@ var schedulerService=require("../services/schedulerService");
 var nconf = require('nconf');
 var recallsService=require("../services/recallsService");
 var userService=require("../services/userService");
+var mailUtil=require("../utils/MailUtil");
+var multer = require('multer');
 
 var emailScheduler =function(){
 	

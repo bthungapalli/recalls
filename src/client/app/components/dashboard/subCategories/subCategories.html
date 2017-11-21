@@ -46,7 +46,8 @@
                   <tr *ngFor="let subCategory of mf.data; let i = index" [attr.data-index]="i">
                       <td  *ngFor="let subCategoryData of selectedCategory.subCategories; let childIndex = index" >{{subCategory[subCategoryData]}} </td>
                       <td>
-                        <button type="button" (click)="deleteSubCategory(i)" class="btn btn-xs btn-danger">Delete {{childIndex}}</button>
+                        <button type="button" (click)="deleteSubCategory(i)" class="btn btn-xs btn-danger">Delete </button>
+                        <button type="button" (click)="copySubCategory(i)" class="btn btn-xs btn-primary">Copy </button>
                       </td>
   
                   </tr>

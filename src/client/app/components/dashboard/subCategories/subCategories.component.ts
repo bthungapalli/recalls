@@ -50,7 +50,7 @@ export class SubCategoriesComponent implements OnInit{
         this.selectedCategory.rows.forEach((row,index) => {
           let temp=0;
           this.selectedCategory.subCategories.forEach((category,index) => {
-            if(row[category].toUpperCase()===this.subCategoryFormData[index].toUpperCase()){
+            if(row[category].toString().toUpperCase()===this.subCategoryFormData[index].toString().toUpperCase()){
               temp++;
               }
           });
@@ -80,6 +80,7 @@ export class SubCategoriesComponent implements OnInit{
                               this.selectedCategory.rows.push(temp);
                               this.subCategoryFormData=[];
                              }
+                               this.successMessage="Created Successfully";
                                this.spinnerService.emitChange(false);
                            },err => {
                                this.errorMessage="Something went wrong.Please contact administrator";
@@ -108,7 +109,13 @@ export class SubCategoriesComponent implements OnInit{
                              this.errorMessage="Something went wrong.Please contact administrator";
                              this.spinnerService.emitChange(false);
                          });
-      }
+      };
+
+      copySubCategory(index){
+        this.selectedCategory.subCategories.forEach((subCategory,i)=>{
+          this.subCategoryFormData[i]=this.selectedCategory.rows[index][subCategory];
+        })
+      };
       
 
  }

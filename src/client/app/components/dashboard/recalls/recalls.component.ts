@@ -101,7 +101,7 @@ export class RecallsComponent implements OnInit{
 
       isSubCategoryValid(){
         let isInvalid=true;
-        if(this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
+        if(this.selectedCategory!=="Select Category" && this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
             let i=0;
             this.subCategoriesArray.forEach((subCategory,index) => {
                 if(subCategory.includes("Select")){

@@ -28,7 +28,10 @@ export class ProfileComponent {
       public subCategoriesData:any=[];
       public selectedCategory:any="Select Category";
       public selectedSubcategories:any=[];
-    
+      
+    private editFlag:boolean=false;
+    private editSubcategoryIndex:any;
+    private editCategoryIndex:any;
     
       constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
           this.profileModel = new Profile();
@@ -52,7 +55,7 @@ export class ProfileComponent {
                 this.selectedSubcategories=this.profileModel.categories;
                this.isEmailAlert=  (<any>this.profileModel.alertsOn).includes("Email");
                 this.isMobileAlert=  (<any>this.profileModel.alertsOn).includes("Mobile");
-                this.removeExistingSubcategory();
+               // this.removeExistingSubcategory();
                 this.dashboardService.emitChange(response);
               this.dashboardService.userDetails=response;
               this.spinnerService.emitChange(false);
@@ -114,18 +117,89 @@ export class ProfileComponent {
           }
       };
 
-      removeSubCategory(category,index){
-       
-        let subCategoryRemoved=category.rows[index];
-        this.categories.forEach(category1=>{
-            if(category1.categoryName===category.categoryName){
-                category1.rows.push(subCategoryRemoved);
+      exitUpdate(){
+          this.editFlag=false;
+          this.selectedCategory="Select Category";
+          this.subCategoriesArray=[];
+          this.subCategoriesData=[];
+      }
+
+      updateSubCategory(){
+        let temp={};
+        let tempSubCategory;
+        let rowIndex;
+        this.selectedCategory.subCategories.forEach((category,index) => {
+            temp[category]=this.subCategoriesArray[index]
+        }); 
+        
+        let alreadyExist=false;
+        this.selectedSubcategories.forEach(category=>{
+            if(category.categoryName===this.selectedCategory.categoryName){
+                tempSubCategory=category;
+                category.rows.forEach((row,index)=>{
+
+                    const orderedSubCategory = {};
+                    Object.keys(row).sort().forEach(function(key) {
+                        orderedSubCategory[key] = row[key];
+                    });
+
+                    
+                        const orderedRow = {};
+                        Object.keys(temp).sort().forEach(function(key) {
+                            orderedRow[key] = temp[key].toString();
+                        });
+                        if(JSON.stringify(orderedRow)===JSON.stringify(orderedSubCategory)){
+                            alreadyExist=true;
+                        }
+                     
+                })
+
             }
         });
+        if(alreadyExist){
+            this.errorMessage="SubCategory already exist";
+        }else{
+            this.errorMessage="";
+            this.selectedSubcategories[this.editCategoryIndex].rows[this.editSubcategoryIndex]=temp;
+            this.editFlag=false;
+            this.selectedCategory="Select Category";
+            this.subCategoriesArray=[];
+            this.subCategoriesData=[];
+        }
+       
+      };
+
+      editSubCategory(category,categoryIndex,subcategoryIndex){
+          this.editFlag=true;
+          this.editSubcategoryIndex=subcategoryIndex;
+          this.editCategoryIndex=categoryIndex;
+          this.categories.forEach(category1=>{
+            if(category1.categoryName===category.categoryName){
+                this.selectedCategory=category1;
+            }
+        });
+        this.showSubCategories(0);
+        category.subCategories.forEach((subCategory,i)=>{
+            this.subCategoriesArray[i]=category.rows[subcategoryIndex][subCategory];
+            this.showSubCategories(i+1);
+        });
+       
+        
+      };
+
+      removeSubCategory(category,index){
+       if(!this.editFlag){
+        // let subCategoryRemoved=category.rows[index];
+        // this.categories.forEach(category1=>{
+        //     if(category1.categoryName===category.categoryName){
+        //         category1.rows.push(subCategoryRemoved);
+        //     }
+        // });
         category.rows.splice(index,1);
         this.selectedCategory="Select Category";
         this.subCategoriesArray=[];
         this.subCategoriesData=[];
+       }
       }
 
       addSubCategory(){
@@ -136,43 +210,61 @@ export class ProfileComponent {
         this.selectedCategory.subCategories.forEach((category,index) => {
             temp[category]=this.subCategoriesArray[index]
         }); 
-        
+        let alreadyExist=false;
         this.selectedSubcategories.forEach(category=>{
             if(category.categoryName===this.selectedCategory.categoryName){
                 tempSubCategory=category;
+                category.rows.forEach((row,index)=>{
+
+                    const orderedSubCategory = {};
+                    Object.keys(row).sort().forEach(function(key) {
+                        orderedSubCategory[key] = row[key];
+                    });
+
+                   
+                        const orderedRow = {};
+                        Object.keys(temp).sort().forEach(function(key) {
+                            orderedRow[key] = temp[key].toString();
+                        });
+                        if(JSON.stringify(orderedRow)===JSON.stringify(orderedSubCategory)){
+                            alreadyExist=true;
+                        }
+                      
+                })
+
             }
         });
-        if(tempSubCategory){
-            tempSubCategory.rows.push(temp);
+        if(alreadyExist){
+            this.errorMessage="SubCategory already exist";
         }else{
-            tempSubCategory={
-                "categoryName": this.selectedCategory.categoryName,
-                "subCategories":this.selectedCategory.subCategories,
-                "rows":[]
-            };  
-            tempSubCategory.rows.push(temp);
-            this.selectedSubcategories.push(tempSubCategory);
-        } 
-        
-        this.selectedCategory.rows.forEach((row,index)=>{
-            if(JSON.stringify(row)===JSON.stringify(temp)){
-                rowIndex=index;
-            }
-        });
-        this.selectedCategory.rows.splice(rowIndex,1);
+            this.errorMessage="";
+            if(tempSubCategory){
+                tempSubCategory.rows.push(temp);
+            }else{
+                tempSubCategory={
+                    "categoryName": this.selectedCategory.categoryName,
+                    "subCategories":this.selectedCategory.subCategories,
+                    "rows":[]
+                };  
+                tempSubCategory.rows.push(temp);
+                this.selectedSubcategories.push(tempSubCategory);
+            } 
+            
+            this.selectedCategory="Select Category";
+            this.subCategoriesArray=[];
+            this.subCategoriesData=[];
+        }
        
-        this.selectedCategory="Select Category";
-        this.subCategoriesArray=[];
-        this.subCategoriesData=[];
       };
 
       
       isSubCategoryValid(){
+
         let isInvalid=true;
-        if(this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
+        if(this.selectedCategory!=="Select Category" && this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
             let i=0;
             this.subCategoriesArray.forEach((subCategory,index) => {
-                if(subCategory.includes("Select")){
+                if(subCategory.toString().includes("Select")){
                   i++;
                 }
              }); 
