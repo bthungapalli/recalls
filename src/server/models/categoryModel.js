@@ -14,7 +14,6 @@ var CategorySchema = new Schema({
    	_id:{type: Number, required: true,default:0},
     categoryName: {type: String, required: true},
     subCategories:{type: Array, required: false},
-    values:{type: Array, required: false},
     rows:{type: Array, required: false},
     created_at: {type: Date, default: Date.now},
     updated_at: {type: Date, default: Date.now}

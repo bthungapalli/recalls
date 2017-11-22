@@ -37,6 +37,7 @@ export class RecallComponent implements OnInit, OnDestroy{
       public subCategoriesData:any=[];
       public selectedCategory:any="Select Category";
       public selectedSubcategories:any=[];
+      public category:any;
 
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
@@ -62,6 +63,13 @@ export class RecallComponent implements OnInit, OnDestroy{
               }else{
               this.recallModel=response;
               }
+              
+              var temp=response.categoryName.split("~");
+              this.category=temp[0];
+              for(var i=1;i<=temp.length;i++){
+                this.subCategoriesArray.push(temp[i]);
+              }
+              
           if(this.recallModel.categoryName==="Boats and Boating Safety"){
              this.recallModel.caseOpenDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
               this.recallModel.caseCloseDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
@@ -162,14 +170,14 @@ export class RecallComponent implements OnInit, OnDestroy{
             }
           }else{
            if(!this.recallId){
-              
               let temp=thisObject.selectedCategory.categoryName;;
               thisObject.subCategoriesArray.forEach((data,index)=>{
-                  temp=temp+"~"+data;
+                  temp=temp+"~"+data.toUpperCase();
               });
               thisObject.recallModel.categoryName=temp;
+              thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
             }
-            thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
+            
               thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
                       thisObject.spinnerService.emitChange(false);
                            if(response.sessionExpired){
@@ -235,7 +243,7 @@ export class RecallComponent implements OnInit, OnDestroy{
        
         this.recallModel=new Recall();
         
-        this.recallModel.categoryName=this.selectedCategory.categoryName;
+       this.recallModel.categoryName=this.selectedCategory.categoryName;
          tinymce.remove(this.editor);
         var callTinyMCE= this.callTinyMCE;
         this.uploader=new FileUploader({url:this.fileUploadURL});

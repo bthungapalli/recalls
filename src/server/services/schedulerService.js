@@ -55,7 +55,7 @@ return{
 					var tempMotorVehicleCategories={
 						"manufacturer":vehicle.make,
 						"model":vehicle.vehicleModel,
-						"year":vehicle.modelYear
+						"year":vehicle.modelYear.toString()
 					}
 					var subCategoryExist=false;
 					motorVehicleSubCategories.forEach(subCategory=>{

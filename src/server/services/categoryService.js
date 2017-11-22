@@ -68,7 +68,11 @@ return{
 	 getCategoryById:function(id,callbackForGetCategoryById){
 		 var query = categoryModel.find({"_id":id});
 		 this.execute(query,callbackForGetCategoryById);
-	 }
+	 },
+	 getCategoryByName:function(name,callbackForGetCategoryByName){
+		var query = categoryModel.findOne({"categoryName":name});
+		this.execute(query,callbackForGetCategoryByName);
+	},
 
 }
 }
