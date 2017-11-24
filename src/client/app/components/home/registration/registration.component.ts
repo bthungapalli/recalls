@@ -64,14 +64,20 @@ export class RegistrationComponent {
             let key= this.selectedCategory.subCategories[index];
             this.subCategoriesArray[index]="Select "+key;
             this.selectedCategory.rows.forEach(row => {
-                if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]]){
-                    this.subCategoriesData[index].push(row[key]);
-                }
+                
                 if(index===0){
                     if(this.subCategoriesData[index].indexOf(row[key])===-1){
                         this.subCategoriesData[index].push(row[key]);
                     }
                 }
+                if(index===this.selectedCategory.subCategories.length-1){
+                   if(this.subCategoriesData[index].indexOf(row[key])===-1){
+                    this.subCategoriesData[index].push(row[key]);
+                   }
+                }else if(index>0 && ( this.subCategoriesArray[index-1]==='All' || this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]])){
+                    this.subCategoriesData[index].push(row[key]);
+                }
+                
             });
           }
       };
@@ -84,35 +90,75 @@ export class RegistrationComponent {
         this.selectedCategory.subCategories.forEach((category,index) => {
             temp[category]=this.subCategoriesArray[index]
         }); 
+
+        let categoryDoesNotExist=true;
         
         this.selectedSubcategories.forEach(category=>{
             if(category.categoryName===this.selectedCategory.categoryName){
+                categoryDoesNotExist=false;
                 tempSubCategory=category;
             }
         });
-        if(tempSubCategory){
-            tempSubCategory.rows.push(temp);
-        }else{
+
+        if(categoryDoesNotExist){
             tempSubCategory={
                 "categoryName": this.selectedCategory.categoryName,
                 "subCategories":this.selectedCategory.subCategories,
                 "rows":[]
-            };  
-            tempSubCategory.rows.push(temp);
+            };
+        }
+
+        this.buildSubCategories(tempSubCategory);
+        if(categoryDoesNotExist){
             this.selectedSubcategories.push(tempSubCategory);
-        } 
-        
-        this.selectedCategory.rows.forEach((row,index)=>{
-            if(JSON.stringify(row)===JSON.stringify(temp)){
-                rowIndex=index;
-            }
-        });
-        this.selectedCategory.rows.splice(rowIndex,1);
-       
+        }
+
         this.selectedCategory="Select Category";
         this.subCategoriesArray=[];
         this.subCategoriesData=[];
       };
+
+      buildSubCategories(tempSubCategory){
+       
+        var temp=[];
+        this.subCategoriesArray.forEach((category,index) => {
+            if(category==="All"){
+                temp[index]=this.subCategoriesData[index];
+            }else{
+                temp[index]=[category];
+            }
+        }); 
+
+        if(temp.length===3){
+
+            for(var i=0;i<temp[0].length;i++){
+
+                for(var j=0;j<temp[1].length;j++){
+
+                    for(var k=0;k<temp[2].length;k++){
+                        var tempObject={};
+                        tempObject[this.selectedCategory.subCategories[0]]=temp[0][i];
+                        tempObject[this.selectedCategory.subCategories[1]]=temp[1][j];
+                        tempObject[this.selectedCategory.subCategories[2]]=temp[2][k];
+                        var dontExist=true;
+                        tempSubCategory.rows.forEach(row=>{
+                            if(JSON.stringify(row) === JSON.stringify(tempObject)){
+                                dontExist=false;
+                            }
+                        })
+                        if(dontExist){
+                            tempSubCategory.rows.push(tempObject);
+                        }
+                    }
+                    
+                }
+
+            }
+
+        }
+        
+
+      }
 
       submitSignUp(){
       this.spinnerService.emitChange(true);

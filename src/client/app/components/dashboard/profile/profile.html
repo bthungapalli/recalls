@@ -26,14 +26,15 @@
                       <label for="subCategoryName{{i}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
                       <select class="form-control" (change)="showSubCategories(i+1);" [(ngModel)]="subCategoriesArray[i]" name="subCategoryName{{i}}" required>
                         <option>Select {{subCategories}}</option>
+                        <option>All</option>
                         <option *ngFor="let subCategory of subCategoriesData[i]" value="{{subCategory}}">
                           {{subCategory}}
                         </option>
                       </select>
                     </div>
-                    <div class="col-xs-6" *ngIf="subCategoriesData[i]!==undefined && subCategoriesData[i].length===0">
+                    <!-- <div class="col-xs-6" *ngIf="subCategoriesData[i]!==undefined && subCategoriesData[i].length===0">
                     <label class="text-success">You have subcribed all subcategories of {{subCategories}} </label>
-                    </div>
+                    </div> -->
     
               </ng-container>
     
@@ -41,7 +42,7 @@
               <div class="col-xs-12 text-center">
                   <button type="button" *ngIf="!editFlag" [disabled]="isSubCategoryValid()" (click)="addSubCategory();" class="btn btn-danger">ADD</button>
                   <button type="button" *ngIf="editFlag"  (click)="exitUpdate()" class="btn btn-danger">Exit Update</button>
-                  <button type="button" *ngIf="editFlag" [disabled]="isSubCategoryValid()" (click)="updateSubCategory();" class="btn btn-success">Update</button>
+                  <button type="button" *ngIf="editFlag" [disabled]="isSubCategoryValid()" (click)="addSubCategory();" class="btn btn-success">Update</button>
                   
               </div>
     
@@ -70,14 +71,16 @@
                       <tr *ngFor="let category of mf.data; let i = index" [attr.data-index]="i">
                         <td>{{category.categoryName}}</td>
                         <td>
-                          <span class="subCategoryLabel" *ngFor="let row of category.rows;let j=index;"> 
+                            <ng-container *ngFor="let row of category.rows;let j=index;">
+                          <div class="subCategoryLabel" style=" display: -webkit-inline-box;"> 
                           
                               <ng-container *ngFor="let subCategories of category.subCategories; let i = index">
                                   {{row[subCategories]}}{{category.subCategories.length===(i+1)?"":"->"}}
                               </ng-container>
                           <span *ngIf="!disableFields" class="glyphicon glyphicon-remove-sign" (click)="removeSubCategory(category,j);"></span>
                           <span *ngIf="!disableFields" class="glyphicon glyphicon glyphicon-pencil" (click)="editSubCategory(category,i,j);"></span>
-                          </span>
+                            </div>
+                        </ng-container>
                       </td>
                       </tr>
                       </tbody>
