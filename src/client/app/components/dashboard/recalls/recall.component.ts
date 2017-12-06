@@ -32,6 +32,13 @@ export class RecallComponent implements OnInit, OnDestroy{
       public vehicle:Vehicle=new Vehicle();
       public fileUploadURL:string= (<any> window).origin+'/recalls/fileUpload';
       public uploader:FileUploader = new FileUploader({url:this.fileUploadURL});
+
+      public subCategoriesArray:any=[];
+      public subCategoriesData:any=[];
+      public selectedCategory:any="Select Category";
+      public selectedSubcategories:any=[];
+      public category:any;
+
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
@@ -56,6 +63,13 @@ export class RecallComponent implements OnInit, OnDestroy{
               }else{
               this.recallModel=response;
               }
+              
+              var temp=response.categoryName.split("~");
+              this.category=temp[0];
+              for(var i=1;i<=temp.length;i++){
+                this.subCategoriesArray.push(temp[i]);
+              }
+              
           if(this.recallModel.categoryName==="Boats and Boating Safety"){
              this.recallModel.caseOpenDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
               this.recallModel.caseCloseDate= { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth()+1, "day": new Date(response.recallDate).getDate() } };
@@ -76,28 +90,7 @@ export class RecallComponent implements OnInit, OnDestroy{
               this.errorMessage="Something went wrong.Please contact administrator";
               this.spinnerService.emitChange(false);
           });
-      }else{
-      this.recallModel.categoryName= this.categories[0];    
-            var callTinyMCE= this.callTinyMCE;
-        var thisObject=this;
-        setTimeout(function() {
-          callTinyMCE(thisObject);
-        }, 500);
-      }   
-          
-//            this.spinnerService.emitChange(true);
-//      this.categoriesService.getAllCategories().subscribe(response => {
-//              if(response.sessionExpired){
-//              this.spinnerService.emitChange(false);
-//                this.router.navigate(['home']);
-//              }else{
-//                this.categories=response;
-//              }
-//            this.spinnerService.emitChange(false);
-//          },err => {
-//              this.errorMessage="Something went wrong.Please contact administrator";
-//              this.spinnerService.emitChange(false);
-//          });
+      }
 
       };
 
@@ -176,6 +169,15 @@ export class RecallComponent implements OnInit, OnDestroy{
               }    
             }
           }else{
+           if(!this.recallId){
+              let temp=thisObject.selectedCategory.categoryName;;
+              thisObject.subCategoriesArray.forEach((data,index)=>{
+                  temp=temp+"~"+data.toUpperCase();
+              });
+              thisObject.recallModel.categoryName=temp;
+              thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
+            }
+            
               thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
                       thisObject.spinnerService.emitChange(false);
                            if(response.sessionExpired){
@@ -191,11 +193,57 @@ export class RecallComponent implements OnInit, OnDestroy{
           
       }
     
-    
+    showSubCategories(index){
+        if(index===0){
+          this.subCategoriesArray=[];
+          this.subCategoriesData=[];
+          this.changeCategory();
+        }
+        
+          if(index!==this.selectedCategory.subCategories.length){
+            this.subCategoriesData[index]=[];
+            let key= this.selectedCategory.subCategories[index];
+            this.subCategoriesArray[index]="Select "+key;
+            this.selectedCategory.rows.forEach(row => {
+              if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]]){
+                this.subCategoriesData[index].push(row[key]);
+            }
+            if(index===0){
+              if(this.subCategoriesData[index].indexOf(row[key])===-1){
+                this.subCategoriesData[index].push(row[key]);
+             }
+            }
+            });
+          }
+       
+    };
+
+    isSubCategoryValid(){
+      let isInvalid=true;
+      if(this.recallId){
+        isInvalid=false;
+      }else{
+        if(this.selectedCategory!=='Select Cateogry' && this.selectedCategory.subCategories!==undefined && this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
+          let i=0;
+          this.subCategoriesArray.forEach((subCategory,index) => {
+              if(subCategory.includes("Select")){
+                i++;
+              }
+           }); 
+           if(i==0){
+              isInvalid=false;
+           }
+      }
+      }
+     
+      return isInvalid;
+    };
+   
     changeCategory(){
-        var categoryName=this.recallModel.categoryName;
+       
         this.recallModel=new Recall();
-        this.recallModel.categoryName=categoryName;
+        
+       this.recallModel.categoryName=this.selectedCategory.categoryName;
          tinymce.remove(this.editor);
         var callTinyMCE= this.callTinyMCE;
         this.uploader=new FileUploader({url:this.fileUploadURL});

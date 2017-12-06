@@ -15,6 +15,8 @@ var userManagementRoute = require('./routes/userManagementRoute');
 var categoriesRoute = require('./routes/categoriesRoute');
 var recallsRoute = require('./routes/recallsRoute');
 var forgotPasswordRoute = require('./routes/forgotPasswordRoute');
+var subCategoriesRoute = require('./routes/subCategoriesRoute');
+
 
 
 
@@ -37,6 +39,10 @@ nconf.argv()
      .file({ file:environmentPropertyFile
      });
 
+/************   schedulers  ****************/
+var schedulers = require('./schedulers/vehicleScheduler');
+var emailScheduler = require('./schedulers/emailScheduler');
+
 /************   mongo connection  ****************/
 var mongoDbConnection=nconf.get('mongoDbConnection');
 mongoose.connect('mongodb://'+mongoDbConnection.host+'/'+mongoDbConnection.Db);
@@ -58,10 +64,8 @@ app.set('views',path.resolve(__dirname, '../client/views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -80,6 +84,8 @@ app.use('/userManagement', userManagementRoute);
 app.use('/categories', categoriesRoute);
 app.use('/recalls', recallsRoute);
 app.use('/forgotPassword', forgotPasswordRoute);
+app.use('/subCategories', subCategoriesRoute);
+
 app.use('/**', mainRoute);
 
 

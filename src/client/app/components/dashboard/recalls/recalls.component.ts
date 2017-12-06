@@ -29,6 +29,11 @@ export class RecallsComponent implements OnInit{
       public fromDate:any;
       public profile:Profile;
 
+      public subCategoriesArray:any=[];
+      public subCategoriesData:any=[];
+      public selectedCategory:any="Select Category";
+      public selectedSubcategories:any=[];
+
 
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private profileService:ProfileService) {
           
@@ -53,23 +58,23 @@ export class RecallsComponent implements OnInit{
 
       ngOnInit(): void {
          
-      this.spinnerService.emitChange(true);
-      this.recallsService.getAllRecalls().subscribe(response => {
+      
+      // this.recallsService.getAllRecalls().subscribe(response => {
 
-      if(response.sessionExpired){
-      this.spinnerService.emitChange(false);
-        this.router.navigate(['home']);
-      }else{
-        this.recalls=response;
-        if(response.length===0){
-        this.successMessage="No Recalls available";
-      }
-      }
-       this.spinnerService.emitChange(false);
-      },err => {
-          this.errorMessage="Something went wrong.Please contact administrator";
-          this.spinnerService.emitChange(false);
-      });
+      // if(response.sessionExpired){
+      // this.spinnerService.emitChange(false);
+      //   this.router.navigate(['home']);
+      // }else{
+      //   this.recalls=response;
+      //   if(response.length===0){
+      //   this.successMessage="No Recalls available";
+      // }
+      // }
+      //  this.spinnerService.emitChange(false);
+      // },err => {
+      //     this.errorMessage="Something went wrong.Please contact administrator";
+      //     this.spinnerService.emitChange(false);
+      // });
 
           if(this.profile.role=='User'){
                   this.spinnerService.emitChange(true);
@@ -79,9 +84,10 @@ export class RecallsComponent implements OnInit{
                         this.router.navigate(['home']);
                       }else{
                           var temp=this;
-                          response.forEach(function(category){
-                              temp.categories.push(category.categoryName);
-                          });
+                          // response.forEach(function(category){
+                          //     temp.categories.push(category.categoryName);
+                          // });
+                          temp.categories=response;
                       }
                       this.spinnerService.emitChange(false);
                   },err => {
@@ -91,10 +97,48 @@ export class RecallsComponent implements OnInit{
             }else{
                    this.categories=this.profile.categories;
             }
-
-
       };
 
+      isSubCategoryValid(){
+        let isInvalid=true;
+        if(this.selectedCategory!=="Select Category" && this.subCategoriesArray.length===this.selectedCategory.subCategories.length){
+            let i=0;
+            this.subCategoriesArray.forEach((subCategory,index) => {
+                if(subCategory.includes("Select")){
+                  i++;
+                }
+             }); 
+             if(i==0){
+                isInvalid=false;
+             }
+        }
+        return isInvalid;
+      };
+
+      showSubCategories(index){
+        if(index===0){
+          this.subCategoriesArray=[];
+          this.subCategoriesData=[];
+          
+        }
+        
+          if(index!==this.selectedCategory.subCategories.length){
+            this.subCategoriesData[index]=[];
+            let key= this.selectedCategory.subCategories[index];
+            this.subCategoriesArray[index]="Select "+key;
+            this.selectedCategory.rows.forEach(row => {
+              if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]]){
+                this.subCategoriesData[index].push(row[key]);
+            }
+            if(index===0){
+              if(this.subCategoriesData[index].indexOf(row[key])===-1){
+                this.subCategoriesData[index].push(row[key]);
+            }
+            }
+            });
+          }
+       
+    };
 
       getRecallsForFilter(){
 
@@ -105,7 +149,12 @@ export class RecallsComponent implements OnInit{
               this.errorMessage="To Date should be after From Date";
           }else{
               this.spinnerService.emitChange(true);
-        this.recallsService.getRecallsForFilter(this.category,(this.toDate===undefined || this.toDate===null)?undefined:this.toDate.formatted,(this.fromDate===undefined || this.fromDate===null)?undefined:this.fromDate.formatted).subscribe(response => {
+              let category=this.selectedCategory.categoryName;;
+              this.subCategoriesArray.forEach((data,index)=>{
+                category=category+"~"+data;
+              });
+              
+        this.recallsService.getRecallsForFilter(category,(this.toDate===undefined || this.toDate===null)?undefined:this.toDate.formatted,(this.fromDate===undefined || this.fromDate===null)?undefined:this.fromDate.formatted).subscribe(response => {
 
              if(response.sessionExpired){
              this.spinnerService.emitChange(false);

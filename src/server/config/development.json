@@ -24,13 +24,19 @@
 	   "host":"smtp.gmail.com",
 	   "port":465,
 	   "authUser":"pathaalok@gmail.com",
-       "authPassword":"loki@2015"
+       "authPassword":""
    },
   "context":{
 	   	"path":"http://localhost:3000/"
   },
    "recall":{
 	   "filesPath":"/Users/apatha/Desktop/uploads/"
+   },
+   "scheduler":{
+   "vehicle_job_hour":20,
+   "vehicle_job_minute":24,
+   "email_job_hour":23,
+   "email_job_minute":17
    }
 
 }

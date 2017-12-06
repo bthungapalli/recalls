@@ -3,6 +3,8 @@ var router = express.Router();
 var recallsService=require("../services/recallsService");
 var checkSession=require("../services/checkSessionService");
 var userService=require("../services/userService");
+var categoryService=require("../services/categoryService");
+var subCategoryService=require("../services/subCategoryService");
 var nconf = require('nconf');
 var mailUtil=require("../utils/MailUtil");
 var multer = require('multer');
@@ -24,7 +26,34 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
         		res.send("error");
 
 			if(recall._id==undefined){
-				userService.getAllUsersBasedOnCategory(recall.categoryName,function(err,users){
+
+				categoryService.getCategoryByName(recall.categoryName.split("~")[0],function(err,category){
+ 
+					var temp={};
+					category.subCategories.forEach((subCategory,index)=>{
+						temp[subCategory]=recall.categoryName.split("~")[index+1];
+					});
+					var alreadyExist=false;
+					category.rows.forEach(row=>{
+						var i=0;
+						for (var prop in row) {
+							if(row[prop].toUpperCase()===temp[prop].toUpperCase()){
+							i++;
+							}
+						}
+						if(i===category.subCategories.length){
+							alreadyExist=true;
+						}
+					});
+					if(!alreadyExist){
+						category.rows.push(temp);
+						subCategoryService.createOrUpdateSubCategory(category,function(err,category){
+
+						});
+					}
+				});
+
+				userService.getAllUsersBasedOnCategory(recall,function(err,users){
 					if(err)
 								res.send("error");
 								var subject =  nconf.get("mail").subject+" New Recall ";

@@ -1,6 +1,6 @@
 import { NgModule,Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {DataTableModule} from "angular2-datatable";
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import { ProfileComponent }  from './profile.component';
@@ -11,7 +11,8 @@ import { ProfileService }  from './profile.service';
   imports: [
   CommonModule,
     FormsModule,
-      HttpModule
+      HttpModule,
+      DataTableModule
   ],
   declarations: [
     ProfileComponent

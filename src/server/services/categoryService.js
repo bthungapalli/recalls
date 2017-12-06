@@ -64,7 +64,15 @@ return{
 	 deleteCategory:function(category,callbackForDeleteCategory){
 		 var conditions = { "_id":category._id };
 		 this.delete(category,conditions,callbackForDeleteCategory);
-	 }
+	 },
+	 getCategoryById:function(id,callbackForGetCategoryById){
+		 var query = categoryModel.find({"_id":id});
+		 this.execute(query,callbackForGetCategoryById);
+	 },
+	 getCategoryByName:function(name,callbackForGetCategoryByName){
+		var query = categoryModel.findOne({"categoryName":name});
+		this.execute(query,callbackForGetCategoryByName);
+	},
 
 }
 }

@@ -2,6 +2,8 @@ import { NgModule,Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
+import {DataTableModule} from "angular2-datatable";
+
 import { RegistrationComponent }  from './registration.component';
 import { RegistrationService }  from './registration.service';
 import { CategoriesService }  from '../../dashboard/categories/categories.service';
@@ -11,7 +13,8 @@ import { CategoriesService }  from '../../dashboard/categories/categories.servic
   imports: [
     FormsModule,
       HttpModule,
-      CommonModule
+      CommonModule,
+      DataTableModule
   ],
   declarations: [
     RegistrationComponent

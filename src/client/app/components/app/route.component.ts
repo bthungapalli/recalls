@@ -11,6 +11,7 @@ import {CategoriesComponent} from '../dashboard/categories/categories.component'
 import {RecallComponent} from '../dashboard/recalls/recall.component';
 import {RecallsComponent} from '../dashboard/recalls/recalls.component';
 import {RequestCategoryComponent} from '../dashboard/categories/requestCategory.component';
+import {SubCategoriesComponent} from '../dashboard/subCategories/subCategories.component';
 
 
 const appRoutes: Routes = [
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
        { path: 'profile', component: ProfileComponent },
        { path: 'userManagement', component: UserManagementComponent },
        { path: 'categories', component: CategoriesComponent },
+       { path: 'subCategories', component: SubCategoriesComponent },
        { path: 'recall', component: RecallComponent },
        { path: 'recall/:id', component: RecallComponent },
        { path: 'recalls', component: RecallsComponent },

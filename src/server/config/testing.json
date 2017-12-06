@@ -31,6 +31,12 @@
  },
    "recall":{
 	   "filesPath":"/Users/apatha/Desktop/uploads/"
+   },
+   "scheduler":{
+   "vehicle_job_hour":22,
+   "vehicle_job_minute":0,
+   "email_job_hour":22,
+   "email_job_minute":30
    }
 
 }
