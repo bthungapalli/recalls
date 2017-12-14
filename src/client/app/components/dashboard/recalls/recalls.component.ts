@@ -48,6 +48,27 @@ export class RecallsComponent implements OnInit{
                 this.profile=response;
               this.categories=response.categories;
               this.dashboardService.userDetails=response;
+              if(this.profile.role=='User'){
+                this.spinnerService.emitChange(true);
+                this.categoriesService.getAllCategories().subscribe(response => {
+                    if(response.sessionExpired){
+                    this.spinnerService.emitChange(false);
+                      this.router.navigate(['home']);
+                    }else{
+                        var temp=this;
+                        // response.forEach(function(category){
+                        //     temp.categories.push(category.categoryName);
+                        // });
+                        temp.categories=response;
+                    }
+                    this.spinnerService.emitChange(false);
+                },err => {
+                    this.errorMessage="Something went wrong.Please contact administrator";
+                    this.spinnerService.emitChange(false);
+                });
+          }else{
+                 this.categories=this.profile.categories;
+          }
             }
             },err => {
                 this.errorMessage="Something went wrong.Please contact administrator";
@@ -57,46 +78,28 @@ export class RecallsComponent implements OnInit{
       }
 
       ngOnInit(): void {
-         
-      
-      // this.recallsService.getAllRecalls().subscribe(response => {
 
-      // if(response.sessionExpired){
-      // this.spinnerService.emitChange(false);
-      //   this.router.navigate(['home']);
-      // }else{
-      //   this.recalls=response;
-      //   if(response.length===0){
-      //   this.successMessage="No Recalls available";
-      // }
-      // }
-      //  this.spinnerService.emitChange(false);
-      // },err => {
-      //     this.errorMessage="Something went wrong.Please contact administrator";
-      //     this.spinnerService.emitChange(false);
-      // });
-
-          if(this.profile.role=='User'){
-                  this.spinnerService.emitChange(true);
-                  this.categoriesService.getAllCategories().subscribe(response => {
-                      if(response.sessionExpired){
-                      this.spinnerService.emitChange(false);
-                        this.router.navigate(['home']);
-                      }else{
-                          var temp=this;
-                          // response.forEach(function(category){
-                          //     temp.categories.push(category.categoryName);
-                          // });
-                          temp.categories=response;
-                      }
-                      this.spinnerService.emitChange(false);
-                  },err => {
-                      this.errorMessage="Something went wrong.Please contact administrator";
-                      this.spinnerService.emitChange(false);
-                  });
-            }else{
-                   this.categories=this.profile.categories;
-            }
+          // if(this.profile.role=='User'){
+          //         this.spinnerService.emitChange(true);
+          //         this.categoriesService.getAllCategories().subscribe(response => {
+          //             if(response.sessionExpired){
+          //             this.spinnerService.emitChange(false);
+          //               this.router.navigate(['home']);
+          //             }else{
+          //                 var temp=this;
+          //                 // response.forEach(function(category){
+          //                 //     temp.categories.push(category.categoryName);
+          //                 // });
+          //                 temp.categories=response;
+          //             }
+          //             this.spinnerService.emitChange(false);
+          //         },err => {
+          //             this.errorMessage="Something went wrong.Please contact administrator";
+          //             this.spinnerService.emitChange(false);
+          //         });
+          //   }else{
+          //          this.categories=this.profile.categories;
+          //   }
       };
 
       isSubCategoryValid(){
@@ -122,12 +125,12 @@ export class RecallsComponent implements OnInit{
           
         }
         
-          if(index!==this.selectedCategory.subCategories.length){
+          if(this.selectedCategory !=='Select Category' && index!==this.selectedCategory.subCategories.length){
             this.subCategoriesData[index]=[];
             let key= this.selectedCategory.subCategories[index];
             this.subCategoriesArray[index]="Select "+key;
             this.selectedCategory.rows.forEach(row => {
-              if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]]){
+              if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]] && this.subCategoriesData[index].indexOf(row[key])==-1){
                 this.subCategoriesData[index].push(row[key]);
             }
             if(index===0){

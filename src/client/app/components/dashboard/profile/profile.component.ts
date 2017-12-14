@@ -100,7 +100,7 @@ export class ProfileComponent {
             this.subCategoriesArray=[];
             this.subCategoriesData=[];
           }
-          if(index!==this.selectedCategory.subCategories.length){
+          if(this.selectedCategory!=="Select Category" && index!==this.selectedCategory.subCategories.length){
             this.subCategoriesData[index]=[];
             let key= this.selectedCategory.subCategories[index];
             this.subCategoriesArray[index]="Select "+key;
