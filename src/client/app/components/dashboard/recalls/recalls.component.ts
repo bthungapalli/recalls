@@ -40,6 +40,27 @@ export class RecallsComponent implements OnInit{
           if(dashboardService.userDetails.categories!==undefined){
                this.profile=dashboardService.userDetails;
                //this.categories=dashboardService.userDetails.categories;
+               if(this.profile.role=='User'){
+                this.spinnerService.emitChange(true);
+                this.categoriesService.getAllCategories().subscribe(response => {
+                    if(response.sessionExpired){
+                    this.spinnerService.emitChange(false);
+                      this.router.navigate(['home']);
+                    }else{
+                        var temp=this;
+                        // response.forEach(function(category){
+                        //     temp.categories.push(category.categoryName);
+                        // });
+                        temp.categories=response;
+                    }
+                    this.spinnerService.emitChange(false);
+                },err => {
+                    this.errorMessage="Something went wrong.Please contact administrator";
+                    this.spinnerService.emitChange(false);
+                });
+          }else{
+                 this.categories=this.profile.categories;
+          }
           }else{
                  this.profileService.getUser().subscribe(response => {
             if(response.sessionExpired){
@@ -79,28 +100,10 @@ export class RecallsComponent implements OnInit{
 
       ngOnInit(): void {
 
-          // if(this.profile.role=='User'){
-          //         this.spinnerService.emitChange(true);
-          //         this.categoriesService.getAllCategories().subscribe(response => {
-          //             if(response.sessionExpired){
-          //             this.spinnerService.emitChange(false);
-          //               this.router.navigate(['home']);
-          //             }else{
-          //                 var temp=this;
-          //                 // response.forEach(function(category){
-          //                 //     temp.categories.push(category.categoryName);
-          //                 // });
-          //                 temp.categories=response;
-          //             }
-          //             this.spinnerService.emitChange(false);
-          //         },err => {
-          //             this.errorMessage="Something went wrong.Please contact administrator";
-          //             this.spinnerService.emitChange(false);
-          //         });
-          //   }else{
-          //          this.categories=this.profile.categories;
-          //   }
+          
       };
+
+      
 
       isSubCategoryValid(){
         let isInvalid=true;
