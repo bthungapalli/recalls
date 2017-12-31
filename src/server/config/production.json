@@ -11,26 +11,26 @@
     "ephemeral":true
   },
   "mongoDbConnection":{
-    "host":"localhost",
+    "host":"35.166.213.31",
     "Db":"recalls"
   },
   "mail":{
-   "recallSupport":"apatha@osius.com",
+   "recallSupport":"noreply@recallalarms.com",
    "subject":"[Recalls] ",
-   "appURL" : "http://osiwizz.osius.com",
+   "appURL" : "http://www.recallalarams.com",
    "appName":"Recalls"
   },
   "smtpConfig":{
-    "host":"smtp.gmail.com",
-    "port":465,
-    "authUser":"",
-      "authPassword":""
+    "host":"outlook.office365.com",
+    "port":587,
+    "authUser":"noreply@recallalarms.com",
+    "authPassword":"Firstlsi@05"
   },
   "context":{
-     "path":"http://localhost:3000/images/logo.png"
+     "path":"http://35.166.244.243:3000/"
  },
    "recall":{
-	   "filesPath":"/Users/apatha/Desktop/uploads/"
+	   "filesPath":"/apps/recalls/images/"
    },
    "scheduler":{
    "vehicle_job_hour":22,

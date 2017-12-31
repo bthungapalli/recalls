@@ -14,6 +14,8 @@ var mailUtil = function() {
 					user : nconf.get("smtpConfig").authUser,
 					pass : nconf.get("smtpConfig").authPassword
 				}
+				
+			//	,secure:true
 			};
 			var transporter = nodemailer.createTransport(smtpConfig);
 			var templates = new EmailTemplates({
