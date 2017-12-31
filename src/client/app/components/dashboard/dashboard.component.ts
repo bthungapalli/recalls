@@ -26,8 +26,8 @@ export class DashboardComponent{
             this.profile=response;
         });   
           
-          if(this.profile.role!=="Admin"){
-               this.router.navigate(['dashboard/recalls']);
+          if(this.profile.role==="Admin"){
+               this.router.navigate(['dashboard/profile']);
           }
       }
 

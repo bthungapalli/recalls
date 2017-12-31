@@ -36,7 +36,7 @@ this.spinnerService.emitChange(true);
                           this.errorMessage="Your account is not activated.Please click the link in Register confirmation mail";
                      }else{
                           this.dashboardService.setUserToProfile(response);
-                          this.router.navigate(['dashboard/profile']);
+                          this.router.navigate(['dashboard/recalls']);
                           this.spinnerService.emitChange(false);
                      }
                   }
