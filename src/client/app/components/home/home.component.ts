@@ -19,6 +19,12 @@ constructor(private spinnerService: SpinnerService,private registrationService:R
       let token = this.activatedRoute.snapshot.queryParams["token"];
     
     if(token!==undefined){
+
+        setTimeout(() => {
+            this.successMessage="";
+            this.errorMessage="";
+          }, 5000);
+         
         this.registrationService.checkToken(token).subscribe(response => {
                if(response.token){
                    this.successMessage="Successfully User Activated";
