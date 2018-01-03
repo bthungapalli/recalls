@@ -71,12 +71,14 @@ return{
 	 getAllUsersBasedOnCategory:function(recall,callbackForGetAllUsersBasedOnCategory){
 		let tempCategories=recall.categoryName.split("~");
 		let categoryQuery={
+			"isActive" : true,
+			"registrationConfirmed" : true,
 			"categories.categoryName":tempCategories[0]
 		};
 		recall.subCategories.forEach((subCategory,index)=>{
 			categoryQuery["categories.rows."+subCategory]=tempCategories[index+1]
 		});
-		console.log(JSON.stringify(categoryQuery));
+		//console.log(JSON.stringify(categoryQuery));
 		 var query = userModel.find(categoryQuery); 
 		 this.execute(query,callbackForGetAllUsersBasedOnCategory);
 	 },

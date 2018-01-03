@@ -122,11 +122,11 @@ export class RegistrationComponent {
        
         var temp=[];
         this.subCategoriesArray.forEach((category,index) => {
-            if(category==="All"){
-                temp[index]=this.subCategoriesData[index];
-            }else{
+            // if(category==="All"){
+            //     temp[index]=this.subCategoriesData[index];
+            // }else{
                 temp[index]=[category];
-            }
+            //}
         }); 
 
         if(temp.length===3){

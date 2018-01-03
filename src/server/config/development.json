@@ -35,8 +35,8 @@
    "scheduler":{
    "vehicle_job_hour":20,
    "vehicle_job_minute":24,
-   "email_job_hour":23,
-   "email_job_minute":17
+   "email_job_hour":22,
+   "email_job_minute":20
    }
 
 }
