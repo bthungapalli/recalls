@@ -6,12 +6,12 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class RecallsService {
 
-      private  GET_ALL_RECALLS_URL="/recalls/allRecalls";
-      private  GET_CREATE_RECALL_URL="/recalls/createRecall";
-      private  GET_RECALLS_BY_FILTER_URL="/recalls/filterRecalls";
-      private  DELETE_RECALL_URL="/recalls/";
-      private  GET_RECALL_URL="/recalls/";
-      private  DOWNLOAD_URL="/recalls/download/";
+      private  GET_ALL_RECALLS_URL="/api/recalls/allRecalls";
+      private  GET_CREATE_RECALL_URL="/api/recalls/createRecall";
+      private  GET_RECALLS_BY_FILTER_URL="/api/recalls/filterRecalls";
+      private  DELETE_RECALL_URL="/api/recalls/";
+      private  GET_RECALL_URL="/api/recalls/";
+      private  DOWNLOAD_URL="/api/recalls/download/";
 
 
 

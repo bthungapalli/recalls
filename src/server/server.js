@@ -82,7 +82,7 @@ app.use('/login', loginRoute);
 app.use('/profile', profileRoute);
 app.use('/userManagement', userManagementRoute);
 app.use('/categories', categoriesRoute);
-app.use('/recalls', recallsRoute);
+app.use('/api/recalls', recallsRoute);
 app.use('/forgotPassword', forgotPasswordRoute);
 app.use('/subCategories', subCategoriesRoute);
 

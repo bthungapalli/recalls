@@ -30,7 +30,7 @@ export class RecallComponent implements OnInit, OnDestroy{
       public recallId:any;
       public profile:Profile;
       public vehicle:Vehicle=new Vehicle();
-      public fileUploadURL:string= (<any> window).origin+'/recalls/fileUpload';
+      public fileUploadURL:string= (<any> window).origin+'/api/recalls/fileUpload';
       public uploader:FileUploader = new FileUploader({url:this.fileUploadURL});
 
       public subCategoriesArray:any=[];
