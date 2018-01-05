@@ -68,30 +68,29 @@
         <textarea id="description" ></textarea>
       </div>
     </div>
+    <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="{{subCategories}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
+          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories}}" required>
+        </div>
+      </div>
+
+    </ng-container>
     <div class="col-xs-6">
       <div class="form-group">
         <label for="categoryName"> Name of Product <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.productName" name="productName" class="form-control" id="productName" placeholder="Product Name" required>
       </div>
     </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
-      </div>
-    </div>
+   
     <div class="col-xs-6">
       <div class="form-group">
         <label for="categoryName"> Remedy <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
       </div>
     </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Recall Date <sup class="text-danger">*</sup></label>
-         <my-date-picker name="recallDate" [(ngModel)]="recallModel.recallDate" required></my-date-picker>      
-      </div>
-    </div>
+   
     <div class="col-xs-6">
       <div class="form-group">
         <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
@@ -126,6 +125,12 @@
       <div class="form-group">
         <label for="categoryName"> Units <sup class="text-danger">*</sup> </label>
         <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label for="categoryName"> Recall Date <sup class="text-danger">*</sup></label>
+         <my-date-picker name="recallDate" [(ngModel)]="recallModel.recallDate" required></my-date-picker>      
       </div>
     </div>
      <div class="col-xs-12">
