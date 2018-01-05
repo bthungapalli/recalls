@@ -5,14 +5,15 @@ import { FormsModule }   from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import { ProfileComponent }  from './profile.component';
 import { ProfileService }  from './profile.service';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
   CommonModule,
     FormsModule,
       HttpModule,
-      DataTableModule
+      DataTableModule,
+      SharedModule
   ],
   declarations: [
     ProfileComponent

@@ -11,7 +11,7 @@ import { RecallsComponent }  from './recalls.component';
 import { RecallComponent }  from './recall.component';
 import { RecallsService }  from './recalls.service';
 import { DataFilterPipe }   from './data.filter';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -19,7 +19,8 @@ import { DataFilterPipe }   from './data.filter';
     DataTableModule,
     FormsModule,
       HttpModule,
-      MyDatePickerModule
+      MyDatePickerModule,
+      SharedModule
   ],
   declarations: [
     RecallsComponent,

@@ -2,7 +2,7 @@ import { Component,OnInit,OnDestroy } from '@angular/core';
 import { FormsModule} from '@angular/forms';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
-
+import { TitleCasePipe } from '../../shared/data.filter';
 
 import {Recall} from './recalls.model';
 import {RecallsService} from './recalls.service';

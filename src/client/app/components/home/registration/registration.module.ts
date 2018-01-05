@@ -7,14 +7,15 @@ import {DataTableModule} from "angular2-datatable";
 import { RegistrationComponent }  from './registration.component';
 import { RegistrationService }  from './registration.service';
 import { CategoriesService }  from '../../dashboard/categories/categories.service';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     FormsModule,
       HttpModule,
       CommonModule,
-      DataTableModule
+      DataTableModule,
+      SharedModule
   ],
   declarations: [
     RegistrationComponent

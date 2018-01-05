@@ -23,9 +23,9 @@
               <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
     
                   <div class="form-group col-xs-6" *ngIf="subCategoriesData[i]!==undefined && subCategoriesData[i].length>0">
-                      <label for="subCategoryName{{i}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
+                      <label for="subCategoryName{{i}}"> {{subCategories| titlecase}} <sup class="text-danger">*</sup></label>
                       <select class="form-control" (change)="showSubCategories(i+1);" [(ngModel)]="subCategoriesArray[i]" name="subCategoryName{{i}}" required>
-                        <option>Select {{subCategories}}</option>
+                        <option>Select {{subCategories | titlecase}}</option>
                         <!-- <option>All</option> -->
                         <option *ngFor="let subCategory of subCategoriesData[i]" value="{{subCategory}}">
                           {{subCategory}}

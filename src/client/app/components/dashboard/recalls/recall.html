@@ -49,8 +49,8 @@
     <ng-container *ngIf="recallId">
       <div class="col-xs-3" *ngFor="let subCategories of recallModel.subCategories; let i = index">
         <div class="form-group">
-          <label for="{{subCategories}}"> {{subCategories}} </label>
-         <input type="text" [disabled]="recallId"  [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories}}" required>         
+          <label for="{{subCategories}}"> {{subCategories | titlecase}} </label>
+         <input type="text" [disabled]="recallId"  [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>         
         </div>
       </div>
     </ng-container>
@@ -71,8 +71,8 @@
     <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
       <div class="col-xs-6">
         <div class="form-group">
-          <label for="{{subCategories}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
-          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories}}" required>
+          <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
+          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>
         </div>
       </div>
 
@@ -229,8 +229,8 @@
     <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
       <div class="col-xs-6">
         <div class="form-group">
-          <label for="{{subCategories}}"> {{subCategories}} <sup class="text-danger">*</sup></label>
-          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories}}" required>
+          <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
+          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>
         </div>
       </div>
 

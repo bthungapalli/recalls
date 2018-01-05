@@ -7,7 +7,7 @@ import {DashboardService} from '../../dashboard/dashboard.service';
 import {SpinnerService} from '../spinner.service';
 import {CategoriesService} from '../../dashboard/categories/categories.service';
 import {Category} from '../../dashboard/categories/categories.model';
-
+import { TitleCasePipe } from '../../shared/data.filter';
 
 @Component({
   selector: 'registration',

@@ -10,6 +10,7 @@ import {DashboardService} from '../dashboard.service';
 import {Profile} from '../profile/profile.model';
 import {SpinnerService} from '../spinner.service';
 import {ProfileService} from '../profile/profile.service';
+import { TitleCasePipe } from '../../shared/data.filter';
 
 @Component({
   selector: 'recalls',
