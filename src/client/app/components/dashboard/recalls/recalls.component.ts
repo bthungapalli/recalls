@@ -14,7 +14,8 @@ import { TitleCasePipe } from '../../shared/data.filter';
 
 @Component({
   selector: 'recalls',
-  templateUrl:"./app/components/dashboard/recalls/recalls.html"
+  templateUrl:"./app/components/dashboard/recalls/recalls.html",
+  providers: [ TitleCasePipe ]
 })
 export class RecallsComponent implements OnInit{
 
@@ -36,7 +37,7 @@ export class RecallsComponent implements OnInit{
       public selectedSubcategories:any=[];
 
 
-      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private profileService:ProfileService) {
+      constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private profileService:ProfileService,private TitleCasePipe:TitleCasePipe) {
           
           if(dashboardService.userDetails.categories!==undefined){
                this.profile=dashboardService.userDetails;
@@ -132,7 +133,7 @@ export class RecallsComponent implements OnInit{
           if(this.selectedCategory !=='Select Category' && index!==this.selectedCategory.subCategories.length){
             this.subCategoriesData[index]=[];
             let key= this.selectedCategory.subCategories[index];
-            this.subCategoriesArray[index]="Select "+key;
+            this.subCategoriesArray[index]="Select "+this.TitleCasePipe.transform(key);
             this.selectedCategory.rows.forEach(row => {
               if(index>0 && this.subCategoriesArray[index-1]===row[this.selectedCategory.subCategories[index-1]] && this.subCategoriesData[index].indexOf(row[key])==-1){
                 this.subCategoriesData[index].push(row[key]);

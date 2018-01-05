@@ -11,7 +11,8 @@ import {Category} from '../../dashboard/categories/categories.model';
 import { TitleCasePipe } from '../../shared/data.filter';
 @Component({
   selector: 'profile',
-  templateUrl:"./app/components/dashboard/profile/profile.html"
+  templateUrl:"./app/components/dashboard/profile/profile.html",
+  providers: [ TitleCasePipe ]
 })
 export class ProfileComponent {
 
@@ -33,7 +34,7 @@ export class ProfileComponent {
     private editSubcategoryIndex:any;
     private editCategoryIndex:any;
     
-      constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
+      constructor(private profileService:ProfileService,private dashboardService:DashboardService,private router:Router,private spinnerService:SpinnerService,private categoriesService:CategoriesService,private TitleCasePipe:TitleCasePipe) {
           this.profileModel = new Profile();
           
           this.spinnerService.emitChange(true);
@@ -103,7 +104,7 @@ export class ProfileComponent {
           if(this.selectedCategory!=="Select Category" && index!==this.selectedCategory.subCategories.length){
             this.subCategoriesData[index]=[];
             let key= this.selectedCategory.subCategories[index];
-            this.subCategoriesArray[index]="Select "+key;
+            this.subCategoriesArray[index]="Select "+ this.TitleCasePipe.transform(key);
             this.selectedCategory.rows.forEach(row => {
                 if(index===0){
                     if(this.subCategoriesData[index].indexOf(row[key])===-1){

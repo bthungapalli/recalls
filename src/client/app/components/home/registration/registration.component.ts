@@ -11,7 +11,8 @@ import { TitleCasePipe } from '../../shared/data.filter';
 
 @Component({
   selector: 'registration',
-  templateUrl:"./app/components/home/registration/registration.html"
+  templateUrl:"./app/components/home/registration/registration.html",
+  providers:[TitleCasePipe]
 })
 export class RegistrationComponent {
 
@@ -28,7 +29,9 @@ export class RegistrationComponent {
       public selectedCategory:any="Select Category";
       public selectedSubcategories:any=[];
 
-      constructor(private registrationService:RegistrationService,private router:Router,private dashboardService:DashboardService,private spinnerService:SpinnerService,private categoriesService:CategoriesService) {
+      constructor(private registrationService:RegistrationService,private router:Router,
+        private dashboardService:DashboardService,private spinnerService:SpinnerService,
+        private categoriesService:CategoriesService,private TitleCasePipe:TitleCasePipe) {
           this.registrationModel = new Registration();
           this.categoriesService.getAllCategories().subscribe(response => {
                    this.categories=response;
@@ -62,7 +65,7 @@ export class RegistrationComponent {
           if(index!==this.selectedCategory.subCategories.length){
             this.subCategoriesData[index]=[];
             let key= this.selectedCategory.subCategories[index];
-            this.subCategoriesArray[index]="Select "+key;
+            this.subCategoriesArray[index]="Select "+ this.TitleCasePipe.transform(key);
             this.selectedCategory.rows.forEach(row => {
                 
                 if(index===0){
