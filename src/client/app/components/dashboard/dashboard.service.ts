@@ -23,7 +23,7 @@ export class DashboardService {
            
       }
 
-      setUserToProfile(login:Registration){
+      setUserToProfile(login:any){
        this.userDetails._id=login._id;
        this.userDetails.firstName=login.firstName;
        this.userDetails.lastName=login.lastName;

@@ -183,6 +183,9 @@ export class RecallComponent implements OnInit, OnDestroy{
                            if(response.sessionExpired){
                              thisObject.router.navigate(['home']);
                            }else{
+                             if(!response.alreadyExist){
+                              thisObject.dashboardService.userDetails.categories=response.categories;
+                             }
                              thisObject.router.navigate(['dashboard/recalls']);
                            }
                       },err => {

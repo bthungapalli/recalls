@@ -21,6 +21,7 @@ router.get('/allRecalls',checkSession.requireLogin,function (req,res,next){
 router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 		var recall = req.body;
 		var user=req.session.user;
+		var alreadyExist=false;
 		recallsService.createOrUpdateRecall(user,recall,function(err,recallResponse){
 			if(err)
         		res.send("error");
@@ -33,7 +34,7 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 					category.subCategories.forEach((subCategory,index)=>{
 						temp[subCategory]=recall.categoryName.split("~")[index+1];
 					});
-					var alreadyExist=false;
+					 alreadyExist=false;
 					category.rows.forEach(row=>{
 						var i=0;
 						for (var prop in row) {
@@ -48,7 +49,25 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 					if(!alreadyExist){
 						category.rows.push(temp);
 						subCategoryService.createOrUpdateSubCategory(category,function(err,category){
-
+							
+							user.categories.forEach((userCategory,index)=>{
+								console.log(userCategory.categoryName +":"+ category.categoryName);
+								if(userCategory.categoryName===category.categoryName){
+									console.log("Inside");
+									userCategory.rows.push(temp);
+								}
+							});
+							userService.createOrUpdateUser(user,function(err,createdUser){
+								if(err)
+									res.send("error");
+									req.session.user = user;
+									res.json({
+										"response":recallResponse,
+										"alreadyExist":alreadyExist,
+										"categories":user.categories
+									});
+							});
+							
 						});
 					}
 				});
@@ -80,9 +99,14 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 									})
 								 
 				});
+			}else{
+				res.json({
+					"response":recallResponse,
+					"alreadyExist":alreadyExist
+				});
 			}
 						
-						res.json(recallResponse);
+						
 		});
 });
 
