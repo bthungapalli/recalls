@@ -45,7 +45,7 @@ var emailScheduler = require('./schedulers/emailScheduler');
 
 /************   mongo connection  ****************/
 var mongoDbConnection=nconf.get('mongoDbConnection');
-mongoose.connect('mongodb://'+mongoDbConnection.host+'/'+mongoDbConnection.Db);
+mongoose.connect('mongodb://'+mongoDbConnection.host+':'+mongoDbConnection.port+'/'+mongoDbConnection.Db);
 
 /************   session  ****************/
 var sessionDetials=nconf.get('sessionDetails');

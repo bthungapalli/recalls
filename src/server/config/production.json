@@ -12,7 +12,8 @@
   },
   "mongoDbConnection":{
     "host":"35.166.213.31",
-    "Db":"recalls"
+    "port":27505,
+     "Db":"recalls"
   },
   "mail":{
    "recallSupport":"noreply@recallalarms.com",
@@ -27,7 +28,7 @@
     "authPassword":"Firstlsi@05"
   },
   "context":{
-     "path":"http://35.166.244.243:3000/"
+     "path":"http://www.api.recallalarms.com/"
  },
    "recall":{
 	   "filesPath":"/apps/recalls/images/"
