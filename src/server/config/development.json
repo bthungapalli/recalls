@@ -12,8 +12,8 @@
    },
    "mongoDbConnection":{
 	   "host":"localhost",
-	   "port":27111,
-            "Db":"recalls"
+	   "port":27017,
+     "Db":"recalls"
    },
    "mail":{
 	  "recallSupport":"apatha@osius.com",

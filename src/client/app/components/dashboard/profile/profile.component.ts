@@ -284,6 +284,35 @@ export class ProfileComponent {
                 }
     
             }
+
+            if(temp.length===2){
+                
+                            for(var i=0;i<temp[0].length;i++){
+                
+                                for(var j=0;j<temp[1].length;j++){
+                
+                                   
+                                        var tempObject={};
+                                        tempObject[this.selectedCategory.subCategories[0]]=temp[0][i];
+                                        tempObject[this.selectedCategory.subCategories[1]]=temp[1][j];
+                                       
+                                        var dontExist=true;
+                                        tempSubCategory.rows.forEach(row=>{
+                                            if(JSON.stringify(row) === JSON.stringify(tempObject)){
+                                                dontExist=false;
+                                            }
+                                        })
+                                        if(dontExist){
+                                            tempSubCategory.rows.push(tempObject);
+                                        }
+                                    
+                                    
+                                }
+                
+                            }
+                
+                        }
+
             
     
           }
