@@ -34,8 +34,8 @@
 	   "filesPath":"/Users/apatha/Desktop/uploads/"
    },
    "scheduler":{
-   "vehicle_job_hour":20,
-   "vehicle_job_minute":24,
+   "vehicle_job_hour":22,
+   "vehicle_job_minute":39,
    "email_job_hour":22,
    "email_job_minute":20
    }

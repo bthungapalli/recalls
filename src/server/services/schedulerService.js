@@ -39,10 +39,12 @@ return{
 		   if (day.length < 2) day = '0' + day;
    
 		   var date= year+'-'+month+'-'+day;
-			var url="https://api.nhtsa.gov/vehicles/bySearch?productDetail=minimal&data=recalls&query=2017&dateStart="+date+"&dateEnd="+date+"&sort=recallsCount&order=desc&max=50&offset="+offSet;
+			var url="https://api.nhtsa.gov/vehicles/bySearch?productDetail=minimal&data=recalls&query="+year+"&dateStart="+date+"&dateEnd="+date+"&sort=recallsCount&order=desc&max=50&offset="+offSet;
+			
 			var client = new Client();
 			var self=this;
 			client.get(url, function (data, response) {
+				
 				 noOfIterations=data.meta.pagination.total/50;
 				 i=i+1;
 				 data.results.forEach(function(vehicle){
@@ -77,7 +79,7 @@ return{
 										  "summary":recall.summary,"notes":recall.notes,"vehicles":vehicleArray,"created_by":"SYSTEM"
 										  })
 								 recallsService.save(recallCreated,function(error,recall){
-									 //console.log("recall created"+recall._id);
+									 
 								 });
 						  });
 						  counterModel.findByIdAndUpdate({_id : "recallJobId"}, {$inc: {seq: 1} }, function(error, counter)   {
@@ -87,8 +89,9 @@ return{
 										"units":recall.potentialNumberOfUnitsAffected,"nHTSACampaignNumber":recall.nhtsaCampaignNumber,"components":recall.components[0].description,
 										"summary":recall.summary,"notes":recall.notes,"vehicles":vehicleArray,"created_by":"SYSTEM"
 										})
+									
 							   recallsService.save(recallCreated,function(error,recall){
-								   //console.log("recall Job created"+recall._id);
+								   
 							   });
 						});
 					 })
@@ -104,7 +107,7 @@ return{
 				if(error)
 				console.log(error);
 				Array.prototype.push.apply(category[0].rows,motorVehicleSubCategoriesTemp);
-				console.log(category[0].rows.length);
+				
 				subCategoryService.createOrUpdateSubCategory(category[0],function(err){
 					if(err)
 					console.log(err);
