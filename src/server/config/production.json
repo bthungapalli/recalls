@@ -13,7 +13,9 @@
   "mongoDbConnection":{
     "host":"35.166.213.31",
     "port":27505,
-     "Db":"recalls"
+     "Db":"recalls",
+     "user":"recallsAdmin",
+     "pwd":"r3ca11pwd05"
   },
   "mail":{
    "recallSupport":"noreply@recallalarms.com",
@@ -35,9 +37,9 @@
      "userExcelTemplate":"userTemplate.xlsx"
    },
    "scheduler":{
-   "vehicle_job_hour":22,
-   "vehicle_job_minute":0,
-   "email_job_hour":22,
+   "vehicle_job_hour":17,
+   "vehicle_job_minute":47,
+   "email_job_hour":18,
    "email_job_minute":30
    }
 
