@@ -50,7 +50,7 @@ export class Recall {
     public caseCloseDate?:Object;
     public campaignOpenDate?:Object;
     public campaignCloseDate?:Object;
-    
+    public externalUsers?:any;
     public created_at?: Date;
     public updated_at?: Date;
 }

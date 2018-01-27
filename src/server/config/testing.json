@@ -30,7 +30,8 @@
      "path":"http://localhost:3000/images/logo.png"
  },
    "recall":{
-	   "filesPath":"/Users/apatha/Desktop/uploads/"
+	   "filesPath":"/Users/apatha/Desktop/uploads/",
+     "userExcelTemplate":"userTemplate.xlsx"
    },
    "scheduler":{
    "vehicle_job_hour":22,

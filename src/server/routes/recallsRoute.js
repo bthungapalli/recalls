@@ -8,6 +8,10 @@ var subCategoryService=require("../services/subCategoryService");
 var nconf = require('nconf');
 var mailUtil=require("../utils/MailUtil");
 var multer = require('multer');
+var excel = require("exceljs");
+var path = require('path');
+var nconf = require('nconf');
+var xlsxtojson = require("xlsx-to-json-lc");
 
 router.get('/allRecalls',checkSession.requireLogin,function (req,res,next){
 	  var user=req.session.user;
@@ -69,34 +73,64 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 							});
 							
 						});
+					}else{
+						res.json({
+							"response":recallResponse,
+							"alreadyExist":alreadyExist
+							
+						});
 					}
 				});
-
+		
+;
 				userService.getAllUsersBasedOnCategory(recall,function(err,users){
 					if(err)
-								res.send("error");
-								var subject =  nconf.get("mail").subject+" New Recall ";
-								var template = "newRecall.html";
+					console.log(err);
 
-								var context =  {
-										title : nconf.get("mail").appName,
-										recallTitle : recall.title,
-										recallCategory : recall.categoryName,
-										appURL : nconf.get("mail").appURL,
-										appName : nconf.get("mail").appName
-										// contextPath : nconf.get("context").path
-									};
-								 console.log("*********"+JSON.stringify(users));
-								 
-								 users.forEach(function(user, index) {
-									 if(user.alertsOn.includes("Email")){
-											mailUtil.sendMail(user.email,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
-			                console.log("Email sent to: "+user.email);
-											});
-										}else if(user.alertsOn.includes("Mobile")){
-									console.log("Mobile subcription");
+								if(recall.externalUsers || users){
+									var subject =  nconf.get("mail").subject+" New Recall ";
+									var template = "newRecall.html";
+									var content=[];
+	
+									for(let key in recall){
+										
+										if(( key!="files" &&  key!="vehicles" && key!="subCategories" && key!="externalUsers") && (recall[key]!=undefined || recall[key]!="")){
+											content.push({
+												"key":key[0].toUpperCase() + key.substr(1).replace(/([A-Z])/g, ' $1').trim(),
+												"value": key==='description'? recall[key].replace(/<\/?[^>]+(>|$)/g, "") : recall[key]
+												
+											})
 										}
+									}
+									
+									var context =  {
+											title : nconf.get("mail").appName,
+											// recallTitle : recall.title,
+											// recallCategory : recall.categoryName,
+											content:content,
+											appURL : nconf.get("mail").appURL,
+											appName : nconf.get("mail").appName
+											
+										};
+									 
+									 var emails=[];
+									 users.forEach(function(user, index) {
+										 if(user.alertsOn.includes("Email")){
+											emails.push(user.email);
+											}else if(user.alertsOn.includes("Mobile")){
+											console.log("Mobile subcription");
+											}
+									});
+									recall.externalUsers.forEach(function(user){
+									emails.push(user.emailid);
 									})
+									
+									
+										mailUtil.sendMail(emails,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
+											console.log("Email sent to: "+user.email);
+										});
+								}
+								
 								 
 				});
 			}else{
@@ -172,6 +206,51 @@ router.get('/download/:fileName',function(request,response,next){
 	  })
 	
 });
+
+router.get('/template/userExcel',function(request,response,next){
+	
+	var file = path.resolve(__dirname+'/../templates/'+nconf.get("recall").userExcelTemplate)  ;
+	response.download(file);
+	
+});
+
+
+var storage1 =   multer.diskStorage({
+	
+	filename: function (req, file, callback) {
+		
+		callback(null,file.originalname);
+	}
+  });
+
+  var upload1 = multer({ storage : storage1}).single('file');
+
+
+router.post('/upload/userExcel',function (req,res,next){
+	var exceltojson;
+  upload1(req,res,function(err){
+	  if(err){
+		   res.json({error_code:1,err_desc:err});
+		   return;
+	  }
+	  exceltojson = xlsxtojson;
+	  try {
+		exceltojson({
+			input: req.file.path,
+			output: null, //since we don't need output.json
+			lowerCaseHeaders:true
+		}, function(err,result){
+			if(err) {
+				return res.json({error_code:1,err_desc:err, data: null});
+			} 
+			res.json({error_code:0,err_desc:null, data: result});
+		});
+	} catch (e){
+		res.json({error_code:1,err_desc:"Corupted excel file"});
+	}
+  });
+});
+
 
 
 module.exports = router;

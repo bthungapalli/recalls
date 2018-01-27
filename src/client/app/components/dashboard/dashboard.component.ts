@@ -27,7 +27,7 @@ export class DashboardComponent{
         });   
           
           if(this.profile.role==="Admin"){
-               this.router.navigate(['dashboard/profile']);
+               this.router.navigate(['dashboard/userManagement']);
           }
       }
 

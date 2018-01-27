@@ -33,12 +33,16 @@ export class RecallComponent implements OnInit, OnDestroy{
       public fileUploadURL:string= (<any> window).origin+'/api/recalls/fileUpload';
       public uploader:FileUploader = new FileUploader({url:this.fileUploadURL});
 
+      public userTemplateUploadURL:string= (<any> window).origin+'/api/recalls/upload/userExcel';
+      public userTemplateUploader:FileUploader = new FileUploader({url:this.userTemplateUploadURL});
+
       public subCategoriesArray:any=[];
       public subCategoriesData:any=[];
       public selectedCategory:any="Select Category";
       public selectedSubcategories:any=[];
       public category:any;
-
+      public urlPath:string='';
+      public userTemplateError:string="";
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
@@ -53,7 +57,7 @@ export class RecallComponent implements OnInit, OnDestroy{
           this.recallId = params["id"];
        }
     );
-
+    this.urlPath=window.location.origin+"/api/recalls/template/userExcel";
       if(this.recallId){
       this.spinnerService.emitChange(true);
       this.recallsService.getRecall(this.recallId).subscribe(response => {
@@ -122,8 +126,9 @@ export class RecallComponent implements OnInit, OnDestroy{
           });
         }
 
-      submitRecall(){
-      this.spinnerService.emitChange(false);
+      submitRecall(){ 
+
+      this.spinnerService.emitChange(true);
           
          if(this.recallModel.categoryName==="Boats and Boating Safety"){
              this.recallModel.caseOpenDate= (<any> this.recallModel.caseOpenDate).formatted;
@@ -135,8 +140,54 @@ export class RecallComponent implements OnInit, OnDestroy{
            }else if(this.recallModel.categoryName==="Foods, Medicines, Cosmetics"){
              this.recallModel.immediateRelease= (<any>this.recallModel.immediateRelease).formatted;
            }  
-          var thisObject=this;
-          if((this.recallModel.categoryName==="Tires" || this.recallModel.categoryName==="Child Safety Seats" || this.recallModel.categoryName==="Motor Vehicles") && this.uploader.queue.length>0){
+
+            if( this.userTemplateUploader.queue.length>0){
+              this.saveUserTemplate();
+            }else{
+              this.processRecall();
+            }     
+      }
+    
+
+    saveUserTemplate(){
+      var thisObject=this;
+      thisObject.userTemplateError="";
+      this.userTemplateUploader.queue.forEach(function(item){
+        item.upload();
+       });
+      this.userTemplateUploader.onCompleteItem = (item, response, status, header) => {
+        var responseJson=JSON.parse(response);
+        var externalUsers=[];
+        var rows="";
+        responseJson.data.forEach((obj,index)=>{
+          if(obj.name!=undefined  && obj.emailid!=undefined   && ((obj.name=="" && obj.emailid!=='') || (obj.name!=="" && obj.emailid==''))){
+            var row = index+2;
+            rows=rows+row+",";
+          }
+          if(obj.name!=undefined  && obj.emailid!=undefined  && obj.name!=="" && obj.emailid!==''){
+            externalUsers.push({
+              "name":obj.name,
+              "emailid":obj.emailid
+            })
+          }
+        });
+        if(externalUsers.length==0 && rows==""){
+          thisObject.userTemplateError="Template Corrupted,Please upload again";
+          thisObject.spinnerService.emitChange(false);
+        }else if (rows!=""){
+          thisObject.userTemplateError="Details missing ,Please Check "+rows+" row(s)";
+          thisObject.spinnerService.emitChange(false);
+        }else{
+          thisObject.recallModel.externalUsers=externalUsers;
+          thisObject.processRecall();
+        }
+        
+      }
+    }; 
+
+    processRecall(){
+            var thisObject=this;
+            if((this.recallModel.categoryName==="Tires" || this.recallModel.categoryName==="Child Safety Seats" || this.recallModel.categoryName==="Motor Vehicles") && this.uploader.queue.length>0){
               var files=[];
           var noOfFiles=this.uploader.queue.length;
           this.uploader.queue.forEach(function(item){
@@ -151,25 +202,18 @@ export class RecallComponent implements OnInit, OnDestroy{
                       files.forEach(function(file){
                           thisObject.recallModel.files.push(file);
                       });
-                      thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
-                      thisObject.spinnerService.emitChange(false);
-                           if(response.sessionExpired){
-                             thisObject.router.navigate(['home']);
-                           }else{
-                             thisObject.router.navigate(['dashboard/recalls']);
-                           }
-                      },err => {
-                          thisObject.errorMessage="Something went wrong.Please contact administrator";
-                          thisObject.spinnerService.emitChange(false);
-                      });
+                    
+                        thisObject.createRecall(thisObject);
+                      
+                      
                   }
               }else{
-                 thisObject.errorMessage="Something went wrong.Please contact administrator";
-                 thisObject.spinnerService.emitChange(false);
+                thisObject.errorMessage="Something went wrong.Please contact administrator";
+                thisObject.spinnerService.emitChange(false);
               }    
             }
           }else{
-           if(!this.recallId){
+          if(!this.recallId){
               let temp=thisObject.selectedCategory.categoryName;;
               thisObject.subCategoriesArray.forEach((data,index)=>{
                   temp=temp+"~"+data.toUpperCase();
@@ -177,25 +221,29 @@ export class RecallComponent implements OnInit, OnDestroy{
               thisObject.recallModel.categoryName=temp;
               thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
             }
+                
+              thisObject.createRecall(thisObject);
             
-              thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
-                      thisObject.spinnerService.emitChange(false);
-                           if(response.sessionExpired){
-                             thisObject.router.navigate(['home']);
-                           }else{
-                             if(!response.alreadyExist){
-                              thisObject.dashboardService.userDetails.categories=response.categories;
-                             }
-                             thisObject.router.navigate(['dashboard/recalls']);
-                           }
-                      },err => {
-                          thisObject.errorMessage="Something went wrong.Please contact administrator";
-                          thisObject.spinnerService.emitChange(false);
-                      });
           }   
-          
-      }
-    
+    }
+
+    createRecall(thisObject){
+      thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
+        thisObject.spinnerService.emitChange(false);
+             if(response.sessionExpired){
+               thisObject.router.navigate(['home']);
+             }else{
+               if(!response.alreadyExist){
+                thisObject.dashboardService.userDetails.categories=response.categories;
+               }
+               thisObject.router.navigate(['dashboard/recalls']);
+             }
+        },err => {
+            thisObject.errorMessage="Something went wrong.Please contact administrator";
+            thisObject.spinnerService.emitChange(false);
+        });
+    };
+
     showSubCategories(index){
         if(index===0){
           this.subCategoriesArray=[];

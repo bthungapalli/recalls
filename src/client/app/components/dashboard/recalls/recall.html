@@ -753,9 +753,16 @@
     </div>
 </div>
 
+    <div class="col-xs-12"  *ngIf="!recallId && recallModel.categoryName!==undefined">
+    
+    <label for="single">User Template Attachment</label>
+    <p>Template to send recall to specific users <a style="color:red;" href="{{urlPath}}" target="_blank" >click</a></p>
+    <input type="file"  name="userTemplate" ng2FileSelect [uploader]="userTemplateUploader" /> 
+    <p *ngIf="userTemplateError" style="color:red;">{{userTemplateError}}  </p>    
+   </div>
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description==''" class="btn btn-success">Submit</button>
+      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description=='' || selectedCategory=='Select Category' " class="btn btn-success">Submit</button>
     </div>
   </form> 
 

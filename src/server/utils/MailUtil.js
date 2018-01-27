@@ -26,12 +26,16 @@ var mailUtil = function() {
 			});
 			templates.render(templateName, context,
 					function(err,html,text) {
+
+						
+
 						transporter.sendMail({
 							from : fromEmail,
 							to : toEmail,
 							subject : subject,
 							html : html,
-							text : text
+							text : text,
+							text: false, 
 						},function(err,info){
 							if(err){
 								 console.log("Error occured in callback::",err)

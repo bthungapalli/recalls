@@ -31,7 +31,8 @@
      "path":"http://www.api.recallalarms.com/"
  },
    "recall":{
-	   "filesPath":"/apps/recalls/images/"
+	   "filesPath":"/apps/recalls/images/",
+     "userExcelTemplate":"userTemplate.xlsx"
    },
    "scheduler":{
    "vehicle_job_hour":22,

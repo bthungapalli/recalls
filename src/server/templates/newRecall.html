@@ -8,6 +8,20 @@
   <![endif]-->
   <style>
   	th,td{border:1px solid; font-family: Garamond, Georgia, serif;color: #656565; font-size:18px;}
+		h2{
+    margin: 0px;
+		}
+
+.content{
+	
+    background-color: #F7F7F7;
+
+}
+		.description{
+    margin-top: 0px;
+    font-size: initial;
+		margin-bottom: 10px;
+		}
 
   </style>
   </head>
@@ -31,21 +45,19 @@
       <h2 style=" font-family: Garamond, Georgia, serif;color: #656565;font-size: 1.8em;margin-bottom: 6px">
   		A New Recall has been Posted.
   		</h2>
-  		<table  style="border-spacing: inherit;">
-  			<thead>
-  				<tr style="background-color: lightgray;">
 
-  				<th>Title</th>
-  				<th>Category</th>
+			
+			<section class="content">
 
-  			</thead>
-  			<tbody>
-  				<tr>
-  				<td><p style="font-family:Garamond,Georgia,serif;color:#656565;margin-bottom:6px;font-weight: bolder;"> {{recallTitle}}</p></td>
-  				<td><p style="font-family:Garamond,Georgia,serif;color:#656565;margin-bottom:6px;font-weight: bolder;"> {{recallCategory}}</p></td>
-  				</tr>
-  			</tbody>
-  		</table><br>
+	
+			{% for data in content %}
+			<h2 style="font-size:14px;">{{data.key}}</h2>
+			<p class='description'>{{data.value}}</p>
+			{% endfor %}
+	
+	
+
+			</section>
 
 		</section>
     <br style="margin: 0;padding: 0"/>
