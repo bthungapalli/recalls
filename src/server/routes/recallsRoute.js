@@ -87,7 +87,7 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 					if(err)
 					console.log(err);
 
-								if(recall.externalUsers || users){
+								if(recall.externalUsers!==undefined || users){
 									var subject =  nconf.get("mail").subject+" New Recall ";
 									var template = "newRecall.html";
 									var content=[];
@@ -121,14 +121,17 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 											console.log("Mobile subcription");
 											}
 									});
-									recall.externalUsers.forEach(function(user){
-									emails.push(user.emailid);
-									})
-									
-									
+									if(recall.externalUsers!==undefined){
+										recall.externalUsers.forEach(function(user){
+											emails.push(user.emailid);
+											});
+									}
+									if(emails.length>0){
 										mailUtil.sendMail(emails,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
 											console.log("Email sent to: "+user.email);
 										});
+									}
+									
 								}
 								
 								 
