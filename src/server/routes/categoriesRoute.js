@@ -34,7 +34,7 @@ router.post('/deleteCategory',checkSession.requireLogin,function (req,res,next){
 
 router.post('/requestCategory',checkSession.requireLogin,function (req,res,next){
 	var categoryDetails = req.body;
-	 var user=req.session.user;
+	 var user=req.session.user//;
 		
 		var subject =  nconf.get("mail").subject+" Request Category ";
 		var template = "requestCategory.html";

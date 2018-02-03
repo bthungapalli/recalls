@@ -12,7 +12,7 @@ export class RecallsService {
       private  DELETE_RECALL_URL="/api/recalls/";
       private  GET_RECALL_URL="/api/recalls/";
       private  DOWNLOAD_URL="/api/recalls/download/";
-
+      private  GET_SHOW_RECALL_URL="/api/recalls/showRecall/";
 
 
       constructor(private http: Http) {
@@ -48,6 +48,12 @@ export class RecallsService {
       return this.http.get(this.GET_RECALL_URL+id)
       .map((res: Response) => {return res.json();})
       .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+      }
+
+      showRecall(id:String):Observable<any>{
+            return this.http.get(this.GET_SHOW_RECALL_URL+id)
+            .map((res: Response) => {return res.json();})
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
 
  }

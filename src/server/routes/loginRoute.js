@@ -15,7 +15,10 @@ router.post('/',function (req,res,next){
 			}else{
 				decryptedPassword = cryptr.decrypt(user.password);
 				if(decryptedPassword==userDetails.password){
-					req.session.user = user;
+					
+					var tempUser=JSON.parse(JSON.stringify(user));
+					tempUser["categories"]=null;
+					req.session.user = tempUser;//
 					 res.json(user);
 				}else{
 					res.json(null);

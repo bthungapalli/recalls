@@ -12,6 +12,7 @@ import { RecallComponent }  from './recall.component';
 import { RecallsService }  from './recalls.service';
 import { DataFilterPipe }   from './data.filter';
 import { SharedModule } from '../../shared/shared.module';
+import { ShowRecallComponent }  from './showRecall.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { SharedModule } from '../../shared/shared.module';
     RecallsComponent,
     RecallComponent,
     DataFilterPipe,
-  FileSelectDirective
+  FileSelectDirective,
+  ShowRecallComponent
   ],
   providers:[
     RecallsService

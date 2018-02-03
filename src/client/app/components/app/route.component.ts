@@ -12,10 +12,11 @@ import {RecallComponent} from '../dashboard/recalls/recall.component';
 import {RecallsComponent} from '../dashboard/recalls/recalls.component';
 import {RequestCategoryComponent} from '../dashboard/categories/requestCategory.component';
 import {SubCategoriesComponent} from '../dashboard/subCategories/subCategories.component';
-
+import {ShowRecallComponent} from '../dashboard/recalls/showRecall.component'
 
 const appRoutes: Routes = [
   { path: '' , redirectTo: 'home', pathMatch: 'full'},
+  { path: 'showRecall/:recallId' ,component: ShowRecallComponent},
   { path: 'registrationConfirmation' , redirectTo: 'home'},
   { path: 'home', component: HomeComponent,
   children: [

@@ -12,9 +12,13 @@ router.post('/',function (req,res,next){
 		userDetails.password = cryptr.encrypt(userDetails.password);
 		userService.createOrUpdateUser(userDetails,function(err,createdUser){
 			if(err)
-        		res.send("error");
-						req.session.user = createdUser;
-		
+				res.send("error");
+				
+				// var tempUser=JSON.parse(JSON.stringify(createdUser));
+				// tempUser["categories"]=null;
+				// req.session.user = tempUser;
+					
+						
 						var subject =  nconf.get("mail").subject+" Register Confirmation for Recall";
 						var template = "registerConfirmation.html";
 

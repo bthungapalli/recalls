@@ -1,0 +1,292 @@
+<footer style="background: #1abb9c;padding-top: 15px;padding-bottom: 15px;position: relative;top: 0px;margin-left: 0px;width: 100%;">
+    <div class="pull-right">
+    <label style="color:white;cursor: pointer" (click)="goto();">Login</label>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
+<div class="col-xs-12  table-responsive"style="
+padding: 25px;
+background-color: #EDEDED;
+">
+  
+                     <div class="">
+                         <div class="col-xs-12" *ngIf="recallModel.description">
+                         <div class="form-group">
+                           
+                           <h1>{{recallModel.title}}</h1>
+                         </div>
+                       </div>
+                       <div class="col-xs-12"  *ngIf="recallModel.description">
+                         <div class="form-group">
+                           <label for="categoryName"> Category </label>
+                           <p>{{recallModel.categoryName}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.description">
+                         <div class="form-group">
+                           <label for="Description"> Description </label>
+                           <p [innerHTML]="recallModel.description"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.hazard">
+                         <div class="form-group">
+                           <label for="hazard"> Hazard </label>
+                           <p [innerHTML]="recallModel.hazard"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.remedy">
+                         <div class="form-group">
+                           <label for="remedy"> Remedy </label>
+                           <p [innerHTML]="recallModel.remedy"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.recallDate">
+                         <div class="form-group">
+                           <label for="recallDate"> Recall Date </label>
+                           <p > {{recallModel.recallDate | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.recallNumber">
+                         <div class="form-group">
+                           <label for="recallNumber"> Recall Number </label>
+                           <p [innerHTML]="recallModel.recallNumber"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.incidentsOrInjuries">
+                         <div class="form-group">
+                           <label for="incidentsOrInjuries"> Incidents/Injuries </label>
+                           <p [innerHTML]="recallModel.incidentsOrInjuries"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.soldAt">
+                         <div class="form-group">
+                           <label for="soldAt"> Sold At </label>
+                           <p [innerHTML]="recallModel.soldAt"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.importer">
+                         <div class="form-group">
+                           <label for="importer"> Importer(s) </label>
+                           <p [innerHTML]="recallModel.importer"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.manufacturer">
+                         <div class="form-group">
+                           <label for="manufacturer"> Manufacturer(s) </label>
+                           <p [innerHTML]="recallModel.manufacturer"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.manufacturedIn">
+                         <div class="form-group">
+                           <label for="manufacturedIn"> ManufacturedIn </label>
+                           <p [innerHTML]="recallModel.manufacturedIn"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.units">
+                         <div class="form-group">
+                           <label for="units"> Units </label>
+                           <p [innerHTML]="recallModel.units"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.classRecall">
+                         <div class="form-group">
+                           <label for="classRecall"> Class </label>
+                           <p [innerHTML]="recallModel.classRecall"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.healthRisk">
+                         <div class="form-group">
+                           <label for="healthRisk"> Health Risk </label>
+                           <p [innerHTML]="recallModel.healthRisk"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.nHTSACampaignNumber">
+                         <div class="form-group">
+                           <label for="nHTSACampaignNumber"> NHTSA Campaign Number </label>
+                           <p [innerHTML]="recallModel.nHTSACampaignNumber"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.components">
+                         <div class="form-group">
+                           <label for="components"> Components </label>
+                           <p [innerHTML]="recallModel.components"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.summary">
+                         <div class="form-group">
+                           <label for="summary"> Summary </label>
+                           <p [innerHTML]="recallModel.summary"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.notes">
+                         <div class="form-group">
+                           <label for="notes"> Notes </label>
+                           <p [innerHTML]="recallModel.notes"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.number">
+                         <div class="form-group">
+                           <label for="number"> Number </label>
+                           <p [innerHTML]="recallModel.number"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.company">
+                         <div class="form-group">
+                           <label for="company"> Company </label>
+                           <p [innerHTML]="recallModel.company"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.model">
+                         <div class="form-group">
+                           <label for="model"> Model </label>
+                           <p [innerHTML]="recallModel.model"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.hIN">
+                         <div class="form-group">
+                           <label for="hIN"> HIN </label>
+                           <p [innerHTML]="recallModel.hIN"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.disposition">
+                         <div class="form-group">
+                           <label for="disposition"> Disposition </label>
+                           <p [innerHTML]="recallModel.disposition"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.boatType">
+                         <div class="form-group">
+                           <label for="boatType"> Boat Type </label>
+                           <p [innerHTML]="recallModel.boatType"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.severity">
+                         <div class="form-group">
+                           <label for="severity"> Severity </label>
+                           <p [innerHTML]="recallModel.severity"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.comments">
+                         <div class="form-group">
+                           <label for="comments"> Comments </label>
+                           <p [innerHTML]="recallModel.comments"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.mIC">
+                         <div class="form-group">
+                           <label for="mIC"> MIC </label>
+                           <p [innerHTML]="recallModel.mIC"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.companyOfficial">
+                         <div class="form-group">
+                           <label for="companyOfficial"> Company Official </label>
+                           <p [innerHTML]="recallModel.companyOfficial"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.modelYear">
+                         <div class="form-group">
+                           <label for="modelYear"> Model Year </label>
+                           <p [innerHTML]="recallModel.modelYear"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.caseOpenDate">
+                         <div class="form-group">
+                           <label for="caseOpenDate"> Case Open Date </label>
+                           <p >{{recallModel.recallDate | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.caseCloseDate">
+                         <div class="form-group">
+                           <label for="caseCloseDate"> Case Close Date </label>
+                           <p > {{recallModel.caseCloseDate | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.campaignOpenDate">
+                         <div class="form-group">
+                           <label for="campaignOpenDate"> Campaign Open Date </label>
+                           <p > {{recallModel.campaignOpenDate | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.campaignCloseDate">
+                         <div class="form-group">
+                           <label for="campaignCloseDate"> Campaign Close Date </label>
+                           <p > {{recallModel.campaignCloseDate | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.immediateRelease">
+                         <div class="form-group">
+                           <label for="immediateRelease"> Immediate Release </label>
+                           <p > {{recallModel.immediateRelease | date: 'MMM dd, yyyy'}}</p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.consumers">
+                         <div class="form-group">
+                           <label for="consumers"> Consumers </label>
+                           <p [innerHTML]="recallModel.consumers"> </p>
+                         </div>
+                       </div>
+                       <div class="col-xs-12" *ngIf="recallModel.media">
+                         <div class="form-group">
+                           <label for="modelYear"> Media </label>
+                           <p [innerHTML]="recallModel.media"> </p>
+                         </div>
+                       </div>
+                        <div class="col-xs-12" *ngIf="recallModel.vehicles.length>0">
+                         <div class="form-group">
+                           <label for="modelYear"> Affected Products </label>
+                            <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+                                 <div class="table-responsive">
+                                     <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+                                       <thead>
+                                                       <tr>
+                                                           <th>  Name</th>
+                                                           <th> Model </th>
+                                                           <th>Year </th>
+                                                           
+                                                       </tr>
+                         
+                                                       </thead>
+                                         <tbody>
+                                         <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                                             <td>{{vehicle.name}} </td>
+                                             <td>{{vehicle.model}} </td>
+                                             <td>{{vehicle.year}} </td>
+                         
+                                         </tr>
+                                         </tbody>
+                                         <tfoot>
+                                       <tr>
+                                           <td colspan="5">
+                                               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                                           </td>
+                                       </tr>
+                                       </tfoot>
+                         
+                                     </table>
+                                      </div>
+                              </div>
+                         </div>
+                       </div>
+                        
+                        <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+                         <div class="form-group">
+                           <label for="modelYear"> Attachments </label>
+                           <p *ngFor="let file of recallModel.files;" >  <a href="recalls/download/{{file}}">{{file}}</a>
+                           </p>
+                         </div>
+                       </div>
+                       
+                     </div>
+                 
+    <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
+ 
+ </div>
+ <footer style="background: #1abb9c;padding-top: 10px;padding-bottom: 5px;position: absolute;bottom: 0px;margin-left: 0px;width: 100%;">
+    <div class="pull-right">
+    <label style="color:white">Recalls</label>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
+
+ 

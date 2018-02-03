@@ -25,14 +25,15 @@
 	   "host":"smtp.gmail.com",
 	   "port":465,
 	   "authUser":"pathaalok@gmail.com",
-       "authPassword":""
+       "authPassword":"loki@2015"
    },
   "context":{
 	   	"path":"http://localhost:3000/"
   },
    "recall":{
      "filesPath":"/Users/apatha/Desktop/uploads/",
-     "userExcelTemplate":"userTemplate.xlsx"
+     "userExcelTemplate":"userTemplate.xlsx",
+     "showRecallPath":"/showRecall/"
    },
    "scheduler":{
    "vehicle_job_hour":22,

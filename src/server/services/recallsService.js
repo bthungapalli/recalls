@@ -24,12 +24,12 @@ return{
 		});
 	},
 	save:function(recall,callbackForSave){
-		recall.save(function(err){
+		recall.save(function(err,recallObj){
 			 if(err){
 				 console.log(err)
 				 callbackForSave(err);
 			 }
-			 callbackForSave(null,recall);
+			 callbackForSave(null,recallObj);
 	 });
 	},
 	deleteJobRecalls:function(condition,callbackForDelete){

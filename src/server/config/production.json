@@ -34,7 +34,8 @@
  },
    "recall":{
 	   "filesPath":"/apps/recalls/images/",
-     "userExcelTemplate":"userTemplate.xlsx"
+     "userExcelTemplate":"userTemplate.xlsx",
+     "showRecallPath":"/showRecall/"
    },
    "scheduler":{
    "vehicle_job_hour":17,
