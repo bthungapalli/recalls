@@ -212,22 +212,21 @@ export class RecallComponent implements OnInit, OnDestroy{
                 thisObject.spinnerService.emitChange(false);
               }    
             }
-          }else{
-          if(!this.recallId){
-              let temp=thisObject.selectedCategory.categoryName;;
-              thisObject.subCategoriesArray.forEach((data,index)=>{
-                  temp=temp+"~"+data.toUpperCase();
-              });
-              thisObject.recallModel.categoryName=temp;
-              thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
-            }
-                
+          }else{       
               thisObject.createRecall(thisObject);
             
           }   
     }
 
     createRecall(thisObject){
+      if(!thisObject.recallId){
+        let temp=thisObject.selectedCategory.categoryName;;
+        thisObject.subCategoriesArray.forEach((data,index)=>{
+            temp=temp+"~"+data.toUpperCase();
+        });
+        thisObject.recallModel.categoryName=temp;
+        thisObject.recallModel.subCategories=this.selectedCategory.subCategories;
+      };
       thisObject.recallsService.submitRecall(thisObject.recallModel).subscribe(response => {
         thisObject.spinnerService.emitChange(false);
              if(response.sessionExpired){

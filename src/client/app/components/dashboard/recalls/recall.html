@@ -762,7 +762,7 @@
    </div>
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description=='' || selectedCategory=='Select Category' " class="btn btn-success">Submit</button>
+      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description=='' || (!recallId && selectedCategory=='Select Category') " class="btn btn-success">Submit</button>
     </div>
   </form> 
 
