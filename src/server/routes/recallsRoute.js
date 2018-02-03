@@ -153,7 +153,8 @@ var storage =   multer.diskStorage({
 	  },
 	  filename: function (req, file, callback) {
 		  var datetimestamp = Date.now();
-	    callback(null, file.fieldname + '-' + file.originalname.split('.')[0] + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+		  var random=Math.floor(Math.random() * 1000) + 1 ;
+	    callback(null, file.fieldname + '-' + file.originalname.split('.')[0] + '-' +  random + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
 	  }
 	});
 
