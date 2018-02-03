@@ -25,7 +25,7 @@
 	   "host":"smtp.gmail.com",
 	   "port":465,
 	   "authUser":"pathaalok@gmail.com",
-       "authPassword":"loki@2015"
+       "authPassword":""
    },
   "context":{
 	   	"path":"http://localhost:3000/"
