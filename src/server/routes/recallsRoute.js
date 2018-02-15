@@ -103,13 +103,13 @@ router.post('/createRecall',checkSession.requireLogin,function (req,res,next){
 							console.log(err);
 		
 										if(recall.externalUsers!==undefined || users){
-											var subject =  nconf.get("mail").subject+" New Recall ";
+											var subject =  nconf.get("mail").subject+ recall.title;
 											var template = "newRecall.html";
 											var content=[];
 			
 											for(let key in recall){
 												
-												if(( key!="files" &&  key!="vehicles" && key!="subCategories" && key!="externalUsers") && (recall[key]!=undefined || recall[key]!="")){
+												if(( key!="title" && key!="files" &&  key!="vehicles" && key!="subCategories" && key!="externalUsers") && (recall[key]!=undefined || recall[key]!="")){
 													content.push({
 														"key":key[0].toUpperCase() + key.substr(1).replace(/([A-Z])/g, ' $1').trim(),
 														"value": key==='description'? recall[key].replace(/<\/?[^>]+(>|$)/g, "") : recall[key]

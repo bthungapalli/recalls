@@ -17,7 +17,7 @@
    },
    "mail":{
 	  "recallSupport":"apatha@osius.com",
-		"subject":"[Recalls] ",
+		"subject":"[Recall Alarm] ",
 		"appURL" : "http://osiwizz.osius.com",
 		"appName":"Recalls"
    },

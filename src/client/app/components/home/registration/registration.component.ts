@@ -164,6 +164,7 @@ export class RegistrationComponent {
       }
 
       submitSignUp(){
+         
       this.spinnerService.emitChange(true);
         this.errorMessage="";
         if(this.registrationModel.password===this.registrationModel.confirmPassword){
@@ -176,6 +177,7 @@ export class RegistrationComponent {
                 this.registrationModel.alertsOn=["Mobile"];
             }
             this.registrationModel.categories=this.selectedSubcategories;
+            this.registrationModel.role="User";
             this.registrationService.submitSignUp(this.registrationModel).subscribe(response => {
                  this.successMessage="Successfully Registered, Activation Link Mailed";
                  this.registrationModel = new Registration();
