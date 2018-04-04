@@ -251,6 +251,12 @@
     </div>
     <div class="col-xs-6">
       <div class="form-group">
+        <label for="components"> VIN <sup class="text-danger">*</sup></label>
+        <input type="text" [(ngModel)]="recallModel.vin" name="vin" class="form-control" id="components" placeholder="VIN" required>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
         <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
       </div>

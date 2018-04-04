@@ -32,6 +32,7 @@ var RecallSchema = new Schema({
     healthRisk:{type: String, required: false},
     nHTSACampaignNumber:{type: String, required: false},
     components:{type: String, required: false},
+    vin:{type: String, required: false},
     summary:{type: String, required: false},
     notes:{type: String, required: false},
     number:{type: String, required: false},
