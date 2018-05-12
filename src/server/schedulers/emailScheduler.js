@@ -30,7 +30,7 @@ var emailScheduler =function(){
 								title : nconf.get("mail").appName,
 								recallTitle : recall.title,
 								recallCategory : recall.categoryName,
-								appURL : nconf.get("mail").appURL,
+								url : nconf.get("mail").appURL,
 								appName : nconf.get("mail").appName
 								// contextPath : nconf.get("context").path
 							};
