@@ -36,6 +36,9 @@ export class RecallComponent implements OnInit, OnDestroy{
       public userTemplateUploadURL:string= (<any> window).origin+'/api/recalls/upload/userExcel';
       public userTemplateUploader:FileUploader = new FileUploader({url:this.userTemplateUploadURL});
 
+      public categoryUploadURL:string= (<any> window).origin+'/api/recalls/upload/userExcel';
+      public categoryUploader:FileUploader = new FileUploader({url:this.categoryUploadURL});
+
       public subCategoriesArray:any=[];
       public subCategoriesData:any=[];
       public selectedCategory:any="Select Category";
@@ -43,6 +46,8 @@ export class RecallComponent implements OnInit, OnDestroy{
       public category:any;
       public urlPath:string='';
       public userTemplateError:string="";
+      public urlForBulkUpload:string='';
+      public categoryBulkError:any=[];
       constructor(private recallsService:RecallsService,private categoriesService:CategoriesService,private router:Router,private activatedRoute: ActivatedRoute,private spinnerService:SpinnerService,private dashboardService:DashboardService) {
          this.recallModel=new Recall();
          this.profile=dashboardService.userDetails;
@@ -57,6 +62,7 @@ export class RecallComponent implements OnInit, OnDestroy{
           this.recallId = params["id"];
        }
     );
+    this.urlForBulkUpload=window.location.origin+"/api/recalls/template/bulk/";
     this.urlPath=window.location.origin+"/api/recalls/template/userExcel";
       if(this.recallId){
       this.spinnerService.emitChange(true);
@@ -220,7 +226,7 @@ export class RecallComponent implements OnInit, OnDestroy{
 
     createRecall(thisObject){
       if(!thisObject.recallId){
-        let temp=thisObject.selectedCategory.categoryName;;
+        let temp=thisObject.selectedCategory.categoryName;
         thisObject.subCategoriesArray.forEach((data,index)=>{
             temp=temp+"~"+data.toUpperCase();
         });
@@ -328,6 +334,98 @@ export class RecallComponent implements OnInit, OnDestroy{
          this.recallModel.files=[];
          this.recallModel.files=temp;
     }
+
+
+    bulkUpload(){
+      this.spinnerService.emitChange(true);
+      if( this.categoryUploader.queue.length>0){
+        this.saveValues();
+      }else{
+        this.spinnerService.emitChange(false);
+      }  
+    }
+
+    saveValues(){
+      var thisObject=this;
+      thisObject.categoryBulkError=[];
+      this.categoryUploader.queue.forEach(function(item){
+        item.upload();
+       });
+      this.categoryUploader.onCompleteItem = (item, response, status, header) => {
+        var responseJson=JSON.parse(response);
+        var recalls=[];
+        
+        if(this.recallModel.categoryName.includes('Motor Vehicles')){
+        responseJson.data.forEach((obj,index)=>{
+          var recall= new Recall();
+          var recallErrors={
+            "row":index+2,
+            "errors":[]
+          };
+          var subCategoriesArray=[];
+               this.validateMotorVehicles(obj,recall,recallErrors.errors,subCategoriesArray); 
+              if(recallErrors.errors.length>0){
+                thisObject.categoryBulkError.push(recallErrors);
+              }else{
+                
+                let temp=thisObject.selectedCategory.categoryName;
+                subCategoriesArray.forEach((data,index)=>{
+                  temp=temp+"~"+data.toUpperCase();
+              });
+              recall.categoryName=temp;
+              recall.subCategories=subCategoriesArray;
+                recalls.push(recall); 
+              }
+              
+        });
+
+        thisObject.recallsService.submitRecalls(recalls).subscribe(response => {
+          thisObject.spinnerService.emitChange(false);
+          this.categoryUploader=new FileUploader({url:this.categoryUploadURL});
+               if(response.sessionExpired){
+                 thisObject.router.navigate(['home']);
+               }else{
+                 if(!response.alreadyExist){
+                  thisObject.dashboardService.userDetails.categories=response.categories;
+                 }
+                 if( thisObject.categoryBulkError.length==0){
+                  thisObject.router.navigate(['dashboard/recalls']);
+                 }
+                
+               }
+          },err => {
+              thisObject.errorMessage="Something went wrong.Please contact administrator";
+              thisObject.spinnerService.emitChange(false);
+          });
+
+      
+        }else{
+          this.spinnerService.emitChange(false);
+        }
+        
+      }
+    }
+
+    validateMotorVehicles(obj,recall,recallErrors,subCategoriesArray){
+      recall.vehicles[0]={};
+      obj.title==''|| obj.title==undefined?recallErrors.push("Title cant be empty"): recall.title=obj.title;
+      obj.description==''|| obj.description==undefined?recallErrors.push("Description cant be empty"): recall.description=obj.description;
+      obj.manufacturer==''|| obj.manufacturer==undefined?recallErrors.push("Manufacturer cant be empty"): subCategoriesArray[0]=obj.manufacturer;
+      obj.model==''|| obj.model==undefined?recallErrors.push("Model cant be empty"): subCategoriesArray[1]=obj.model;
+      obj.year==''|| obj.year==undefined?recallErrors.push("Year cant be empty"): subCategoriesArray[2]=obj.year;
+      obj["nhtsa campaign number"]==''|| obj["nhtsa campaign number"]==undefined?recallErrors.push("NHTSA Campaign Number cant be empty"): recall.nHTSACampaignNumber=obj["nhtsa campaign number"];
+      obj.components==''|| obj.components==undefined?recallErrors.push("Components cant be empty"): recall.components=obj.components;
+      obj.vin==''|| obj.vin==undefined?recallErrors.push("VIN cant be empty"): recall.vin=obj.vin;
+      obj["potential number of units affected"]==''|| obj["potential number of units affected"]==undefined?recallErrors.push("Units cant be empty"): recall.units=obj["potential number of units affected"];
+      obj.remedy==''|| obj.remedy==undefined?recallErrors.push("Remedy cant be empty"): recall.remedy=obj.remedy;
+      obj.summary==''|| obj.summary==undefined?recallErrors.push("Summary cant be empty"): recall.summary=obj.summary;
+      obj.notes==''|| obj.notes==undefined?recallErrors.push("Notes cant be empty"): recall.notes=obj.notes;
+      obj["affected products name"]==''|| obj["affected products name"]==undefined?recallErrors.push("Affected Products Name cant be empty"): recall.vehicles[0].name=obj["affected products name"];
+      obj["affected products model"]==''|| obj["affected products model"]==undefined?recallErrors.push("Affected Products Model cant be empty"): recall.vehicles[0].model=obj["affected products model"];
+      obj["affected products year"]==''|| obj["affected products year"]==undefined?recallErrors.push("Affected Products Year cant be empty"): recall.vehicles[0].year=obj["affected products year"];
+
+    }
+
 
               ngOnDestroy() {
               tinymce.remove(this.editor);

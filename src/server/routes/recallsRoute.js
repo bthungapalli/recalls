@@ -243,6 +243,13 @@ router.get('/template/userExcel',function(request,response,next){
 	
 });
 
+router.get('/template/bulk/:category',function(request,response,next){
+	
+	var file = path.resolve(__dirname+'/../templates/'+request.params.category+'.xlsx')  ;
+	response.download(file);
+	
+});
+
 
 var storage1 =   multer.diskStorage({
 	
@@ -289,6 +296,137 @@ router.get('/showRecall/:recallId',function(request,response,next){
 		response.send("error");
 		response.json(recall);
 	});
+});
+
+router.post('/createBulkRecall',checkSession.requireLogin,function (req,res,next){
+	var recalls = req.body;
+	var user=req.session.user;//
+	
+	userService.getUser(user,function(err,response){
+		if(err)
+			res.send("error");
+			user=response;
+		
+			recalls.forEach((recall,recallsIndex)=>{
+				var alreadyExist=false;
+				recallsService.createOrUpdateRecall(user,recall,function(err,recallResponse){
+					if(err)
+						res.send("error");
+		
+						categoryService.getCategoryByName(recall.categoryName.split("~")[0],function(err,category){
+		 
+							var temp={};
+							category.subCategories.forEach((subCategory,index)=>{
+								temp[subCategory]=recall.categoryName.split("~")[index+1];
+							});
+							 alreadyExist=false;
+							category.rows.forEach(row=>{
+								var i=0;
+								for (var prop in row) {
+									if(row[prop].toUpperCase()===temp[prop].toUpperCase()){
+									i++;
+									}
+								}
+								if(i===category.subCategories.length){
+									alreadyExist=true;
+								}
+							});
+							if(!alreadyExist){
+								category.rows.push(temp);
+								subCategoryService.createOrUpdateSubCategory(category,function(err,category){
+									
+									user.categories.forEach((userCategory,index)=>{
+										console.log(userCategory.categoryName +":"+ category.categoryName);
+										if(userCategory.categoryName===category.categoryName){
+											console.log("Inside");
+											userCategory.rows.push(temp);
+										}
+									});
+									userService.createOrUpdateUser(user,function(err,createdUser){
+										if(err)
+											res.send("error");
+											var tempUser=JSON.parse(JSON.stringify(user));
+											tempUser["categories"]=null;
+											req.session.user = tempUser;//	
+										
+											if(recallsIndex+1===recalls.length){
+												res.json({
+													"response":recalls,
+													"alreadyExist":alreadyExist,
+													"categories":user.categories
+												});
+											}
+											
+									});
+									
+								});
+							}else{
+								if(recallsIndex+1===recalls.length){
+									res.json({
+										"response":recalls,
+										"alreadyExist":alreadyExist,
+										"categories":user.categories
+									});
+								}
+							}
+						});
+				
+						userService.getAllUsersBasedOnCategory(recall,function(err,users){
+							if(err)
+							console.log(err);
+		
+										if(recall.externalUsers!==undefined || users){
+											var subject =  nconf.get("mail").subject+ recall.title;
+											var template = "newRecall.html";
+											var content=[];
+			
+											for(let key in recall){
+												
+												if(( key!="title" && key!="files" &&  key!="vehicles" && key!="subCategories" && key!="externalUsers") && (recall[key]!=undefined || recall[key]!="")){
+													content.push({
+														"key":key[0].toUpperCase() + key.substr(1).replace(/([A-Z])/g, ' $1').trim(),
+														"value": key==='description'? recall[key].replace(/<\/?[^>]+(>|$)/g, "") : recall[key]
+														
+													})
+												}
+											}
+										var recallId = cryptr.encrypt(recallResponse._id);
+											
+											var context =  {
+													title : nconf.get("mail").appName,
+													url : nconf.get("context").path+nconf.get("recall").showRecallPath+recallId,
+													// recallCategory : recall.categoryName,
+													content:content,
+													appURL : nconf.get("mail").appURL,
+													appName : nconf.get("mail").appName
+													
+												};
+											 
+											 var emails=[];
+											 users.forEach(function(user, index) {
+												 if(user.alertsOn.includes("Email")){
+													emails.push(user.email);
+													}else if(user.alertsOn.includes("Mobile")){
+													console.log("Mobile subcription");
+													}
+											});
+											if(recall.externalUsers!==undefined){
+												recall.externalUsers.forEach(function(user){
+													emails.push(user.emailid);
+													});
+											}
+											if(emails.length>0){
+												mailUtil.sendMail(emails,nconf.get("smtpConfig").authUser,subject,template,context,function(err){
+													console.log("Email sent to: "+user.email);
+												});
+											}	
+										}			 
+						});
+				});
+			});			
+		 });
+
+	
 });
 
 

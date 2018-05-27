@@ -30,6 +30,8 @@ export class Recall {
     
     public nHTSACampaignNumber?:string;
     public components?:string;
+    public vin?:string;
+    
     public summary?:string;
     public notes?:string;
     public vehicles?:Vehicle[]=[];

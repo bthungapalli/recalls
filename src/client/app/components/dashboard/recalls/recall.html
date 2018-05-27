@@ -50,7 +50,7 @@
       <div class="col-xs-3" *ngFor="let subCategories of recallModel.subCategories; let i = index">
         <div class="form-group">
           <label for="{{subCategories}}"> {{subCategories | titlecase}} </label>
-         <input type="text" [disabled]="recallId"  [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>         
+         <input type="text" [disabled]="recallId"  [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}{{i}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>         
         </div>
       </div>
     </ng-container>
@@ -214,7 +214,29 @@
 
 
 <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Motor Vehicles')">
-    <div class="col-xs-12">
+   
+  <div class="col-xs-12" *ngIf="!recallId">
+    <div class="form-group">
+      <label for="single">Bulk Upload Attachment</label>
+      <p>Template to upload recalls  <a style="color:red;" href="{{urlForBulkUpload+'motorVehicle'}}" target="_blank" >click</a></p>
+      <div class="col-xs-12">
+          Unable to create below Recalls please resolve and re-upload, other recalls successfully created:
+      <div *ngFor="let bulkError of categoryBulkError; let i = index">
+      
+      <p style="margin: 0px;"> Row Number:{{bulkError.row}}</p>
+      <span style="padding: 4px;margin-right: 5px;margin-bottom: 5px; color:#f95d5d;font-weight: bold;" *ngFor="let error of bulkError.errors; let j = index">{{error}}</span>
+      </div>  
+      </div>   
+      <div class="col-sm-4 col-xs-12">
+      <input type="file"  name="motorVehicleTemplate" ng2FileSelect [uploader]="categoryUploader" /> 
+      </div>
+      <div class="col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-success" (click)="bulkUpload();">Bulk Upload</button>
+      </div>
+     
+    </div>
+  </div>
+  <div class="col-xs-12">
       <div class="form-group">
         <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
         <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>

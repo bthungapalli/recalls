@@ -13,6 +13,7 @@ export class RecallsService {
       private  GET_RECALL_URL="/api/recalls/";
       private  DOWNLOAD_URL="/api/recalls/download/";
       private  GET_SHOW_RECALL_URL="/api/recalls/showRecall/";
+      private  GET_CREATE_BULK_RECALL_URL="/api/recalls/createBulkRecall";
 
 
       constructor(private http: Http) {
@@ -55,5 +56,11 @@ export class RecallsService {
             .map((res: Response) => {return res.json();})
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
       }
+
+      submitRecalls(recalls:any):Observable<any>{
+            return this.http.post(this.GET_CREATE_BULK_RECALL_URL,recalls)
+            .map((res: Response) => {return res.json();})
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+            }
 
  }
