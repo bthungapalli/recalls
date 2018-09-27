@@ -14,7 +14,7 @@ export class RecallsService {
       private DOWNLOAD_URL = "/api/recalls/download/";
       private GET_SHOW_RECALL_URL = "/api/recalls/showRecall/";
       private GET_CREATE_BULK_RECALL_URL = "/api/recalls/createBulkRecall";
-      private POST_FOOD_RECALL_URL = "/api/recalls/saveFoodRecall";
+      private POST_FOOD_RECALL_URL = "/api/recalls/saveRecall";
 
 
       constructor(private http: Http) {
@@ -64,7 +64,7 @@ export class RecallsService {
                   .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      saveFoodRecall(data: any): Observable<any> {
+      saveRecall(data: any): Observable<any> {
             return this.http.post(this.POST_FOOD_RECALL_URL, data)
                   .map((res: Response) => { return res.json(); })
                   .catch((error: any) => Observable.throw(error.json().error || 'Server error'));

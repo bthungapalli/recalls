@@ -48,6 +48,12 @@ export class RecallsComponent implements OnInit {
     releaseText: ''
   };
 
+  public drugsData = {
+    company: '',
+    brand: '',
+    reason: ''
+  }
+
   constructor(private recallsService: RecallsService, private categoriesService: CategoriesService, private router: Router, private dashboardService: DashboardService, private spinnerService: SpinnerService, private profileService: ProfileService, private TitleCasePipe: TitleCasePipe) {
     console.log("came here");
     if (dashboardService.userDetails.categories !== undefined) {
@@ -253,11 +259,17 @@ export class RecallsComponent implements OnInit {
     console.log(event.target.files);
     this.selectedImage = event.target.files[0];
   }
-  validateFooddata(data) {
+
+  validateData(fooddata, drugsdata) {
     var flag = true;
     var j = 0;
-    for (var i in data) {
-      if (i.indexOf('media') === -1 && !data[i]) {
+    for (var i in fooddata) {
+      if (i.indexOf('media') === -1 && !fooddata[i]) {
+        j++;
+      }
+    }
+    if (this.selectedCategory.categoryName === 'Drugs') {
+      if (!drugsdata.company || !drugsdata.brand || !drugsdata.reason) {
         j++;
       }
     }
@@ -268,23 +280,26 @@ export class RecallsComponent implements OnInit {
     return flag;
   }
 
-  saveFoodData(data) {
+  saveFoodData(fooddata, drugsdata) {
 
     this.errorMessage = "";
     this.successMessage = "";
     this.spinnerService.emitChange(true);
 
-    console.log("data", data);
+    console.log("fooddata", fooddata);
     var formData = new FormData();
-    for (var key in data) {
-      formData.append(key, data[key]);
+    for (var key in fooddata) {
+      formData.append(key, fooddata[key]);
+    }
+    for (var key in drugsdata) {
+      formData.append(key, fooddata[key]);
     }
     if (this.selectedImage && this.selectedImage.name) {
-      if (this.validateFooddata(data)) {
+      if (this.validateData(fooddata, drugsdata)) {
         console.log('image', this.selectedImage);
         formData.append('imageFile', this.selectedImage, this.selectedImage.name);
         console.log('formdata', formData);
-        this.recallsService.saveFoodRecall(formData).subscribe(
+        this.recallsService.saveRecall(formData).subscribe(
           result => {
             console.log("result", result);
             if (result.sessionExpired) {

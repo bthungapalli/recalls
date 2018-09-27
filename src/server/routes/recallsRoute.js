@@ -6,6 +6,7 @@ var userService = require("../services/userService");
 var categoryService = require("../services/categoryService");
 var subCategoryService = require("../services/subCategoryService");
 var foodRecallModel = require("../models/foodRecallModel");
+var drugsRecallModel = require("../models/drugsRecallModel");
 var counterModel = require("../models/counterModel");
 var nconf = require('nconf');
 var mailUtil = require("../utils/MailUtil");
@@ -431,11 +432,11 @@ router.post('/createBulkRecall', checkSession.requireLogin, function (req, res, 
 
 });
 
-router.post('/saveFoodRecall', checkSession.requireLogin, function (req, res, next) {
+router.post('/saveRecall', checkSession.requireLogin, function (req, res, next) {
 	//console.log("req body", req.body);
 	var filePath = '';
 	var reqBody = {};
-	var foodData = {
+	var data = {
 		contact: {
 			consumers: {
 
@@ -445,6 +446,7 @@ router.post('/saveFoodRecall', checkSession.requireLogin, function (req, res, ne
 			}
 		}
 	};
+	var drugsData = {};
 	var form = new formidable.IncomingForm();
 	form.parse(req);
 	form.on('field', function (name, value) {
@@ -454,12 +456,12 @@ router.post('/saveFoodRecall', checkSession.requireLogin, function (req, res, ne
 			var keys = name.split('_');
 			console.log("keys", keys);
 			if (keys[0] === 'consumers') {
-				foodData.contact.consumers[keys[2]] = value;
+				data.contact.consumers[keys[2]] = value;
 			} else {
-				foodData.contact.media[keys[2]] = value;
+				data.contact.media[keys[2]] = value;
 			}
 		} else {
-			foodData[name] = value;
+			data[name] = value;
 		}
 	});
 
@@ -490,16 +492,23 @@ router.post('/saveFoodRecall', checkSession.requireLogin, function (req, res, ne
 	});
 	form.on('end', function () {
 		//console.log("reqBody", reqBody);
-		//console.log("foodData", foodData);
-		
-		counterModel.findByIdAndUpdate({ _id: "foodId" }, { $inc: { seq: 1 } }, function (error, counter) {
+		//console.log("data", data);
+		var model = '';
+		var id = '';
+		if (data.brand && data.brand !== 'undefined') {
+			model = drugsRecallModel;
+			id = 'drugId';
+		} else {
+			model = foodRecallModel;
+			id = 'foodId';
+		}
+		counterModel.findByIdAndUpdate({ _id: id }, { $inc: { seq: 1 } }, function (error, counter) {
 			if (error) {
 				console.log("error:", error);
 				return res.json({ error_code: 1, err_desc: err, data: null });
 			} else {
-				foodData._id = counter.seq;
-				var foodModel = new foodRecallModel(foodData);
-				foodModel.save(function (err, doc) {
+				data._id = counter.seq;
+				new model(data).save(function (err, doc) {
 					if (err)
 						return res.json({ error_code: 1, err_desc: err, data: null });
 					res.json({ error_code: 0, err_desc: null, data: doc });
