@@ -196,7 +196,7 @@ router.post('/fileUpload', checkSession.requireLogin, function (req, res, next) 
 router.post('/filterRecalls', checkSession.requireLogin, function (req, res, next) {
 	var recallFilter = req.body;
 	var user = req.session.user;//
-
+	console.log("recallFilter", recallFilter);
 	userService.getUser(user, function (err, response) {
 		if (err)
 			res.send("error");
@@ -213,6 +213,24 @@ router.post('/filterRecalls', checkSession.requireLogin, function (req, res, nex
 router.get('/:id', checkSession.requireLogin, function (req, res, next) {
 	var recallId = req.params.id;
 	recallsService.getRecallsById(recallId, function (err, recall) {
+		if (err)
+			res.send("error");
+		res.json(recall);
+	});
+});
+
+router.get('/food/:id', checkSession.requireLogin, function (req, res, next) {
+	var recallId = req.params.id;
+	foodRecallModel.findById(recallId, function (err, recall) {
+		if (err)
+			res.send("error");
+		res.json(recall);
+	});
+});
+
+router.get('/drugs/:id', checkSession.requireLogin, function (req, res, next) {
+	var recallId = req.params.id;
+	drugsRecallModel.findById(recallId, function (err, recall) {
 		if (err)
 			res.send("error");
 		res.json(recall);
@@ -451,16 +469,16 @@ router.post('/saveRecall', checkSession.requireLogin, function (req, res, next) 
 	form.parse(req);
 	form.on('field', function (name, value) {
 		reqBody[name] = value;
-		//console.log("name value", name, value, name.indexOf('_'));
+		console.log("name value", name, value);
 		if (name.indexOf('_') > -1) {
 			var keys = name.split('_');
-			console.log("keys", keys);
+			//console.log("keys", keys);
 			if (keys[0] === 'consumers') {
-				data.contact.consumers[keys[2]] = value;
+				data.contact.consumers[keys[1]] = value;
 			} else {
-				data.contact.media[keys[2]] = value;
+				data.contact.media[keys[1]] = value;
 			}
-		} else {
+		} else if (name !== 'id') {
 			data[name] = value;
 		}
 	});
@@ -502,20 +520,53 @@ router.post('/saveRecall', checkSession.requireLogin, function (req, res, next) 
 			model = foodRecallModel;
 			id = 'foodId';
 		}
-		counterModel.findByIdAndUpdate({ _id: id }, { $inc: { seq: 1 } }, function (error, counter) {
-			if (error) {
-				console.log("error:", error);
-				return res.json({ error_code: 1, err_desc: err, data: null });
-			} else {
-				data._id = counter.seq;
-				new model(data).save(function (err, doc) {
+		if (reqBody.id) {
+			console.log("data", data);
+			model.findById(reqBody.id, function (err, doc) {
+				doc.title = data.title;
+				doc.description = data.description;
+				doc.releaseText = data.releaseText;
+				doc.company = data.company;
+				doc.brand = data.brand;
+				doc.reason = data.reason;
+				if (data.contact.consumers) {
+					doc.contact.consumers.person = data.contact.consumers.person;
+					doc.contact.consumers.email = data.contact.consumers.email;
+					if (data.contact.consumers.phone)
+						doc.contact.consumers.phone = data.contact.consumers.phone;
+				}
+				if (data.contact.media) {
+					doc.contact.media.person = data.contact.media.person;
+					doc.contact.media.email = data.contact.media.email;
+					if (data.contact.media.phone)
+						doc.contact.media.phone = data.contact.media.phone;
+				}
+				doc.file = filePath;
+				console.log("savable doc", doc);
+				doc.save(function (err, savedDoc) {
 					if (err)
 						return res.json({ error_code: 1, err_desc: err, data: null });
-					res.json({ error_code: 0, err_desc: null, data: doc });
+					res.json({ error_code: 0, err_desc: null, data: savedDoc });
 				})
-			}
+			})
+		} else {
+			counterModel.findByIdAndUpdate({ _id: id }, { $inc: { seq: 1 } }, function (error, counter) {
+				if (error) {
+					console.log("error:", error);
+					return res.json({ error_code: 1, err_desc: err, data: null });
+				} else {
+					data.file = filePath;
+					data._id = counter.seq;
+					new model(data).save(function (err, doc) {
+						if (err)
+							return res.json({ error_code: 1, err_desc: err, data: null });
+						res.json({ error_code: 0, err_desc: null, data: doc });
+					})
+				}
 
-		});
+			});
+		}
+
 	});
 });
 

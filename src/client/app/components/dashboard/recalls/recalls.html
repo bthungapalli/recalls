@@ -33,14 +33,14 @@
 
     </ng-container>
   </div>
-  <div class="col-sm-3 col-xs-12" *ngIf="selectedCategory && selectedCategory.categoryName !== 'Food' && selectedCategory.categoryName !== 'Drugs'">
+  <div class="col-sm-3 col-xs-12" *ngIf="selectedCategory!=='Select Category'">
     <div>
       <label for="fromDate"> From Date </label>
       <my-date-picker name="fromDate" [(ngModel)]="fromDate" required></my-date-picker>
     </div>
   </div>
 
-  <div class="col-sm-3 col-xs-12" *ngIf="selectedCategory && selectedCategory.categoryName !== 'Food' && selectedCategory.categoryName !== 'Drugs'">
+  <div class="col-sm-3 col-xs-12" *ngIf="selectedCategory!=='Select Category'">
     <div>
       <label for="toDate"> To Date</label>
       <my-date-picker name="toDate" [(ngModel)]="toDate" required></my-date-picker>
@@ -49,12 +49,12 @@
 
   <!-- [disabled]="toDate==null || fromDate==null" 
  -->
-  <div class="col-sm-2  col-xs-12" style="margin-top: 24px;" *ngIf="selectedCategory && selectedCategory.categoryName !== 'Food' && selectedCategory.categoryName !== 'Drugs'">
+  <div class="col-sm-2  col-xs-12" style="margin-top: 24px;" *ngIf="selectedCategory!=='Select Category'">
     <button type="button" [disabled]="selectedCategory==='Select Category' || isSubCategoryValid()" (click)="getRecallsForFilter()"
       class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
   </div>
 
-  <div class="col-xs-12" style="padding: 0px;" *ngIf="selectedCategory && selectedCategory.categoryName !== 'Food' && selectedCategory.categoryName !== 'Drugs'">
+  <div class="col-xs-12" style="padding: 0px;" *ngIf="selectedCategory!=='Select Category'">
     <div class="col-sm-6 col-xs-12">
       <div class="form-group">
         Filter by title:
@@ -73,147 +73,6 @@
     </div>
   </div>
 
-  <!--Started Section for food category-->
-  <div>
-    <br />
-  </div>
-  <div *ngIf="selectedCategory && (selectedCategory.categoryName === 'Food' || selectedCategory.categoryName === 'Drugs')">
-    <div class="col-xs-12" style="padding: 0px;" >
-      <div class="col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="title"> Title <sup class="text-danger">*</sup></label>
-          <input type="text" class="form-control" [(ngModel)]="foodData.title" placeholder="Title" required />
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="file"> Select file <sup class="text-danger">*</sup></label>
-          <input type="file" class="form-control" placeholder="Select File" name="imageFile" (change)="onImageChange($event)"
-            required />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12" style="padding: 0px;" *ngIf="selectedCategory && selectedCategory.categoryName === 'Drugs'">
-      <div class="col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="brand"> Brand <sup class="text-danger">*</sup></label>
-          <input type="text" class="form-control" [(ngModel)]="drugsData.brand" placeholder="Brand" required />
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-xs-12">
-        <div class="form-group">
-          <label for="company"> Company <sup class="text-danger">*</sup></label>
-          <input type="text" class="form-control" [(ngModel)]="drugsData.company" placeholder="Company" required />
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col-xs-12" style="padding: 0px;">
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="consumers_person"> Contact Person<small>(for consumers)</small> <sup class="text-danger">*</sup></label>
-          <input type="text" class="form-control" [(ngModel)]="foodData.consumers_contact_person" placeholder="Contact Name"
-            required />
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="consumers_email"> Email<small>(for consumers)</small><sup class="text-danger">*</sup></label>
-
-          <input type="email" class="form-control" [(ngModel)]="foodData.consumers_contact_email" placeholder="Email"
-            required />
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="consumers_phone"> Phone<small>(for consumers)</small><sup class="text-danger">*</sup></label>
-
-          <input type="number" class="form-control" [(ngModel)]="foodData.consumers_contact_phone" placeholder="Mobile Number"
-            required />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xs-12" style="padding: 0px;">
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="media_phone"> Contact Person<small>(for media)</small></label>
-
-          <input type="text" class="form-control" [(ngModel)]="foodData.media_contact_person" placeholder="Contact Name" />
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="media_phone"> Email<small>(for media)</small></label>
-
-          <input type="text" class="form-control" [(ngModel)]="foodData.media_contact_email" placeholder="Email" />
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-xs-12">
-        <div class="form-group">
-          <label for="media_phone"> Phone<small>(for media)</small></label>
-
-          <input type="number" class="form-control" [(ngModel)]="foodData.media_contact_phone" placeholder="Mobile Number" />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-12 col-xs-12" >
-      <div class="form-group">
-        <label for="description"> Description<sup class="text-danger">*</sup></label>
-        <textarea class="form-control" cols="5" placeholder="Description" [(ngModel)]="foodData.description" name="description"
-          rows="3" required>
-
-      </textarea>
-      </div>
-    </div>
-
-    <div class="col-sm-12 col-xs-12" >
-      <div class="form-group">
-        <label for="reason"> Reason/Problem<sup class="text-danger">*</sup></label>
-        <textarea class="form-control" cols="5" placeholder="Reason" [(ngModel)]="drugsData.reason" name="reason"
-          rows="3" required>
-
-      </textarea>
-      </div>
-    </div>
-
-    <!-- <div class="col-sm-12 col-xs-12">
-    <div class="form-group">
-      <label for="media_phone"> Release Text<sup class="text-danger">*</sup></label>
-      <textarea class="form-control" cols="5" placeholder="Release Text" [(ngModel)]="foodData.releaseText" name="release_text"
-        rows="3" required>
-
-      </textarea>
-    </div>
-  </div> -->
-
-    <div class="col-sm-12 col-xs-12">
-      <div class="form-group">
-        <label for="media_phone"> Release Text<sup class="text-danger">*</sup></label>
-        <editor apiKey="test" [init]="{plugins: ['link', 'table']}" [(ngModel)]="foodData.releaseText" name="release_text"
-          required></editor>
-      </div>
-    </div>
-
-    <div class="col-sm-12 col-xs-12">
-      <div class="form-group">
-        <div class="col-sm-4  col-xs-12" style="margin-left: 40%;">
-          <button type="button" (click)="saveFoodData(foodData, drugsData)" class="btn btn-success">Save Details</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--Ended Section for food category-->
-
   <div class="col-xs-12  table-responsive">
     <table class="table table-striped " [mfData]="recalls | dataFilter : filterQuery" #mf="mfDataTable" [mfRowsOnPage]="10"
       [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
@@ -230,7 +89,84 @@
                 </h4>
               </div>
               <div id="collapse{{i}}" class="panel-collapse collapse">
-                <div class="panel-body">
+
+                <div class="panel-body" *ngIf="selectedCategory!=='Select Category' && (selectedCategory.categoryName=== 'Food' || selectedCategory.categoryName=== 'Drugs')">
+
+                  <div class="col-xs-12">
+                    <div class="form-group">
+                      <label for="categoryName"> Category </label>
+                      <p>{{recallModel.categoryName}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="form-group">
+                      <label for="title"> Title </label>
+                      <p>{{recallModel.title}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12" *ngIf="recallModel.brand">
+                    <div class="form-group">
+                      <label for="brand"> Brand </label>
+                      <p>{{recallModel.brand}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12" *ngIf="recallModel.company">
+                    <div class="form-group">
+                      <label for="company"> Company </label>
+                      <p>{{recallModel.company}}</p>
+                    </div>
+                  </div>
+
+                  <div class="col-xs-12">
+                    <div class="form-group">
+                      <label for="description"> Description </label>
+                      <p>{{recallModel.description}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12" *ngIf="recallModel.releaseText">
+                    <div class="form-group">
+                      <label for="releaseText"> Release Text </label>
+                      <p [innerHTML]="recallModel.releaseText"></p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12" *ngIf="recallModel.reason">
+                    <div class="form-group">
+                      <label for="reason"> Reason </label>
+                      <p>{{recallModel.reason}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="form-group">
+                      <label for="contact"> Contact </label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="name"> Consumers </label>
+                        <p>{{recallModel.contact.consumers.person}}</p>
+                        <p>{{recallModel.contact.consumers.email}}</p>
+                        <p>{{recallModel.contact.consumers.phone}}</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="media"> Media </label>
+                        <p>{{recallModel.contact.media.person}}</p>
+                        <p>{{recallModel.contact.media.email}}</p>
+                        <p>{{recallModel.contact.media.phone}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12" *ngIf="profile.role==='Retailer'">
+                    <div class="form-group">
+                      <button type="button" (click)="editRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-primary">Edit</button>
+                      <button type="button" (click)="deleteRecall(recallModel._id)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body" *ngIf="selectedCategory!=='Select Category' && (selectedCategory.categoryName!== 'Food' && selectedCategory.categoryName !== 'Drugs')">
                   <div class="col-xs-12">
                     <div class="form-group">
                       <label for="categoryName"> Category </label>
@@ -494,7 +430,7 @@
                   </div>
                   <div class="col-xs-12" *ngIf="profile.role==='Retailer'">
                     <div class="form-group">
-                      <button type="button" (click)="editRecall(recallModel._id)" class="btn btn-xs btn-primary">Edit</button>
+                      <button type="button" (click)="editRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-primary">Edit</button>
                       <button type="button" (click)="deleteRecall(recallModel._id)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
                     </div>
                   </div>

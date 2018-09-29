@@ -17,6 +17,7 @@ var DrugsSchema = new Schema({
     company: String,
     brand: String,
     reason: String,
+    categoryName: {type: String, default: 'Drugs' },
     releaseDate: { type: Date, default: Date.now },
     contact: {
       consumers: {

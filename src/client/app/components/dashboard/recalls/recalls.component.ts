@@ -125,7 +125,7 @@ export class RecallsComponent implements OnInit {
 
   isSubCategoryValid() {
     let isInvalid = true;
-    if (this.selectedCategory !== "Select Category" && this.subCategoriesArray.length === this.selectedCategory.subCategories.length) {
+    if (this.selectedCategory !== "Select Category" && this.selectedCategory.categoryName === "Motor Vehicles" && this.subCategoriesArray.length === this.selectedCategory.subCategories.length) {
       let i = 0;
       this.subCategoriesArray.forEach((subCategory, index) => {
         if (subCategory.includes("Select")) {
@@ -135,6 +135,8 @@ export class RecallsComponent implements OnInit {
       if (i == 0) {
         isInvalid = false;
       }
+    } else if (this.selectedCategory !== "Select Category" && this.selectedCategory.categoryName !== "Motor Vehicles") {
+      isInvalid = false;
     }
     return isInvalid;
   };
@@ -147,7 +149,7 @@ export class RecallsComponent implements OnInit {
 
     }
 
-    if (this.selectedCategory !== 'Select Category' && index !== this.selectedCategory.subCategories.length) {
+    if (this.selectedCategory !== 'Select Category' && this.selectedCategory.categoryName === "Motor Vehicles" && index !== this.selectedCategory.subCategories.length) {
       this.subCategoriesData[index] = [];
       let key = this.selectedCategory.subCategories[index];
       this.subCategoriesArray[index] = "Select " + this.TitleCasePipe.transform(key);
@@ -248,10 +250,10 @@ export class RecallsComponent implements OnInit {
       });
   }
 
-  editRecall(id: String) {
+  editRecall(id: String, categoryName: String) {
     this.errorMessage = "";
     this.successMessage = "";
-    this.router.navigate(['dashboard/recall', id]);
+    this.router.navigate(['dashboard/recall', categoryName, id ]);
 
   }
 

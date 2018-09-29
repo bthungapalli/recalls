@@ -11,6 +11,8 @@ export class RecallsService {
       private GET_RECALLS_BY_FILTER_URL = "/api/recalls/filterRecalls";
       private DELETE_RECALL_URL = "/api/recalls/";
       private GET_RECALL_URL = "/api/recalls/";
+      private GET_FOOD_RECALL_URL = "/api/recalls/food/";
+      private GET_DRUGS_RECALL_URL = "/api/recalls/drugs/";
       private DOWNLOAD_URL = "/api/recalls/download/";
       private GET_SHOW_RECALL_URL = "/api/recalls/showRecall/";
       private GET_CREATE_BULK_RECALL_URL = "/api/recalls/createBulkRecall";
@@ -46,8 +48,14 @@ export class RecallsService {
                   .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
       }
 
-      getRecall(id: String): Observable<any> {
-            return this.http.get(this.GET_RECALL_URL + id)
+      getRecall(id: String, category: String): Observable<any> {
+            var URL = this.GET_RECALL_URL;
+            if (category === 'Food') {
+                  URL = this.GET_FOOD_RECALL_URL;
+            } else if (category === 'Drugs') {
+                  URL = this.GET_DRUGS_RECALL_URL;
+            }
+            return this.http.get(URL + id)
                   .map((res: Response) => { return res.json(); })
                   .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
       }

@@ -33,7 +33,7 @@ const appRoutes: Routes = [
        { path: 'categories', component: CategoriesComponent },
        { path: 'subCategories', component: SubCategoriesComponent },
        { path: 'recall', component: RecallComponent },
-       { path: 'recall/:id', component: RecallComponent },
+       { path: 'recall/:categoryName/:id', component: RecallComponent },
        { path: 'recalls', component: RecallsComponent },
        { path: 'requestCategory', component: RequestCategoryComponent }
       ]

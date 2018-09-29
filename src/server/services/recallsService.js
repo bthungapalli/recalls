@@ -1,5 +1,7 @@
 var counterModel = require("../models/counterModel");
 var recallModel=require("../models/recallModel");
+var foodRecallModel=require("../models/foodRecallModel");
+var drugsRecallModel=require("../models/drugsRecallModel");
 var recallJobModel=require("../models/recallJobModel");
 var recallsService =function(){
 
@@ -101,6 +103,7 @@ return{
 	 },
 	 getRecallsByFilter:function(user,recallFilter,callbackForGetAllRecallsByFilter){
 			var condition;
+			var model = recallModel;
 			var startDate = new Date(recallFilter.fromDate);
 			startDate.setDate(startDate.getDate());
 			var endDate = new Date(recallFilter.toDate);
@@ -166,7 +169,17 @@ return{
 				}
 				
 			}
-		 var query =recallModel.find(condition);
+			if(recallFilter.category === 'Food') {
+				model = foodRecallModel;
+				console.log("food model");
+				delete condition.categoryName;
+			} else if(recallFilter.category === 'Drugs') {
+				model = drugsRecallModel;
+				console.log("drugs model");
+				delete condition.categoryName;
+			}
+			console.log("data", condition);
+		 var query =model.find(condition);
 		 this.execute(query,callbackForGetAllRecallsByFilter);
 	 },
 	 getRecallsById:function(id,callbackForGetRecallsById){

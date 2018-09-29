@@ -28,6 +28,7 @@ export class RecallComponent implements OnInit, OnDestroy {
   public description: any = "";
   public editor: any;
   public recallId: any;
+  public recallCategory: any;
   public profile: Profile;
   public vehicle: Vehicle = new Vehicle();
   public fileUploadURL: string = (<any>window).origin + '/api/recalls/fileUpload';
@@ -48,6 +49,28 @@ export class RecallComponent implements OnInit, OnDestroy {
   public userTemplateError: string = "";
   public urlForBulkUpload: string = '';
   public categoryBulkError: any = [];
+
+  public selectedImage: File;
+  public foodData = {
+    title: '',
+    description: '',
+    consumers_contact_person: '',
+    consumers_contact_email: '',
+    consumers_contact_phone: '',
+    media_contact_person: '',
+    media_contact_email: '',
+    media_contact_phone: '',
+    releaseText: ''
+  };
+
+  public drugsData = {
+    company: '',
+    brand: '',
+    reason: ''
+  }
+  public brand = '';
+  public company = '';
+
   constructor(private recallsService: RecallsService, private categoriesService: CategoriesService, private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService, private dashboardService: DashboardService) {
     this.recallModel = new Recall();
     this.profile = dashboardService.userDetails;
@@ -60,26 +83,50 @@ export class RecallComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.recallId = params["id"];
+        this.recallCategory = params["categoryName"];
       }
     );
     this.urlForBulkUpload = window.location.origin + "/api/recalls/template/bulk/";
     this.urlPath = window.location.origin + "/api/recalls/template/userExcel";
     if (this.recallId) {
       this.spinnerService.emitChange(true);
-      this.recallsService.getRecall(this.recallId).subscribe(response => {
+      this.recallsService.getRecall(this.recallId, this.recallCategory).subscribe(response => {
+        console.log("response", response);
         if (response.sessionExpired) {
           this.spinnerService.emitChange(false);
           this.router.navigate(['home']);
+        } else if (this.recallCategory === 'Food' || this.recallCategory === 'Drugs') {
+          this.foodData.title = response.title;
+          this.foodData.description = response.description;
+          this.foodData.releaseText = response.releaseText;
+          this.foodData.consumers_contact_person = response.contact.consumers.person;
+          this.foodData.consumers_contact_email = response.contact.consumers.email;
+          this.foodData.consumers_contact_phone = response.contact.consumers.phone;
+          if (response.contact.media) {
+            if (response.contact.media.person) {
+              this.foodData.media_contact_person = response.contact.media.person;
+            }
+            if (response.contact.media.email) {
+              this.foodData.media_contact_email = response.contact.media.email;
+            }
+            if (response.contact.media.phone) {
+              this.foodData.media_contact_phone = response.contact.media.phone;
+            }
+          }
+          this.drugsData.brand = response.brand;
+          this.drugsData.company = response.company;
+          this.drugsData.reason = response.reason;
         } else {
           this.recallModel = response;
         }
-
-        var temp = response.categoryName.split("~");
-        this.category = temp[0];
-        for (var i = 1; i <= temp.length; i++) {
-          this.subCategoriesArray.push(temp[i]);
+        console.log("data", this.foodData, this.drugsData);
+        if (response.categoryName) {
+          var temp = response.categoryName.split("~");
+          this.category = temp[0];
+          for (var i = 1; i <= temp.length; i++) {
+            this.subCategoriesArray.push(temp[i]);
+          }
         }
-
         if (this.recallModel.categoryName === "Boats and Boating Safety") {
           this.recallModel.caseOpenDate = { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth() + 1, "day": new Date(response.recallDate).getDate() } };
           this.recallModel.caseCloseDate = { "date": { "year": new Date(response.recallDate).getFullYear(), "month": new Date(response.recallDate).getMonth() + 1, "day": new Date(response.recallDate).getDate() } };
@@ -424,6 +471,107 @@ export class RecallComponent implements OnInit, OnDestroy {
     obj["affected products name"] == '' || obj["affected products name"] == undefined ? recallErrors.push("Affected Products Name cant be empty") : recall.vehicles[0].name = obj["affected products name"];
     obj["affected products model"] == '' || obj["affected products model"] == undefined ? recallErrors.push("Affected Products Model cant be empty") : recall.vehicles[0].model = obj["affected products model"];
     obj["affected products year"] == '' || obj["affected products year"] == undefined ? recallErrors.push("Affected Products Year cant be empty") : recall.vehicles[0].year = obj["affected products year"];
+
+  }
+
+  onImageChange(event) {
+    console.log(event.target.files);
+    this.selectedImage = event.target.files[0];
+  }
+
+  validateData(data) {
+    var flag = true;
+    var j = 0;
+    for (var i in data) {
+      if (i.indexOf('media') === -1 && !data[i]) {
+        j++;
+      }
+    }
+    // for (var i in fooddata) {
+    //   if (i.indexOf('media') === -1 && !fooddata[i]) {
+    //     j++;
+    //   }
+    // }
+    // if (this.selectedCategory.categoryName === 'Drugs') {
+    //   if (!drugsdata.company || !drugsdata.brand || !drugsdata.reason) {
+    //     j++;
+    //   }
+    // }
+    console.log("j", j);
+    if (j > 0) {
+      flag = false;
+    }
+    return flag;
+  }
+
+  saveDetails(data) {
+    console.log("data", data);
+  }
+
+  saveRecallDetails(data) {
+
+    this.errorMessage = "";
+    this.successMessage = "";
+    this.spinnerService.emitChange(true);
+
+    console.log("fooddata", data);
+    var formData = new FormData();
+    // for (var key in fooddata) {
+    //   formData.append(key, fooddata[key]);
+    // }
+    // for (var key in drugsdata) {
+    //   formData.append(key, drugsdata[key]);
+    // }
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+    var flag = true;
+    if (this.recallId) {
+      formData.append('id', this.recallId);
+      if (this.selectedImage && this.selectedImage.name) {
+        formData.append('imageFile', this.selectedImage, this.selectedImage.name);
+      }
+    } else {
+      if (this.selectedImage && this.selectedImage.name) {
+        formData.append('imageFile', this.selectedImage, this.selectedImage.name);
+      } else {
+        flag = false;
+      }
+    }
+    if (flag) {
+      if (this.validateData(data)) {
+        console.log('image', this.selectedImage);
+        console.log('formdata', formData);
+        this.recallsService.saveRecall(formData).subscribe(
+          result => {
+            console.log("result", result);
+            if (result.sessionExpired) {
+              this.errorMessage = "Something went wrong.Please contact administrator";
+              this.spinnerService.emitChange(false);
+            } else if (result.error_code === 0) {
+              this.successMessage = "Data saved successfully";
+              setTimeout(function () {
+                this.successMessage = '';
+              }, 5000);
+            } else if (result.error_code === 1) {
+              this.errorMessage = result.err_desc.errmsg;
+            }
+            this.spinnerService.emitChange(false);
+          },
+          err => {
+            console.log("error", err);
+            this.errorMessage = "Something went wrong.Please contact administrator";
+            this.spinnerService.emitChange(false);
+          });
+      } else {
+        this.errorMessage = "Enter all the required fields";
+        this.spinnerService.emitChange(false);
+      }
+
+    } else {
+      this.errorMessage = "Select image to upload";
+      this.spinnerService.emitChange(false);
+    }
 
   }
 

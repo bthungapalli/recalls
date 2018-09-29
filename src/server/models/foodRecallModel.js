@@ -14,6 +14,7 @@ var FoodSchema = new Schema({
     _id: { type: Number, required: true, default: 0 },
     title: String,
     description: String,
+    categoryName: {type: String, default: 'Food' },
     releaseDate: { type: Date, default: Date.now },
     contact: {
       consumers: {

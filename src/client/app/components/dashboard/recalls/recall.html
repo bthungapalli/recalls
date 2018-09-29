@@ -4,20 +4,20 @@
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
   <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
 
- <div class="col-xs-12" *ngIf="!recallId">
-    
+  <div class="col-xs-12" *ngIf="!recallId">
 
-      <div class="form-group">
-          <label for="categoryName"> Category<sup class="text-danger">*</sup></label>
-          <select class="form-control"  (change)="changeCategory();"  [(ngModel)]="selectedCategory" name="categoryName">
-            <option>Select Category</option>
-            <option *ngFor="let category of categories" [ngValue]="category" >
-              {{category.categoryName}}
-            </option>
-          </select>
-        </div>
-      
-        <!-- <ng-container *ngIf="selectedCategory!=='Select Category'">
+
+    <div class="form-group">
+      <label for="categoryName"> Category<sup class="text-danger">*</sup></label>
+      <select class="form-control" (change)="changeCategory();" [(ngModel)]="selectedCategory" name="categoryName">
+        <option>Select Category</option>
+        <option *ngFor="let category of categories" [ngValue]="category">
+          {{category.categoryName}}
+        </option>
+      </select>
+    </div>
+
+    <!-- <ng-container *ngIf="selectedCategory!=='Select Category'">
  
             <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
   
@@ -36,763 +36,975 @@
 
         </ng-container> -->
 
-    </div>
-    
-  <form  (ngSubmit)="submitRecall();" #recallDetails="ngForm">
-  
+  </div>
+
+  <form (ngSubmit)="submitRecall();" #recallDetails="ngForm" *ngIf="selectedCategory !=='Select Category' && selectedCategory.categoryName !== 'Food' && selectedCategory.categoryName !== 'Drugs'">
+
     <div class="col-xs-12" *ngIf="recallId">
       <div class="form-group">
         <label for="categoryName"> Category </label>
-        <input type="text" [(ngModel)]="category" [disabled]="recallId" name="categoryName" class="form-control" required>
+        <input type="text" [(ngModel)]="category" [disabled]="recallId" name="categoryName" class="form-control"
+          required>
       </div>
     </div>
     <ng-container *ngIf="recallId">
       <div class="col-xs-3" *ngFor="let subCategories of recallModel.subCategories; let i = index">
         <div class="form-group">
           <label for="{{subCategories}}"> {{subCategories | titlecase}} </label>
-         <input type="text" [disabled]="recallId"  [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}{{i}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>         
+          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}{{i}}"
+            class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}"
+            required>
         </div>
       </div>
     </ng-container>
 
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Consumer Products')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Consumer Products')">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
       </div>
-    </div>
-    <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
+      <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
+            <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control"
+              id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}"
+              required>
+          </div>
+        </div>
+
+      </ng-container>
       <div class="col-xs-6">
         <div class="form-group">
-          <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
-          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>
+          <label for="categoryName"> Name of Product <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.productName" name="productName" class="form-control" id="productName"
+            placeholder="Product Name" required>
         </div>
       </div>
 
-    </ng-container>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Name of Product <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.productName" name="productName" class="form-control" id="productName" placeholder="Product Name" required>
-      </div>
-    </div>
-   
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Remedy <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
-      </div>
-    </div>
-   
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber" placeholder="Recall Number" required>
-      </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName">  Incidents/Injuries <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.incidentsOrInjuries" name="incidentsOrInjuries" class="form-control" id="incidentsOrInjuries" placeholder="Incidents/Injuries" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName">  Sold At <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.soldAt" name="soldAt" class="form-control" id="soldAt" placeholder="Sold At" required>
-      </div>
-    </div>
-   <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Importer(s) <sup class="text-danger">*</sup> </label>
-        <input type="text" [(ngModel)]="recallModel.importer" name="importer" class="form-control" id="importer" placeholder="Importer(s)" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Manufactured In <sup class="text-danger">*</sup> </label>
-        <input type="text" [(ngModel)]="recallModel.manufacturedIn" name="manufacturedIn" class="form-control" id="manufacturedIn" placeholder="Manufactured In" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Units <sup class="text-danger">*</sup> </label>
-        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Recall Date <sup class="text-danger">*</sup></label>
-         <my-date-picker name="recallDate" [(ngModel)]="recallModel.recallDate" required></my-date-picker>      
-      </div>
-    </div>
-     <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Hazard <sup class="text-danger">*</sup> </label>
-        <input type="text" [(ngModel)]="recallModel.hazard" name="hazard" class="form-control" id="hazard" placeholder="Hazard" required>
-      </div>
-    </div>
-   
-</div>
-
-
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Foods, Medicines, Cosmetics')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="immediateRelease">Immediate Release <sup class="text-danger">*</sup></label>
-        <my-date-picker  [(ngModel)]="recallModel.immediateRelease" name="immediateRelease" id="immediateRelease"  required></my-date-picker>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="consumers">Consumers <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.consumers" name="consumers" class="form-control" id="consumers" placeholder="Consumers" required></textarea>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="media">Media <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.media" name="media" class="form-control" id="media" placeholder="Media" required></textarea>
-      </div>
-    </div>
-    
-</div>
-
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Meat and Poultry Products')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="title"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="classRecall"> class <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.classRecall" name="class" class="form-control" id="class" placeholder="Class" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="healthRisk"> Health Risk <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.healthRisk" name="healthRisk" class="form-control" id="healthRisk" placeholder="Health Risk" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber" placeholder="Recall Number" required>
-      </div>
-    </div>
-     
-</div>
-
-
-
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Motor Vehicles')">
-   
-  <div class="col-xs-12" *ngIf="!recallId">
-    <div class="form-group">
-      <label for="single">Bulk Upload Attachment</label>
-      <p>Template to upload recalls  <a style="color:red;" href="{{urlForBulkUpload+'motorVehicle'}}" target="_blank" >click</a></p>
-      <div class="col-xs-12">
-          Unable to create below Recalls please resolve and re-upload, other recalls successfully created:
-      <div *ngFor="let bulkError of categoryBulkError; let i = index">
-      
-      <p style="margin: 0px;"> Row Number:{{bulkError.row}}</p>
-      <span style="padding: 4px;margin-right: 5px;margin-bottom: 5px; color:#f95d5d;font-weight: bold;" *ngFor="let error of bulkError.errors; let j = index">{{error}}</span>
-      </div>  
-      </div>   
-      <div class="col-sm-4 col-xs-12">
-      <input type="file"  name="motorVehicleTemplate" ng2FileSelect [uploader]="categoryUploader" /> 
-      </div>
-      <div class="col-sm-8 col-xs-12">
-        <button type="button" class="btn btn-success" (click)="bulkUpload();">Bulk Upload</button>
-      </div>
-     
-    </div>
-  </div>
-  <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
-      </div>
-    </div>
-    <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
       <div class="col-xs-6">
         <div class="form-group">
-          <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
-          <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control" id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}" required>
+          <label for="categoryName"> Remedy <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy"
+            placeholder="Remedy" required>
         </div>
       </div>
 
-    </ng-container>
-    
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber"
+            placeholder="Recall Number" required>
+        </div>
       </div>
-    </div>
-     
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="components"> Components <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Incidents/Injuries <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.incidentsOrInjuries" name="incidentsOrInjuries" class="form-control"
+            id="incidentsOrInjuries" placeholder="Incidents/Injuries" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="components"> VIN <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.vin" name="vin" class="form-control" id="components" placeholder="VIN" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Sold At <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.soldAt" name="soldAt" class="form-control" id="soldAt"
+            placeholder="Sold At" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Importer(s) <sup class="text-danger">*</sup> </label>
+          <input type="text" [(ngModel)]="recallModel.importer" name="importer" class="form-control" id="importer"
+            placeholder="Importer(s)" required>
+        </div>
       </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Manufactured In <sup class="text-danger">*</sup> </label>
+          <input type="text" [(ngModel)]="recallModel.manufacturedIn" name="manufacturedIn" class="form-control" id="manufacturedIn"
+            placeholder="Manufactured In" required>
+        </div>
       </div>
-    </div>
-     <div class="col-xs-12">
-      <div class="form-group">
-        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Units <sup class="text-danger">*</sup> </label>
+          <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units"
+            required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-      
-     <div> <label for="notes"> Affected Products </label></div>  
-     <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Recall Date <sup class="text-danger">*</sup></label>
+          <my-date-picker name="recallDate" [(ngModel)]="recallModel.recallDate" required></my-date-picker>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
-      </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
-      </div>
-    </div>
-
-    <div class="col-xs-12 text-center">
-      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
-    </div>
-      </div>
-      
-      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
-        <div class="table-responsive">
-            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
-              <thead>
-                              <tr>
-                                  <th>  Name</th>
-                                  <th> Model </th>
-                                  <th>Year </th>
-                                  <th> Action </th>
-                              </tr>
-
-                              </thead>
-                <tbody>
-                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
-                    <td>{{vehicle.name}} </td>
-                    <td>{{vehicle.model}} </td>
-                    <td>{{vehicle.year}} </td>
-                    <td>
-                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-                    </td>
-
-                </tr>
-                </tbody>
-                <tfoot>
-              <tr>
-                  <td colspan="5">
-                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-                  </td>
-              </tr>
-              </tfoot>
-
-            </table>
-             </div>
- </div>
-      
-    </div>
-     <div class="col-xs-12">
-	   <div class="form-group">
-	   <label for="single">Attachments</label>
-	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
-	  </div>
-	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
-	  <b>Files to be Uploaded </b>
-	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	<hr>
-	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
-	  <b>Uploaded Files</b>
-	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	</div> 
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
-        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
-      </div>
-    </div>
-     
-</div>
-
-
-
-
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Child Safety Seats')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
-      </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
-      </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="components"> Components <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
-      </div>
-    </div>
-     <div class="col-xs-12">
-      <div class="form-group">
-        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
-      </div>
-    </div>
       <div class="col-xs-12">
-      <div class="form-group">
-      
-     <div> <label for="notes"> Affected Products </label></div>  
-     <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+        <div class="form-group">
+          <label for="categoryName"> Hazard <sup class="text-danger">*</sup> </label>
+          <input type="text" [(ngModel)]="recallModel.hazard" name="hazard" class="form-control" id="hazard"
+            placeholder="Hazard" required>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
-      </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
-      </div>
+
     </div>
 
-    <div class="col-xs-12 text-center">
-      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
-    </div>
-      </div>
-      
-      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
-        <div class="table-responsive">
-            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
-              <thead>
-                              <tr>
-                                  <th>  Name</th>
-                                  <th> Model </th>
-                                  <th>Year </th>
-                                  <th> Action </th>
-                              </tr>
 
-                              </thead>
-                <tbody>
-                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
-                    <td>{{vehicle.name}} </td>
-                    <td>{{vehicle.model}} </td>
-                    <td>{{vehicle.year}} </td>
-                    <td>
-                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-                    </td>
-
-                </tr>
-                </tbody>
-                <tfoot>
-              <tr>
-                  <td colspan="5">
-                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-                  </td>
-              </tr>
-              </tfoot>
-
-            </table>
-             </div>
- </div>
-      
-    </div>
-     <div class="col-xs-12">
-	   <div class="form-group">
-	   <label for="single">Attachments</label>
-	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
-	  </div>
-	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
-	  <b>Files to be Uploaded </b>
-	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	<hr>
-	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
-	  <b>Uploaded Files</b>
-	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	</div> 
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
-        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
-      </div>
-    </div>
-     
-</div>
-
-
-
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Tires')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
-        <textarea id="description" ></textarea>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control" id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
-      </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer" placeholder="Manufacturer" required>
-      </div>
-    </div>
-     <div class="col-xs-6">
-      <div class="form-group">
-        <label for="components"> Components <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components" placeholder="Components" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy" placeholder="Remedy" required>
-      </div>
-    </div>
-     <div class="col-xs-12">
-      <div class="form-group">
-        <label for="summary"> Summary <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary" required></textarea>
-      </div>
-    </div>
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Foods, Medicines, Cosmetics')">
       <div class="col-xs-12">
-      <div class="form-group">
-      
-     <div> <label for="notes"> Affected Products </label></div>  
-     <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName" placeholder="Name" >
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel" placeholder="Model" >
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
       </div>
-    </div>
-    <div class="col-sm-4 col-xs-12">
-      <div class="form-group">
-        <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear" placeholder="Year" >
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="immediateRelease">Immediate Release <sup class="text-danger">*</sup></label>
+          <my-date-picker [(ngModel)]="recallModel.immediateRelease" name="immediateRelease" id="immediateRelease"
+            required></my-date-picker>
+        </div>
       </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="consumers">Consumers <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.consumers" name="consumers" class="form-control" id="consumers"
+            placeholder="Consumers" required></textarea>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="media">Media <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.media" name="media" class="form-control" id="media" placeholder="Media"
+            required></textarea>
+        </div>
+      </div>
+
     </div>
 
-    <div class="col-xs-12 text-center">
-      <button   (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''" class="btn btn-success">Add</button>
-    </div>
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Meat and Poultry Products')">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="title"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
       </div>
-      
-      <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
-        <div class="table-responsive">
-            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5"   >
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="classRecall"> class <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.classRecall" name="class" class="form-control" id="class"
+            placeholder="Class" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="healthRisk"> Health Risk <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.healthRisk" name="healthRisk" class="form-control" id="healthRisk"
+            placeholder="Health Risk" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="categoryName"> Recall Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.recallNumber" name="recallNumber" class="form-control" id="recallNumber"
+            placeholder="Recall Number" required>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Motor Vehicles')">
+
+      <div class="col-xs-12" *ngIf="!recallId">
+        <div class="form-group">
+          <label for="single">Bulk Upload Attachment</label>
+          <p>Template to upload recalls <a style="color:red;" href="{{urlForBulkUpload+'motorVehicle'}}" target="_blank">click</a></p>
+          <div class="col-xs-12">
+            Unable to create below Recalls please resolve and re-upload, other recalls successfully created:
+            <div *ngFor="let bulkError of categoryBulkError; let i = index">
+
+              <p style="margin: 0px;"> Row Number:{{bulkError.row}}</p>
+              <span style="padding: 4px;margin-right: 5px;margin-bottom: 5px; color:#f95d5d;font-weight: bold;" *ngFor="let error of bulkError.errors; let j = index">{{error}}</span>
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <input type="file" name="motorVehicleTemplate" ng2FileSelect [uploader]="categoryUploader" />
+          </div>
+          <div class="col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-success" (click)="bulkUpload();">Bulk Upload</button>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
+      </div>
+      <ng-container *ngFor="let subCategories of selectedCategory.subCategories; let i = index">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="{{subCategories}}"> {{subCategories | titlecase}} <sup class="text-danger">*</sup></label>
+            <input type="text" [disabled]="recallId" [(ngModel)]="subCategoriesArray[i]" name="{{subCategories}}" class="form-control"
+              id="{{subCategories}}" placeholder="{{subCategories[0].toUpperCase() + subCategories.substr(1).toLowerCase()}}"
+              required>
+          </div>
+        </div>
+
+      </ng-container>
+
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control"
+            id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+        </div>
+      </div>
+
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="components"> Components <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components"
+            placeholder="Components" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="components"> VIN <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.vin" name="vin" class="form-control" id="components" placeholder="VIN"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy"
+            placeholder="Remedy" required>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary"
+            required></textarea>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+
+          <div> <label for="notes"> Affected Products </label></div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName"
+                placeholder="Name">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel"
+                placeholder="Model">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear"
+                placeholder="Year">
+            </div>
+          </div>
+
+          <div class="col-xs-12 text-center">
+            <button (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''"
+              class="btn btn-success">Add</button>
+          </div>
+        </div>
+
+        <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+          <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5">
               <thead>
-                              <tr>
-                                  <th>  Name</th>
-                                  <th> Model </th>
-                                  <th>Year </th>
-                                  <th> Action </th>
-                              </tr>
+                <tr>
+                  <th> Name</th>
+                  <th> Model </th>
+                  <th>Year </th>
+                  <th> Action </th>
+                </tr>
 
-                              </thead>
-                <tbody>
+              </thead>
+              <tbody>
                 <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
-                    <td>{{vehicle.name}} </td>
-                    <td>{{vehicle.model}} </td>
-                    <td>{{vehicle.year}} </td>
-                    <td>
-                      <button  (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-                    </td>
+                  <td>{{vehicle.name}} </td>
+                  <td>{{vehicle.model}} </td>
+                  <td>{{vehicle.year}} </td>
+                  <td>
+                    <button (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                  </td>
 
                 </tr>
-                </tbody>
-                <tfoot>
-              <tr>
+              </tbody>
+              <tfoot>
+                <tr>
                   <td colspan="5">
-                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
                   </td>
-              </tr>
+                </tr>
               </tfoot>
 
             </table>
-             </div>
- </div>
-      
-    </div>
-     <div class="col-xs-12">
-	   <div class="form-group">
-	   <label for="single">Attachments</label>
-	   <input type="file"  name="single" ng2FileSelect [uploader]="uploader" multiple/>     
-	  </div>
-	  <div class="col-xs-12" *ngIf="uploader.queue.length>0">
-	  <b>Files to be Uploaded </b>
-	  <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;" >  <a >{{ item.file.name}}</a> <button  (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	<hr>
-	<div class="col-xs-12" *ngIf="recallModel.files.length>0">
-	  <b>Uploaded Files</b>
-	  <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;" >  <a href="recalls/download/{{file}}">{{file}}</a> <button  (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button><p>
-	</div>
-	</div> 
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="notes"> Notes <sup class="text-danger">*</sup></label>
-        <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes" placeholder="Notes" required></textarea>
+          </div>
+        </div>
+
       </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="single">Attachments</label>
+          <input type="file" name="single" ng2FileSelect [uploader]="uploader" multiple />
+        </div>
+        <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+          <b>Files to be Uploaded </b>
+          <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;"> <a>{{ item.file.name}}</a> <button
+              (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+        <hr>
+        <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+          <b>Uploaded Files</b>
+          <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;">
+            <a href="recalls/download/{{file}}">{{file}}</a> <button (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span
+                class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+          <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes"
+            placeholder="Notes" required></textarea>
+        </div>
+      </div>
+
     </div>
-     
-</div>
+
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Child Safety Seats')">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control"
+            id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer"
+            placeholder="Manufacturer" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="components"> Components <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components"
+            placeholder="Components" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary"
+            required></textarea>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy"
+            placeholder="Remedy" required>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+
+          <div> <label for="notes"> Affected Products </label></div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName"
+                placeholder="Name">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel"
+                placeholder="Model">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear"
+                placeholder="Year">
+            </div>
+          </div>
+
+          <div class="col-xs-12 text-center">
+            <button (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''"
+              class="btn btn-success">Add</button>
+          </div>
+        </div>
+
+        <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+          <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5">
+              <thead>
+                <tr>
+                  <th> Name</th>
+                  <th> Model </th>
+                  <th>Year </th>
+                  <th> Action </th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                  <td>{{vehicle.name}} </td>
+                  <td>{{vehicle.model}} </td>
+                  <td>{{vehicle.year}} </td>
+                  <td>
+                    <button (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                  </td>
+
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="single">Attachments</label>
+          <input type="file" name="single" ng2FileSelect [uploader]="uploader" multiple />
+        </div>
+        <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+          <b>Files to be Uploaded </b>
+          <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;"> <a>{{ item.file.name}}</a> <button
+              (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+        <hr>
+        <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+          <b>Uploaded Files</b>
+          <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;">
+            <a href="recalls/download/{{file}}">{{file}}</a> <button (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span
+                class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+          <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes"
+            placeholder="Notes" required></textarea>
+        </div>
+      </div>
+
+    </div>
 
 
 
-<div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Boats and Boating Safety')">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title" placeholder="Title" required>
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Tires')">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="number"> Number <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.number"  name="number" class="form-control" id="number" placeholder="Number" required>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Description <sup class="text-danger">*</sup></label>
+          <textarea id="description"></textarea>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="mIC"> MIC <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.mIC"  name="mIC" class="form-control" id="mIC" placeholder="MIC" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="nHTSACampaignNumber"> NHTSA Campaign Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.nHTSACampaignNumber" name="nHTSACampaignNumber" class="form-control"
+            id="nHTSACampaignNumber" placeholder="NHTSA Campaign Number" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="company"> Company <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.company" name="company" class="form-control" id="company" placeholder="Company" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="manufacturer"> Manufacturer(s) <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.manufacturer" name="manufacturer" class="form-control" id="manufacturer"
+            placeholder="Manufacturer" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="companyOfficial">  Company Official <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.companyOfficial" name="companyOfficial" class="form-control" id="companyOfficial" placeholder="Company Official" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="components"> Components <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.components" name="components" class="form-control" id="components"
+            placeholder="Components" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="model">  Model Name <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.model" name="model" class="form-control" id="model" placeholder="Model Name" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="units"> Potential Number of Units Affected <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units"
+            required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="modelYear">  Model Year <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.modelYear" name="modelYear" class="form-control" id="modelYear" placeholder="Model Year" required>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="remedy"> Remedy <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.remedy" name="remedy" class="form-control" id="remedy"
+            placeholder="Remedy" required>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="problem1">  Problem 1 <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.problem1" name="problem1" class="form-control" id="problem1" placeholder="Problem 1" required>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="summary"> Summary <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.summary" name="summary" class="form-control" id="summary" placeholder="Summary"
+            required></textarea>
+        </div>
       </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="problem2">  Problem 2 <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.problem2" name="problem2" class="form-control" id="problem2" placeholder="Problem 2" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="hIN">  HIN <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.hIN" name="hIN" class="form-control" id="hIN" placeholder="HIN" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="disposition">  Disposition <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.disposition" name="disposition" class="form-control" id="disposition" placeholder="Disposition" required>
-      </div>
-    </div>
-   <div class="col-xs-6">
-      <div class="form-group">
-        <label for="units"> Units <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="boatType"> Boat Type <sup class="text-danger">*</sup></label>
-        <input type="text" [(ngModel)]="recallModel.boatType" name="boatType" class="form-control" id="boatType" placeholder="Boat Type" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="severity"> Severity <sup class="text-danger">*</sup> </label>
-        <input type="text" [(ngModel)]="recallModel.severity" name="severity" class="form-control" id="severity" placeholder="severity" required>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="caseOpenDate"> Case Open Date <sup class="text-danger">*</sup></label>
-        <my-date-picker [(ngModel)]="recallModel.caseOpenDate" name="caseOpenDate"  id="caseOpenDate" placeholder="Case Open Date" required></my-date-picker>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="caseCloseDate"> Case Close Date <sup class="text-danger">*</sup></label>
-        <my-date-picker [(ngModel)]="recallModel.caseCloseDate" name="caseCloseDate"  id="caseCloseDate" placeholder="Case Close Date" required></my-date-picker>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="campaignOpenDate"> Campaign Open Date <sup class="text-danger">*</sup></label>
-        <my-date-picker [(ngModel)]="recallModel.campaignOpenDate" name="campaignOpenDate"  id="campaignOpenDate" placeholder="Campaign Open Date" required></my-date-picker>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="form-group">
-        <label for="campaignCloseDate"> Campaign Close Date <sup class="text-danger">*</sup></label>
-        <my-date-picker [(ngModel)]="recallModel.campaignCloseDate" name="campaignCloseDate"  id="campaignCloseDate" placeholder="Campaign Close Date" required></my-date-picker>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label for="comments"> Comments <sup class="text-danger">*</sup></label>
-        <textarea [(ngModel)]="recallModel.comments" name="comments" class="form-control" id="comments" placeholder="Comments" required></textarea>
-      </div>
-    </div>
-</div>
+      <div class="col-xs-12">
+        <div class="form-group">
 
-    <div class="col-xs-12"  *ngIf="!recallId && recallModel.categoryName!==undefined">
-    
-    <label for="single">User Template Attachment</label>
-    <p>Template to send recall to specific users <a style="color:red;" href="{{urlPath}}" target="_blank" >click</a></p>
-    <input type="file"  name="userTemplate" ng2FileSelect [uploader]="userTemplateUploader" /> 
-    <p *ngIf="userTemplateError" style="color:red;">{{userTemplateError}}  </p>    
-   </div>
+          <div> <label for="notes"> Affected Products </label></div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleName"> Name <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.name" name="vehicleName" class="form-control" id="vehicleName"
+                placeholder="Name">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleModel"> Model <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.model" name="vehicleModel" class="form-control" id="vehicleModel"
+                placeholder="Model">
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label for="vehicleYear"> Year <sup class="text-danger">*</sup></label>
+              <input type="text" [(ngModel)]="vehicle.year" name="vehicleYear" class="form-control" id="vehicleYear"
+                placeholder="Year">
+            </div>
+          </div>
+
+          <div class="col-xs-12 text-center">
+            <button (click)="addVehicle();" [disabled]="vehicle.name=='' || vehicle.model=='' || vehicle.year==''"
+              class="btn btn-success">Add</button>
+          </div>
+        </div>
+
+        <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
+          <div class="table-responsive">
+            <table class="table table-striped " [mfData]="recallModel.vehicles" #mf="mfDataTable" [mfRowsOnPage]="5">
+              <thead>
+                <tr>
+                  <th> Name</th>
+                  <th> Model </th>
+                  <th>Year </th>
+                  <th> Action </th>
+                </tr>
+
+              </thead>
+              <tbody>
+                <tr *ngFor="let vehicle of mf.data; let i = index" [attr.data-index]="i">
+                  <td>{{vehicle.name}} </td>
+                  <td>{{vehicle.model}} </td>
+                  <td>{{vehicle.year}} </td>
+                  <td>
+                    <button (click)="deleteVehicle(vehicle)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                  </td>
+
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                  </td>
+                </tr>
+              </tfoot>
+
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="single">Attachments</label>
+          <input type="file" name="single" ng2FileSelect [uploader]="uploader" multiple />
+        </div>
+        <div class="col-xs-12" *ngIf="uploader.queue.length>0">
+          <b>Files to be Uploaded </b>
+          <p *ngFor="let item of uploader.queue" style="margin-bottom: 0px;"> <a>{{ item.file.name}}</a> <button
+              (click)="item.remove()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+        <hr>
+        <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+          <b>Uploaded Files</b>
+          <p *ngFor="let file of recallModel.files; let i = index" [attr.data-index]="i" style="margin-bottom: 0px;">
+            <a href="recalls/download/{{file}}">{{file}}</a> <button (click)="deleteFile(i)" class="btn btn-xs btn-danger"><span
+                class="glyphicon glyphicon-remove"></span></button>
+            <p>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="notes"> Notes <sup class="text-danger">*</sup></label>
+          <textarea type="text" [(ngModel)]="recallModel.notes" name="notes" class="form-control" id="notes"
+            placeholder="Notes" required></textarea>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div *ngIf="recallModel.categoryName!==undefined && recallModel.categoryName.includes('Boats and Boating Safety')">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="categoryName"> Title <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.title" [disabled]="recallId" name="title" class="form-control" id="title"
+            placeholder="Title" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="number"> Number <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.number" name="number" class="form-control" id="number"
+            placeholder="Number" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="mIC"> MIC <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.mIC" name="mIC" class="form-control" id="mIC" placeholder="MIC"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="company"> Company <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.company" name="company" class="form-control" id="company"
+            placeholder="Company" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="companyOfficial"> Company Official <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.companyOfficial" name="companyOfficial" class="form-control" id="companyOfficial"
+            placeholder="Company Official" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="model"> Model Name <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.model" name="model" class="form-control" id="model" placeholder="Model Name"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="modelYear"> Model Year <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.modelYear" name="modelYear" class="form-control" id="modelYear"
+            placeholder="Model Year" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="problem1"> Problem 1 <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.problem1" name="problem1" class="form-control" id="problem1"
+            placeholder="Problem 1" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="problem2"> Problem 2 <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.problem2" name="problem2" class="form-control" id="problem2"
+            placeholder="Problem 2" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="hIN"> HIN <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.hIN" name="hIN" class="form-control" id="hIN" placeholder="HIN"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="disposition"> Disposition <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.disposition" name="disposition" class="form-control" id="disposition"
+            placeholder="Disposition" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="units"> Units <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.units" name="units" class="form-control" id="units" placeholder="units"
+            required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="boatType"> Boat Type <sup class="text-danger">*</sup></label>
+          <input type="text" [(ngModel)]="recallModel.boatType" name="boatType" class="form-control" id="boatType"
+            placeholder="Boat Type" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="severity"> Severity <sup class="text-danger">*</sup> </label>
+          <input type="text" [(ngModel)]="recallModel.severity" name="severity" class="form-control" id="severity"
+            placeholder="severity" required>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="caseOpenDate"> Case Open Date <sup class="text-danger">*</sup></label>
+          <my-date-picker [(ngModel)]="recallModel.caseOpenDate" name="caseOpenDate" id="caseOpenDate" placeholder="Case Open Date"
+            required></my-date-picker>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="caseCloseDate"> Case Close Date <sup class="text-danger">*</sup></label>
+          <my-date-picker [(ngModel)]="recallModel.caseCloseDate" name="caseCloseDate" id="caseCloseDate" placeholder="Case Close Date"
+            required></my-date-picker>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="campaignOpenDate"> Campaign Open Date <sup class="text-danger">*</sup></label>
+          <my-date-picker [(ngModel)]="recallModel.campaignOpenDate" name="campaignOpenDate" id="campaignOpenDate"
+            placeholder="Campaign Open Date" required></my-date-picker>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="campaignCloseDate"> Campaign Close Date <sup class="text-danger">*</sup></label>
+          <my-date-picker [(ngModel)]="recallModel.campaignCloseDate" name="campaignCloseDate" id="campaignCloseDate"
+            placeholder="Campaign Close Date" required></my-date-picker>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="comments"> Comments <sup class="text-danger">*</sup></label>
+          <textarea [(ngModel)]="recallModel.comments" name="comments" class="form-control" id="comments" placeholder="Comments"
+            required></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12" *ngIf="!recallId && recallModel.categoryName!==undefined">
+
+      <label for="single">User Template Attachment</label>
+      <p>Template to send recall to specific users <a style="color:red;" href="{{urlPath}}" target="_blank">click</a></p>
+      <input type="file" name="userTemplate" ng2FileSelect [uploader]="userTemplateUploader" />
+      <p *ngIf="userTemplateError" style="color:red;">{{userTemplateError}} </p>
+    </div>
 
     <div class="col-xs-12 text-center">
-      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description=='' || (!recallId && selectedCategory=='Select Category') " class="btn btn-success">Submit</button>
+      <button type="submit" [disabled]="!recallDetails.form.valid || recallModel.description=='' || (!recallId && selectedCategory=='Select Category') "
+        class="btn btn-success">Submit</button>
     </div>
-  </form> 
+  </form>
 
+  <!-- Form for Food and drugs started-->
+  <form (ngSubmit)="saveRecallDetails(saverecallDetails.value);" #saverecallDetails="ngForm" *ngIf="((selectedCategory !== 'Select Category' && (selectedCategory.categoryName === 'Food' || selectedCategory.categoryName === 'Drugs')) || (recallId && (recallCategory === 'Food' || recallCategory === 'Drugs')))">
+    <div>
+      <div class="col-xs-12" style="padding: 0px;">
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label for="title"> Title <sup class="text-danger">*</sup></label>
+            <input type="text" name="title" class="form-control" [(ngModel)]="foodData.title" placeholder="Title" required />
+          </div>
+        </div>
 
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label for="file"> Select file <sup class="text-danger">*</sup></label>
+            <input type="file" class="form-control" placeholder="Select File" name="imageFile" (change)="onImageChange($event)"
+              />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12" style="padding: 0px;" *ngIf="(selectedCategory && selectedCategory.categoryName === 'Drugs') || recallCategory === 'Drugs'">
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label for="brand"> Brand <sup class="text-danger">*</sup></label>
+            <input type="text" name="brand" class="form-control" [(ngModel)]="drugsData.brand" placeholder="Brand" required />
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label for="company"> Company <sup class="text-danger">*</sup></label>
+            <input type="text" name="company" class="form-control" [(ngModel)]="drugsData.company" placeholder="Company" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12" style="padding: 0px;">
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="consumers_person"> Contact Person<small>(for consumers)</small> <sup class="text-danger">*</sup></label>
+            <input type="text" name="consumers_person" class="form-control" [(ngModel)]="foodData.consumers_contact_person" placeholder="Contact Name"
+              required />
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="consumers_email"> Email<small>(for consumers)</small><sup class="text-danger">*</sup></label>
+            <input type="email" name="consumers_email" class="form-control" [(ngModel)]="foodData.consumers_contact_email" placeholder="Email"
+              required />
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="consumers_phone"> Phone<small>(for consumers)</small><sup class="text-danger">*</sup></label>
+            <input type="number" name="consumers_phone" class="form-control" [(ngModel)]="foodData.consumers_contact_phone" placeholder="Mobile Number"
+              required />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12" style="padding: 0px;">
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="media_person"> Contact Person<small>(for media)</small></label>
+            <input type="text" name="media_person" class="form-control" [(ngModel)]="foodData.media_contact_person" placeholder="Contact Name" />
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="media_email"> Email<small>(for media)</small></label>
+            <input type="text" name="media_email" class="form-control" [(ngModel)]="foodData.media_contact_email" placeholder="Email" />
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label for="media_phone"> Phone<small>(for media)</small></label>
+            <input type="number" name="media_phone" class="form-control" [(ngModel)]="foodData.media_contact_phone" placeholder="Mobile Number" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-xs-12">
+        <div class="form-group">
+          <label for="description"> Description<sup class="text-danger">*</sup></label>
+          <textarea class="form-control" cols="5" placeholder="Description" [(ngModel)]="foodData.description" name="description"
+            rows="3" required></textarea>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-xs-12" *ngIf="(selectedCategory && selectedCategory.categoryName === 'Drugs') || recallCategory === 'Drugs'">
+        <div class="form-group">
+          <label for="reason"> Reason/Problem<sup class="text-danger">*</sup></label>
+          <textarea class="form-control" cols="5" placeholder="Reason" [(ngModel)]="drugsData.reason" name="reason"
+            rows="3" required></textarea>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-xs-12">
+        <div class="form-group">
+          <label for="releaseText"> Release Text<sup class="text-danger">*</sup></label>
+          <editor apiKey="test" [init]="{plugins: ['link', 'table']}" [(ngModel)]="foodData.releaseText" name="releaseText"
+            required></editor>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-xs-12">
+        <div class="form-group">
+          <div class="col-sm-4  col-xs-12" style="margin-left: 40%;">
+            <!-- <button type="button" (click)="saveFoodData(foodData, drugsData)" class="btn btn-success">Save Details</button> -->
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Form for Food and drugs started-->
 </div>
