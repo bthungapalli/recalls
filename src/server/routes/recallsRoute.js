@@ -245,6 +245,22 @@ router.delete('/:id', checkSession.requireLogin, function (req, res, next) {
 		res.json(recall);
 	});
 });
+router.delete('/food/:id', checkSession.requireLogin, function (req, res, next) {
+	var recallId = req.params.id;
+	foodRecallModel.deleteRecall(recallId, function (err, recall) {
+		if (err)
+			res.send("error");
+		res.json(recall);
+	});
+});
+router.delete('/drugs/:id', checkSession.requireLogin, function (req, res, next) {
+	var recallId = req.params.id;
+	drugsRecallModel.deleteRecall(recallId, function (err, recall) {
+		if (err)
+			res.send("error");
+		res.json(recall);
+	});
+});
 
 router.get('/download/:fileName', function (request, response, next) {
 	var fileName = request.params.fileName;
@@ -557,11 +573,18 @@ router.post('/saveRecall', checkSession.requireLogin, function (req, res, next) 
 				} else {
 					data.file = filePath;
 					data._id = counter.seq;
-					new model(data).save(function (err, doc) {
+					var user = req.session.user;
+					userService.getUser(user, function (err, userDoc) {
 						if (err)
-							return res.json({ error_code: 1, err_desc: err, data: null });
-						res.json({ error_code: 0, err_desc: null, data: doc });
-					})
+							res.send("error");
+						data.created_by = userDoc.email;
+						new model(data).save(function (err, doc) {
+							if (err)
+								return res.json({ error_code: 1, err_desc: err, data: null });
+							res.json({ error_code: 0, err_desc: null, data: doc });
+						})
+					});
+
 				}
 
 			});

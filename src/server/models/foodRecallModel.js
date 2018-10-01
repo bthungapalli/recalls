@@ -29,6 +29,7 @@ var FoodSchema = new Schema({
       }
     },
     file: String,
+    created_by: String,
     releaseText: String,
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now }

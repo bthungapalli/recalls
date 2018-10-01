@@ -161,7 +161,7 @@
                   <div class="col-xs-12" *ngIf="profile.role==='Retailer'">
                     <div class="form-group">
                       <button type="button" (click)="editRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-primary">Edit</button>
-                      <button type="button" (click)="deleteRecall(recallModel._id)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
+                      <button type="button" (click)="deleteRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
                     </div>
                   </div>
                 </div>
@@ -431,7 +431,7 @@
                   <div class="col-xs-12" *ngIf="profile.role==='Retailer'">
                     <div class="form-group">
                       <button type="button" (click)="editRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-primary">Edit</button>
-                      <button type="button" (click)="deleteRecall(recallModel._id)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
+                      <button type="button" (click)="deleteRecall(recallModel._id, recallModel.categoryName)" class="btn btn-xs btn-danger" style="float: right;">Delete</button>
                     </div>
                   </div>
                 </div>

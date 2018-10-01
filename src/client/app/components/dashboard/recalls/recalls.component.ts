@@ -223,11 +223,11 @@ export class RecallsComponent implements OnInit {
     //        }
   }
 
-  deleteRecall(id: String) {
+  deleteRecall(id: String, categoryName: String) {
     this.errorMessage = "";
     this.successMessage = "";
     this.spinnerService.emitChange(true);
-    this.recallsService.deleteRecall(id).subscribe(response => {
+    this.recallsService.deleteRecall(id, categoryName).subscribe(response => {
 
       if (response.sessionExpired) {
         this.spinnerService.emitChange(false);
@@ -253,7 +253,7 @@ export class RecallsComponent implements OnInit {
   editRecall(id: String, categoryName: String) {
     this.errorMessage = "";
     this.successMessage = "";
-    this.router.navigate(['dashboard/recall', categoryName, id ]);
+    this.router.navigate(['dashboard/recall', categoryName, id]);
 
   }
 

@@ -550,9 +550,10 @@ export class RecallComponent implements OnInit, OnDestroy {
               this.spinnerService.emitChange(false);
             } else if (result.error_code === 0) {
               this.successMessage = "Data saved successfully";
-              setTimeout(function () {
-                this.successMessage = '';
-              }, 5000);
+              this.router.navigate(['dashboard/recalls']);
+              // setTimeout(function () {
+              //   this.successMessage = '';
+              // }, 5000);
             } else if (result.error_code === 1) {
               this.errorMessage = result.err_desc.errmsg;
             }
