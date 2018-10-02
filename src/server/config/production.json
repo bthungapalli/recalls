@@ -11,7 +11,7 @@
     "ephemeral":true
   },
   "mongoDbConnection":{
-    "host":"35.166.213.31",
+    "host":"localhost",
     "port":27505,
      "Db":"recalls",
      "user":"recallsAdmin",
@@ -33,8 +33,9 @@
      "path":"http://www.api.recallalarms.com/"
  },
    "recall":{
-	   "filesPath":"/apps/recalls/images/",
-     "userExcelTemplate":"userTemplate.xlsx",
+	   "filesPath":"/opt/images/",
+     "filePath":"/opt/images/",
+	"userExcelTemplate":"userTemplate.xlsx",
      "showRecallPath":"/showRecall/"
    },
    "scheduler":{
