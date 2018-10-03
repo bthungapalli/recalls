@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, animate, style, transition, trigger } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { TitleCasePipe } from '../../shared/data.filter';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { Recall } from './recalls.model';
 import { RecallsService } from './recalls.service';
@@ -13,11 +14,25 @@ import { Profile } from '../profile/profile.model';
 import { DashboardService } from '../dashboard.service';
 import { Vehicle } from './vehicle.model';
 
+import { ToastyService, ToastyConfig, ToastyComponent, ToastOptions, ToastData } from 'ng2-toasty';
+
 declare var tinymce: any;
 
 @Component({
   selector: 'recall',
-  templateUrl: "./app/components/dashboard/recalls/recall.html"
+  templateUrl: "./app/components/dashboard/recalls/recall.html",
+  animations: [
+    trigger('fadeInOutTranslate', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('400ms ease-in-out', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'translate(0)' }),
+        animate('400ms ease-in-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class RecallComponent implements OnInit, OnDestroy {
 
@@ -71,15 +86,20 @@ export class RecallComponent implements OnInit, OnDestroy {
   public brand = '';
   public company = '';
 
-  constructor(private recallsService: RecallsService, private categoriesService: CategoriesService, private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService, private dashboardService: DashboardService) {
+  constructor(private recallsService: RecallsService,
+    private categoriesService: CategoriesService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private spinnerService: SpinnerService,
+    private dashboardService: DashboardService,
+    private toastyService: ToastyService, private toastyConfig: ToastyConfig) {
+
     this.recallModel = new Recall();
     this.profile = dashboardService.userDetails;
     this.categories = this.profile.categories;
   }
 
-
   ngOnInit(): void {
-
     this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.recallId = params["id"];
@@ -151,6 +171,30 @@ export class RecallComponent implements OnInit, OnDestroy {
 
   };
 
+  notificationFunction(data, router) {
+    console.log("came to notifications");
+    if (!data.title) {
+      data = {
+        title: "Title",
+        msg: "Scuccessfully completed",
+        timeout: 3000
+      }
+    }
+    this.toastyService.success({
+      title: data.title,
+      msg: data.msg,
+      showClose: true,
+      timeout: data.timeout,
+      theme: 'bootstrap',
+      onAdd: (toast: ToastData) => {
+        console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: function (toast: ToastData) {
+        console.log('Toast ' + toast.id + ' has been removed!');
+        router.navigate(['dashboard/recalls']);
+      }
+    });
+  }
 
   callTinyMCE(thisObject) {
     var selector = "#description"//+this.recallModel.categoryName;
@@ -550,10 +594,11 @@ export class RecallComponent implements OnInit, OnDestroy {
               this.spinnerService.emitChange(false);
             } else if (result.error_code === 0) {
               this.successMessage = "Data saved successfully";
-              this.router.navigate(['dashboard/recalls']);
-              // setTimeout(function () {
-              //   this.successMessage = '';
-              // }, 5000);
+              this.notificationFunction({
+                title: "Success",
+                msg: "Data saved successfully",
+                timeout: 3000
+              }, this.router);
             } else if (result.error_code === 1) {
               this.errorMessage = result.err_desc.errmsg;
             }
@@ -578,6 +623,5 @@ export class RecallComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     tinymce.remove(this.editor);
-
   }
 }

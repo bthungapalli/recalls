@@ -16,7 +16,6 @@ import { CategoriesModule }  from '../dashboard/categories/categories.module';
 import { RecallsModule }  from '../dashboard/recalls/recalls.module';
 import { SubCategoriesModule }  from '../dashboard/subCategories/subCategories.module';
 
-
 @NgModule({
   imports: [
     BrowserModule,

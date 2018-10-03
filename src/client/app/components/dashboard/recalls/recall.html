@@ -1,12 +1,10 @@
+<ng2-toasty [position]="'top-right'"></ng2-toasty>
 <div class="col-xs-12">
   <h3>Recall</h3>
   <hr style="margin-top: 0px;margin-bottom: 15px;border-top: 2.5px solid #1abb9c;">
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
   <div class="col-xs-12" *ngIf="successMessage"><label class="text-success">{{successMessage}}</label></div>
-
   <div class="col-xs-12" *ngIf="!recallId">
-
-
     <div class="form-group">
       <label for="categoryName"> Category<sup class="text-danger">*</sup></label>
       <select class="form-control" (change)="changeCategory();" [(ngModel)]="selectedCategory" name="categoryName">
@@ -894,15 +892,15 @@
         <div class="col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="title"> Title <sup class="text-danger">*</sup></label>
-            <input type="text" name="title" class="form-control" [(ngModel)]="foodData.title" placeholder="Title" required />
+            <input type="text" name="title" class="form-control" [(ngModel)]="foodData.title" placeholder="Title"
+              required />
           </div>
         </div>
 
         <div class="col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="file"> Select file <sup class="text-danger">*</sup></label>
-            <input type="file" class="form-control" placeholder="Select File" name="imageFile" (change)="onImageChange($event)"
-              />
+            <input type="file" class="form-control" placeholder="Select File" name="imageFile" (change)="onImageChange($event)" />
           </div>
         </div>
       </div>
@@ -911,14 +909,16 @@
         <div class="col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="brand"> Brand <sup class="text-danger">*</sup></label>
-            <input type="text" name="brand" class="form-control" [(ngModel)]="drugsData.brand" placeholder="Brand" required />
+            <input type="text" name="brand" class="form-control" [(ngModel)]="drugsData.brand" placeholder="Brand"
+              required />
           </div>
         </div>
 
         <div class="col-sm-6 col-xs-12">
           <div class="form-group">
             <label for="company"> Company <sup class="text-danger">*</sup></label>
-            <input type="text" name="company" class="form-control" [(ngModel)]="drugsData.company" placeholder="Company" required />
+            <input type="text" name="company" class="form-control" [(ngModel)]="drugsData.company" placeholder="Company"
+              required />
           </div>
         </div>
       </div>
@@ -927,24 +927,24 @@
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="consumers_person"> Contact Person<small>(for consumers)</small> <sup class="text-danger">*</sup></label>
-            <input type="text" name="consumers_person" class="form-control" [(ngModel)]="foodData.consumers_contact_person" placeholder="Contact Name"
-              required />
+            <input type="text" name="consumers_person" class="form-control" [(ngModel)]="foodData.consumers_contact_person"
+              placeholder="Contact Name" required />
           </div>
         </div>
 
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="consumers_email"> Email<small>(for consumers)</small><sup class="text-danger">*</sup></label>
-            <input type="email" name="consumers_email" class="form-control" [(ngModel)]="foodData.consumers_contact_email" placeholder="Email"
-              required />
+            <input type="email" name="consumers_email" class="form-control" [(ngModel)]="foodData.consumers_contact_email"
+              placeholder="Email" required />
           </div>
         </div>
 
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="consumers_phone"> Phone<small>(for consumers)</small><sup class="text-danger">*</sup></label>
-            <input type="number" name="consumers_phone" class="form-control" [(ngModel)]="foodData.consumers_contact_phone" placeholder="Mobile Number"
-              required />
+            <input type="number" name="consumers_phone" class="form-control" [(ngModel)]="foodData.consumers_contact_phone"
+              placeholder="Mobile Number" required />
           </div>
         </div>
       </div>
@@ -953,21 +953,24 @@
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="media_person"> Contact Person<small>(for media)</small></label>
-            <input type="text" name="media_person" class="form-control" [(ngModel)]="foodData.media_contact_person" placeholder="Contact Name" />
+            <input type="text" name="media_person" class="form-control" [(ngModel)]="foodData.media_contact_person"
+              placeholder="Contact Name" />
           </div>
         </div>
 
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="media_email"> Email<small>(for media)</small></label>
-            <input type="text" name="media_email" class="form-control" [(ngModel)]="foodData.media_contact_email" placeholder="Email" />
+            <input type="text" name="media_email" class="form-control" [(ngModel)]="foodData.media_contact_email"
+              placeholder="Email" />
           </div>
         </div>
 
         <div class="col-sm-4 col-xs-12">
           <div class="form-group">
             <label for="media_phone"> Phone<small>(for media)</small></label>
-            <input type="number" name="media_phone" class="form-control" [(ngModel)]="foodData.media_contact_phone" placeholder="Mobile Number" />
+            <input type="number" name="media_phone" class="form-control" [(ngModel)]="foodData.media_contact_phone"
+              placeholder="Mobile Number" />
           </div>
         </div>
       </div>

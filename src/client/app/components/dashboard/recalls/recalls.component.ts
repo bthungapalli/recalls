@@ -143,6 +143,7 @@ export class RecallsComponent implements OnInit {
 
   showSubCategories(index) {
     console.log("index", this.selectedCategory);
+    this.recalls = [];
     if (index === 0) {
       this.subCategoriesArray = [];
       this.subCategoriesData = [];
@@ -188,6 +189,7 @@ export class RecallsComponent implements OnInit {
           this.router.navigate(['home']);
         } else {
           this.recalls = response;
+          console.log("response", response);
           if (response.length === 0) {
             this.successMessage = "No Recalls available for given dates."
           }

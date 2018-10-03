@@ -2,7 +2,7 @@
   <h3>Recalls</h3>
   <hr style="margin-top: 0px;margin-bottom: 15px;border-top: 2px solid #7dc378;">
   <div class="col-xs-12" *ngIf="errorMessage"><label class="text-danger">{{errorMessage}}</label></div>
-
+  <ng2-toasty [position]="'top-center'"></ng2-toasty>
   <div class="col-xs-12">
     <div>
       <label for="categoryName"> Category </label>
@@ -383,7 +383,7 @@
                       <p [innerHTML]="recallModel.media"> </p>
                     </div>
                   </div>
-                  <div class="col-xs-12" *ngIf="recallModel.vehicles.length>0">
+                  <div class="col-xs-12" *ngIf="recallModel.vehicles && recallModel.vehicles.length>0">
                     <div class="form-group">
                       <label for="modelYear"> Affected Products </label>
                       <div class=" col-xs-12 panel panel-default" style="margin-top: 10px;">
@@ -421,7 +421,7 @@
                     </div>
                   </div>
 
-                  <div class="col-xs-12" *ngIf="recallModel.files.length>0">
+                  <div class="col-xs-12" *ngIf="recallModel.files && recallModel.files.length>0">
                     <div class="form-group">
                       <label for="modelYear"> Attachments </label>
                       <p *ngFor="let file of recallModel.files;"> <a href="recalls/download/{{file}}">{{file}}</a>
